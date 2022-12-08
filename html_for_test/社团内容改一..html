@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+</script>
+
+<script type="text/javascript">
+	var j_data=new Array();
+</script>	
+
+<script>
+
+
+
+$(document).ready(function(){
+	
+  alert("1");
+  var url="host:8080/club/view?ClubID=0&UserId=0";
+		$.getJSON(url=url,function(result){
+			$.each(result, function(i, field){
+				$("#json_data").append(field + " ");
+        j_data.push(field);
+			});
+		
+	});
+  alert("2");
+});
+</script>
+</head>
+<body>
+
+
+<div id="json_data"></div>
+
+</body>
+</html>
