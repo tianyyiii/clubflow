@@ -9,6 +9,7 @@ import com.example.club.entity.Club;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;

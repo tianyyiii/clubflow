@@ -2,14 +2,17 @@ package com.example.club.service.Impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.club.DAO.ClubPostDAO;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.jws.soap.SOAPBinding;
 
+@Service
 public class PostService {
 
-    @Autowired
+    @Resource
     private ClubPostDAO clubpostdao;
 
     @Override

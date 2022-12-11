@@ -6,19 +6,22 @@ import com.example.club.DAO.ClubDAO;
 import com.example.club.DAO.ClubPostDAO;
 import com.example.club.entity.Club;
 import com.example.club.service.IClubService;
+import jakarta.annotation.Resource;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.Max;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.Map;
 
+@Service
 public class OfficialAccountService {
 
-    @Autowired
+    @Resource
     private AccountDAO accdao;
 
     @Override

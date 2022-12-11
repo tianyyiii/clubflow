@@ -5,8 +5,8 @@ import com.example.club.DAO.AccountDAO;
 import com.example.club.DAO.ClubDAO;
 import com.example.club.DAO.ClubPostDAO;
 import jakarta.validation.constraints.Max;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
-
 
 public interface IOfficialAccountService {
     public JSONObject createUser(@RequestBody JSONObject inform);

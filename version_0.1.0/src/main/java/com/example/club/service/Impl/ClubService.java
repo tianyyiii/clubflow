@@ -6,17 +6,20 @@ import com.example.club.DAO.ClubDAO;
 import com.example.club.DAO.ClubPostDAO;
 import com.example.club.entity.Club;
 import com.example.club.service.IClubService;
+import jakarta.annotation.Resource;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Map;
 
+@Service
 public class ClubService implements IClubService {
 
-    @Autowired
+    @Resource
     private ClubDAO clbdao;
 
     @Override
