@@ -15,7 +15,7 @@ import java.util.List;
 
 public interface IClubService {
 
-    public boolean createClub(JSONObject inform, int UserId);
+    public JSONObject createClub(JSONObject inform, int UserId);
 
     public JSONObject modifyClub(JSONObject inform,int ClubId,int UserId);
 

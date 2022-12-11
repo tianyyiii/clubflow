@@ -20,13 +20,13 @@ public class ClubService implements IClubService {
     private ClubDAO clbdao;
 
     @Override
-    public boolean createClub(JSONObject inform, int UserId){
-        return clbdao.create(inform, UserId);
+    public JSONObject createClub(JSONObject inform, int UserId){
+        return clbdao.createclub(inform, UserId);
     }
 
     @Override
     public JSONObject modifyClub(JSONObject inform,int ClubId,int UserId){
-        return clbdao.modify(inform, ClubId, UserId);
+        return clbdao.modifyclub(inform, ClubId, UserId);
     }
 
     @Override
@@ -36,16 +36,16 @@ public class ClubService implements IClubService {
 
     @Override
     public JSONObject viewClubbyAccount(int UserId){
-        return clbdao.viewClubbyAccount(UserId);
+        return clbdao.viewbyaccount(UserId);
     }
 
     @Override
     public JSONObject viewAnnouncement(int UserId){
-        return clbdao.viewAnnouncement(UserId);
+        return clbdao.viewannouncement(UserId);
     }
 
     @Override
     public JSONObject viewAttensionList(int UserId){
-        return clbdao.viewAttensionList(UserId);
+        return clbdao.viewattensionlist(UserId);
     }
 }
