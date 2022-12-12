@@ -1,17 +1,9 @@
 package com.example.club.service.Impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.example.club.DAO.AccountDAO;
-import com.example.club.dao.ClubDAO;
-import com.example.club.dao.ClubPostDAO;
 import com.example.club.dao.ClubDAO;
 import com.example.club.dao.UserDao;
-import com.example.club.entity.Club;
 import com.example.club.service.IClubService;
-import jakarta.annotation.Resource;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,9 +41,6 @@ public class ClubService implements IClubService {
         res.put("state",statenow);
         res.put("club id",inform1.getInteger("id"));
         return res;
-
-
-
 
     }
 

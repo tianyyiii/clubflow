@@ -1,8 +1,67 @@
 package com.example.club.service.Impl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.example.club.dao.UserDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.Random;
 
 @Service
 public class UserService {
+
+    @Autowired
+    private UserDao userdao;
+    Random r=new Random();
+
+    @Override
+    public JSONObject createUser(JSONObject inform, int UserId){
+        JSONObject inform1=new JSONObject();
+        inform1.put("id",r.nextInt(2000));
+        Integer state=userdao.createuser(inform);
+        inform1.put("state",1);
+        inform1.put("role",inform.getString("role"));
+        inform1.put("name",inform.getString("name"));
+        inform1.put("passwd",inform.getString("passwd"));
+        inform1.put("image",inform.getString("profile"));
+        int statenow=userdao.createuser(inform1);
+        JSONObject res=new JSONObject();
+        res.put("state",statenow);
+        return res;
+    }
+
+    @Override
+    public int deleteUser(int UserId){
+        try{
+
+            return 1;
+        }
+        catch (RuntimeException e){
+            return 0;
+        }
+    }
+
+    @Override
+    public JSONObject modifyUser(JSONObject inform, int UserId){
+        JSONObject res=new JSONObject();
+        Integer state= userdao.modifyuser(inform, UserId);
+        res.put("state",state);
+        return res;
+
+    }
+    @Override
+    public JSONObject viewUser(int ClubId,int UserId){
+        JSONObject res=new JSONObject();
+        JSONObject res1=userdao.getuser(UserId);
+        res.put("id",res1.getIntValue("id"));
+        res.put("name",res1.getString("name"));
+        res.put("passwd",res1.getString("passwd"));
+        res.put("role",res1.getString("role"));
+        res.put("image",res1.getString("image"));
+        res.put("res1",res1);
+        return res;
+    }
+
 
 }
