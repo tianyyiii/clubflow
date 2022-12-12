@@ -38,7 +38,7 @@ public class ClubService implements IClubService {
         Date date=new Date();
         inform1.put("date",date.toString());
         Integer state=clbdao.createclub(inform);
-        String user=userDao.viewuser(UserId);
+        String user=userDao.username(UserId);
         inform1.put("creator",user);
         inform1.put("state",1);
         inform1.put("image",inform.getString("profile"));

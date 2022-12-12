@@ -15,8 +15,8 @@ public class UserService {
     private UserDao userdao;
     Random r=new Random();
 
-    @Override
-    public JSONObject createUser(JSONObject inform, int UserId){
+
+    public JSONObject createUser(JSONObject inform){
         JSONObject inform1=new JSONObject();
         inform1.put("id",r.nextInt(2000));
         Integer state=userdao.createuser(inform);
@@ -31,26 +31,29 @@ public class UserService {
         return res;
     }
 
-    @Override
-    public int deleteUser(int UserId){
-        try{
 
-            return 1;
+    public JSONObject deleteUser(int UserId){
+        JSONObject temp=new JSONObject();
+        try{
+            temp.put("state",1);
+
+            return temp;
         }
         catch (RuntimeException e){
-            return 0;
+            temp.put("state",0);
+            return temp;
         }
     }
 
-    @Override
+/*    @Override
     public JSONObject modifyUser(JSONObject inform, int UserId){
         JSONObject res=new JSONObject();
         Integer state= userdao.modifyuser(inform, UserId);
         res.put("state",state);
         return res;
 
-    }
-    @Override
+    }*/
+
     public JSONObject viewUser(int ClubId,int UserId){
         JSONObject res=new JSONObject();
         JSONObject res1=userdao.getuser(UserId);

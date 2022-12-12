@@ -31,7 +31,7 @@ public class PostService {
         res.put("image",inform.getString("image"));
         res.put("club",inform.getString("club name"));
         res.put("id",r.nextInt(1000));
-        res.put("name",userDao.viewuser(UserId));
+        res.put("name",userDao.username(UserId));
         res.put("thumbs",0);
         Date date=new Date();
         res.put("date",date.toString());
