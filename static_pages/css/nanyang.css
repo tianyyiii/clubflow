@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'NGlipingshouxie';
+    src: url('../fonts/NGlipingshouxie/_NGlipingshouxie.eot');
+    src: url('../fonts/NGlipingshouxie/_NGlipingshouxie.eot') format('embedded-opentype'),
+         url('../fonts/NGlipingshouxie/_NGlipingshouxie.woff2') format('woff2'), 
+         url('../fonts/NGlipingshouxie/_NGlipingshouxie.woff') format('woff')
+         url('../fonts/NGlipingshouxie/_NGlipingshouxie.ttf') format('truetype'), 
+         url('../fonts/NGlipingshouxie/_NGlipingshouxie.svg') format('svg');
+   }  
