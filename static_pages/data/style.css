@@ -1,0 +1,96 @@
+/* 此文件包含一些共享css，如导航栏和底部 */
+*{
+    padding: 0;
+    margin: 0;
+    /* 标准盒子 */
+    box-sizing: border-box;
+}
+:root {
+    /*主题色：交大红*/
+    --themecolor: rgba(184, 45, 41, 1); 
+    /* 深色 */
+    --darkerthemecolor: rgba(121, 15, 15, 1);
+    /* 灰色 */
+    --greycolor: #e5e5e5;
+    /* active color */
+    --activecolor:rgba(232, 178, 178, 1);
+}
+
+
+/* 导航栏 */
+.navbar{
+    background-color: var(--themecolor);
+}
+.nav-item {
+  height:54px;
+  margin-left: 2%;
+  width: 20%;
+  display: flex;
+  background-color:var(--themecolor);
+  box-sizing:border-box;
+  border-width:5px;
+  border-style:solid;
+  border-color:var(--darkerthemecolor);
+  border-left:0px;
+  border-top:0px;
+  border-right:0px;
+  align-items: center;
+  justify-content: center;
+  font-family:'微软雅黑', sans-serif;
+  font-weight:400;
+  font-style:normal;
+  font-size:14px;
+  color:#F7F1F1;
+  text-align: center;
+}
+.nav-item.active {
+    border-color:var(--activecolor);
+}
+.nav-item:hover {
+  border-color:var(--activecolor);
+}
+.dropdown-menu {
+  background-color: var(--greycolor);
+  border-radius:0px;
+}
+.dropdown-item {
+    border-width:0px;
+    width:177px;
+    height:40px;
+    display:flex;
+    font-size:14px;
+    color:#000000;
+    text-align:left;
+}
+.dropdown-item:hover {
+    border: var(--themecolor);
+    border-width:5px;
+    border-style:solid;
+    border-bottom:0px;
+    border-top:0px;
+    border-right:0px;
+}
+.image-button {
+    color: var(--darkerthemecolor);
+    font-size: 15pt;
+}
+.image-button:hover {
+    color: white;
+}
+
+/* 导航栏结束 */
+
+/* 底部 */
+
+.footer .icon {
+    height: 60%;
+    border-width:1px;
+    border-style:solid;
+    border-left:0px;
+    border-top:0px;
+    border-right:0px;
+    font-family:'FontAwesome', sans-serif;
+    font-weight:400;
+    font-style:normal;
+    font-size:18px;
+}
