@@ -11,9 +11,13 @@ public interface IPostService {
 
     public JSONObject modifyPost(JSONObject inform,int PostId,int UserId);
 
-    public JSONObject viewPost(@PathVariable int PostId, int UserId);
+    public JSONObject viewPost(int PostId);
+
+    public JSONObject viewPost(int PostId, int UserId);
 
     public JSONObject viewPostbyUser(int UserId);
 
-    public JSONObject viewPostbyCLub(int ClubId,int UserId);
+    public JSONObject viewPostbyCLub(int ClubId);
+
+    public JSONObject viewPostbyClub(int ClubId);
 }

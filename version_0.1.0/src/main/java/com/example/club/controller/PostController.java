@@ -17,11 +17,11 @@ public class PostController {
     @PutMapping("/create")
     public JSONObject createPost(JSONObject inform,int UserId){
 
-        JSONObject state=new JSONObject();
+/*        JSONObject state=new JSONObject();
         inform.put("state",1);
         inform.put("PostId",10);
-        return inform;
-/*        return postService.createPost(inform,UserId);*/
+        return inform;*/
+        return postService.createPost(inform,UserId);
 
     }
     @PostMapping("/modify")
@@ -48,7 +48,7 @@ public class PostController {
     }
     @GetMapping("/view_by_user")
     public JSONObject viewPostbyUser(int UserId){
-        JSONObject post_list=new JSONObject();
+/*        JSONObject post_list=new JSONObject();
         for (int i=1;i<3;i++)
         {JSONObject post=new JSONObject();
             post.put("title","流动社团");
@@ -64,13 +64,13 @@ public class PostController {
 
 
 
-        }
-        return post_list;
-/*        return postService.viewPostbyUser(UserId);*/
+        }*/
+/*        return post_list;*/
+        return postService.viewPostbyUser(UserId);
     }
     @GetMapping("view_by_club")
     public JSONObject viewPostbyCLub(int ClubId,int UserId){
-        JSONObject post_list=new JSONObject();
+/*        JSONObject post_list=new JSONObject();
         for (int i=1;i<3;i++)
         {JSONObject post=new JSONObject();
             post.put("title","流动社团");
@@ -87,8 +87,8 @@ public class PostController {
 
 
         }
-        return post_list;
-/*        return postService.viewPostbyCLub(ClubId, UserId);*/
+        return post_list;*/
+        return postService.viewPostbyClub(ClubId, UserId);
 
     }
 }
