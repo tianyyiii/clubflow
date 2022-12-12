@@ -14,6 +14,14 @@ import javax.validation.constraints.NotBlank;
 @Validated
 @RequestMapping("/user")
 public class UserController {
+/*    @GetMapping("/view")
+    public JSONObject viewUser(int UserIdtoView,int UserId){
+        JSONObject user=new JSONObject();
+        user.put("name","tarkovsky");
+        user.put("profile",);
+        user.put("inform","一个用户");
+        user.put("")
+    }*/
 
     @PutMapping("/create")
     public JSONObject createUser(@RequestBody JSONObject inform){

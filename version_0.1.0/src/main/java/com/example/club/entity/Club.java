@@ -14,7 +14,7 @@ public class Club {
 
     public void setId(int id) {
         this.clubId = id;
-    }
+}
 
     public String getName() {
         return name;

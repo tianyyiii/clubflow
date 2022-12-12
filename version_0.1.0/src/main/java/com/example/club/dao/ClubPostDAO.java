@@ -1,4 +1,5 @@
-package com.example.club.DAO;
+package com.example.club.dao;
 
 public class ClubPostDAO {
+
 }
