@@ -1,8 +1,8 @@
 package com.example.club.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.example.club.DAO.ClubPostDAO;
-import com.example.club.DAO.ClubDAO;
+import com.example.club.dao.ClubPostDAO;
+import com.example.club.dao.ClubDAO;
 import com.example.club.DAO.AccountDAO;
 import com.example.club.service.Impl.ClubService;
 import com.example.club.entity.Club;

@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Map;
+
 @Repository
 public class ClubDAO {
     @Autowired
@@ -24,7 +27,7 @@ public class ClubDAO {
     public int modifyclub(JSONObject inform,int ClubId){
         try{
             jdbcTemplate.update("update club set clubName=?,clubInfo=?,image=? where id=?",inform.getString("name"),
-                    inform.getString("info"),inform.getString("image"),ClubId);
+                    inform.getString("inform"),inform.getString("profile"),ClubId);
             return 1;
         }
         catch(RuntimeException e){
@@ -32,10 +35,44 @@ public class ClubDAO {
         }
 
     }
-    public JSONObject viewclub(int ClubId){
+    public JSONObject view(int ClubId){
         try{
+            String sql="select * from club where clubId=?";
+            List<Map<String,Object>> list=jdbcTemplate.queryForList(sql,ClubId);
+            System.out.println("yes");
+            Map<String,Object> res1= list.get(0);
+            JSONObject res=new JSONObject(res1);
+            System.out.println(res);
+            return res;
+        }
+        catch(RuntimeException e){
+            JSONObject res=new JSONObject();
+            res.put("state",0);
+            return res;
+        }
+    }
+    public List<Object> viewbyAccount(int UserId){
+/*        try catch需要重新改格式*/
+        try{
+            String sql="select clubid from clubfan where fanid=?";
+            List<Map<String, Object>> list=jdbcTemplate.queryForList(sql,UserId);
+            List<Object> res = null;
+            for (int i=0;i<list.size();i++){
+                Map<String,Object> temp=list.get(i);
+                res.add(temp.get("clubid"));
+
+            }
+            return res;
+
+
 
         }
+        catch(RuntimeException e){
+            List<Object> res = null;
+
+            return res;
+        }
+
     }
 
 

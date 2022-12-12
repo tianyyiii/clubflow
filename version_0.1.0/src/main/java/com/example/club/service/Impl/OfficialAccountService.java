@@ -2,8 +2,8 @@ package com.example.club.service.Impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.club.DAO.AccountDAO;
-import com.example.club.DAO.ClubDAO;
-import com.example.club.DAO.ClubPostDAO;
+import com.example.club.dao.ClubDAO;
+import com.example.club.dao.ClubPostDAO;
 import com.example.club.entity.Club;
 import com.example.club.service.IClubService;
 import jakarta.annotation.Resource;
@@ -20,7 +20,7 @@ import java.util.Map;
 
 @Service
 public class OfficialAccountService {
-
+/*
     @Resource
     private AccountDAO accdao;
 
@@ -42,6 +42,6 @@ public class OfficialAccountService {
     @Override
     public JSONObject checkUser(String UserName,String password){
         return accdao.checkUser(UserName, password);
-    }
+    }*/
 
 }

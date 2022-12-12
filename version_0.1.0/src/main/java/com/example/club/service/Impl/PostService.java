@@ -1,7 +1,7 @@
 package com.example.club.service.Impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.example.club.DAO.ClubPostDAO;
+import com.example.club.dao.ClubPostDAO;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import javax.jws.soap.SOAPBinding;
 
 @Service
 public class PostService {
-
+/*
     @Resource
     private ClubPostDAO clubpostdao;
 
@@ -39,6 +39,6 @@ public class PostService {
     @Override
     public JSONObject viewPostbyCLub(int ClubId,int UserId){
         return clubpostdao.viewPostbyClub(ClubId, UserId);
-    }
+    }*/
 
 }
