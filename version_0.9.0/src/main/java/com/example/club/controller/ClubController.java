@@ -1,7 +1,7 @@
 package com.example.club.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.example.club.service.Impl.ClubService;
+import com.example.club.service.IClubService;
 import com.example.club.utils.ImageUtil;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +14,9 @@ public class ClubController {
     @Autowired
     private ImageUtil imageUtil;
     @Autowired
-    private ClubService clubService;
+    private IClubService clubService;
     @PutMapping("/create")
-    public JSONObject createClub(JSONObject inform,int UserId){
+    public JSONObject CreateClub(JSONObject inform,int UserId){
 /*        JSONObject state=new JSONObject();
         state.put("state",1);
         state.put("club id",800);
@@ -25,14 +25,14 @@ public class ClubController {
 
     }
     @PostMapping("/modify")
-    public JSONObject modifyClub(JSONObject inform,int ClubId,int UserId){
+    public JSONObject ModifyClub(JSONObject inform,int ClubId,int UserId){
 /*        JSONObject state=new JSONObject();
         state.put("state",1);
         return state;*/
         return clubService.modifyClub(inform,ClubId,UserId);
     }
     @GetMapping("/view")
-    public JSONObject viewClub(int ClubId,int UserId){
+    public JSONObject ViewClubPage(int ClubId,int UserId){
 /*        JSONObject club=new JSONObject();
         club.put("name","800号电影社");
         club.put("category","文化艺术类");
@@ -47,7 +47,7 @@ public class ClubController {
         return clubService.viewClub(ClubId,UserId);
     }
     @GetMapping("/view_by_account")
-    public JSONObject viewClubbyAccount(int UserId){
+    public JSONObject ViewClubbyAccount(int UserId){
 /*        JSONObject ClubList=new JSONObject();
         for (int i=1;i<3;i++)
         {   JSONObject club=new JSONObject();
@@ -68,7 +68,7 @@ public class ClubController {
 
     }
     @GetMapping("/view_announcement")
-    public JSONObject viewAnnouncement(int UserId) {
+    public JSONObject ViewAnnouncement(int UserId) {
 /*        JSONObject AnnouncementList=new JSONObject();
         for (int i=1;i<3;i++)
         {   JSONObject Announcement=new JSONObject();

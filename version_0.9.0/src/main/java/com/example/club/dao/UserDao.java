@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import javax.jws.soap.SOAPBinding;
 import java.util.List;
 import java.util.Map;
 
@@ -15,21 +16,52 @@ public class UserDao {
     JdbcTemplate jdbcTemplate;
 
     public int createuser(JSONObject inform){
-        JSONObject tmp=new JSONObject();
-        try{jdbcTemplate.update("insert into account(id, name, passwd, role, state, image)values(?,?,?,?,?,?,?)"
-                ,inform.getInteger("id"),inform.getString("name"), inform.getString("passwd"),
-                inform.getInteger("role"), inform.getInteger("state"), inform.getString("image"));
+
+        try{
+            String username = inform.getString("name");
+            String sql = "select name from account";
+            List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
+            for (int i=0; i<list.size(); ++i){
+                Map tmp = list.get(i);
+                if (tmp.get("name").equals(username))
+                    return 0;
+            }
+
+            jdbcTemplate.update("insert into account(id, name, passwd, role, state, image) values(?,?,?,?,?,?)",
+                    inform.getInteger("id"),inform.getString("name"), inform.getString("passwd"),
+                inform.getInteger("role"), 1, inform.getString("image"));
             return 1;
         }
         catch(RuntimeException e){
-            return 0;
+            return 2;
+        }
+    }
+
+    public int modifyuser(JSONObject inform, int UserId){
+        try{
+            jdbcTemplate.update("update user set name=?, passwd=?, image=? where id=?",
+                    inform.getString("name"), inform.getString("passwd"),inform.getString("profile"), UserId);
+            return 1;
+        }
+        catch(RuntimeException e){
+            return 2;
+        }
+    }
+
+    public int deleteuser(int UserIdtoDelete){
+        try {
+            jdbcTemplate.update("delete from account where id=?", UserIdtoDelete);
+            return 1;
+        }
+        catch (RuntimeException e){
+            return 2;
         }
     }
 
     public String username(int UserId){
         try{
             String sql="select name from account where id=?";
-            List<Map<String, Object>> list=jdbcTemplate.queryForList(sql,UserId);
+            List<Map<String, Object>> list=jdbcTemplate.queryForList(sql, UserId);
             String res=list.get(0).get("name").toString();
 
             return res;
@@ -42,18 +74,41 @@ public class UserDao {
 
     public JSONObject getuser(int UserId){
         try{
-            String sql="select * from user where userId=?";
-            List<Map<String,Object>> list=jdbcTemplate.queryForList(sql,UserId);
+            String sql = "select * from account where id=?";
+            List<Map<String,Object>> list = jdbcTemplate.queryForList(sql, UserId);
             System.out.println("yes");
-            Map<String,Object> res1= list.get(0);
-            JSONObject res=new JSONObject(res1);
-            System.out.println(res);
+            Map<String,Object> res1 = list.get(0);
+            JSONObject res = new JSONObject(res1);
+//            System.out.println(res);
             return res;
         }
         catch(RuntimeException e){
-            JSONObject res=new JSONObject();
+            JSONObject res = new JSONObject();
             res.put("state",0);
+            res.put("id", UserId);
             return res;
         }
     }
+
+    public int login(String UserName, String password){
+        try {
+            String sql = "select name from account where passwd=?";
+            List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, password);
+
+            for (int i=0; i<list.size(); ++i){
+                Map tmp = list.get(i);
+                if (tmp.get("name").equals(UserName)){
+                    if (tmp.get("passwd").equals(password))
+                        return 1;
+                    else
+                        return 3;
+                }
+            }
+            return 0;
+        }
+        catch (RuntimeException e){
+            return 2;
+        }
+    }
+
 }

@@ -17,7 +17,7 @@ import javax.validation.constraints.NotBlank;
 @RequestMapping("/user")
 public class UserController {
     @Autowired
-    UserService userService;
+    private UserService userService;
 /*    @GetMapping("/view")
     public JSONObject viewUser(int UserIdtoView,int UserId){
         JSONObject user=new JSONObject();
@@ -28,7 +28,7 @@ public class UserController {
     }*/
 
     @PutMapping("/create")
-    public JSONObject createUser(@RequestBody JSONObject inform){
+    public JSONObject Register(@RequestBody JSONObject inform){
 /*
         JSONObject state=new JSONObject();
         state.put("state",1);
@@ -42,25 +42,25 @@ public class UserController {
 
     }
     @PostMapping("/modify/{UserId}")
-    public JSONObject modifyUser(@RequestBody JSONObject inform, @Max(value=10,message="not more than 10") @PathVariable("UserId")int UserId){
+    public JSONObject ModifyUser(@RequestBody JSONObject inform, @Max(value=10,message="not more than 10") @PathVariable("UserId")int UserId){
         JSONObject state=new JSONObject();
         state.put("state",UserId);
         return state;
     }
     @DeleteMapping("/delete")
-    public JSONObject deleteUser(int UserIdtoModify,int UserId){
+    public JSONObject DeleteUser(int UserIdtoDelete,int UserId){
    /*     JSONObject state=new JSONObject();
         state.put("state",1);
         return state;*/
-        return userService.deleteUser(UserIdtoModify);
+        return userService.deleteUser(UserIdtoDelete);
     }
     @GetMapping("/view")
-    public JSONObject viewUser(int UserIdtoView,int UserId){/*
+    public JSONObject ViewUser(int UserIdtoView,int UserId){/*
         JSONObject user=new JSONObject();
         return user;*/
         return userService.viewUser(UserIdtoView);
     }
-    public JSONObject checkUser(String UserName,String password){
+    public JSONObject CheckUser(String UserName,String password){
 /*        JSONObject state=new JSONObject();
         state.put("state",1);
         state.put("UserId",5);

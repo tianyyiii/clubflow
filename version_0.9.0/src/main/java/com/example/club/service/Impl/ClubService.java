@@ -1,25 +1,15 @@
 package com.example.club.service.Impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.example.club.DAO.AccountDAO;
-import com.example.club.dao.ClubDAO;
-import com.example.club.dao.ClubPostDAO;
 import com.example.club.dao.ClubDAO;
 import com.example.club.dao.UserDao;
-import com.example.club.entity.Club;
 import com.example.club.service.IClubService;
-import jakarta.annotation.Resource;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 @Service
 public class ClubService implements IClubService {
@@ -28,69 +18,75 @@ public class ClubService implements IClubService {
     private ClubDAO clbdao;
     @Autowired
     private UserDao userDao;
-    Random r=new Random();
+//    Random r=new Random();
 
     @Override
     public JSONObject createClub(JSONObject inform, int UserId){
-      /*  需要增加鉴权，目前可以先不实现*/
-        JSONObject inform1=new JSONObject();
-        inform1.put("id",r.nextInt(1000));
-        Date date=new Date();
-        inform1.put("date",date.toString());
-        Integer state=clbdao.createclub(inform);
-        String user=userDao.username(UserId);
-        inform1.put("creator",user);
-        inform1.put("state",1);
-        inform1.put("image",inform.getString("profile"));
-        inform1.put("info",inform.getString("inform"));
-        inform1.put("name",inform.getString("name"));
-        int statenow=clbdao.createclub(inform1);
-        JSONObject res=new JSONObject();
-        res.put("state",statenow);
-        res.put("club id",inform1.getInteger("id"));
+        //create a blank JSON
+        JSONObject newclub = new JSONObject();
+        //complete the JSON
+        newclub.put("name", inform.getString("name"));
+        Date date = new Date();
+        newclub.put("date",date.toString());
+        String user = userDao.username(UserId);
+        newclub.put("creator", user);
+        newclub.put("image", inform.getString("profile"));
+        newclub.put("info", inform.getString("inform"));
+        //create a new club by using newclub(JSON), return state
+        int statenow = clbdao.createclub(newclub);
+        //state = 1, success; state = 0, 社团重名; state = 2, 超时
+        JSONObject res = new JSONObject();
+        res.put("state", statenow);
+        res.put("clubId", newclub.getInteger("id"));
+        res.put("clubName", newclub.getString("clubName"));
         return res;
-
-
-
-
     }
 
     @Override
     public JSONObject modifyClub(JSONObject inform,int ClubId,int UserId){
-   /*     需要增加鉴权，目前先不实现*/
-        JSONObject res=new JSONObject();
-        Integer state= clbdao.modifyclub(inform, ClubId);
-        res.put("state",state);
-        return res;
-
+        //modify club(ClubId), return state
+        int state= clbdao.modifyclub(inform, ClubId, UserId);
+        //state = 1, success; state = 0, failure
+        JSONObject modifiedclub = new JSONObject();
+        modifiedclub.put("state",state);
+        return modifiedclub;
     }
 
     @Override
     public JSONObject viewClub(int ClubId,int UserId){
-        JSONObject res=new JSONObject();
-        JSONObject res1=clbdao.view(ClubId);
-        res.put("name",res.getString("clubName"));
+        //use the ClubDAO method view()
+        JSONObject club = clbdao.view(ClubId);
+        //create a new JSON
+        JSONObject res = new JSONObject();
+        //fill up JSON res
+        res.put("name", club.getString("clubName"));
+        //Club doesn't have "category", default 艺术类
         res.put("category","艺术类");
+        //Club doesn't have "fans number", default 100
         res.put("fans number",100);
+        //Club doesn't have "pubications number", default 100
         res.put("publications number",100);
+        //Club doesn't have "comment number", default 50
         res.put("comments number",50);
-        res.put("inform",res1.getString("clubInfo"));
-        res.put("profile",res1.getString("image"));
-        res.put("created time",res1.getString("createDate"));
+        //Club doesn't have "subscribe", default 156
         res.put("subscribe",156);
-        res.put("res1",res1);
 
+        res.put("inform", club.getString("clubInfo"));
+        res.put("profile", club.getString("image"));
+        res.put("created time", club.getString("createDate"));
+        res.put("creator", club.getString("creator"));
+        res.put("res", club);
 
         return res;
     }
 
     @Override
     public JSONObject viewClubbyAccount(int UserId){
-        List<Object> list=clbdao.viewbyAccount(UserId);
-        JSONObject res=new JSONObject();
-        for (int i=0;i<list.size();i++){
-            JSONObject temp=clbdao.view((Integer) list.get(i));
-            res.put("club"+Integer.toString(i),temp);
+        List<Object> list = clbdao.listmyclubs(UserId);
+        JSONObject res = new JSONObject();
+        for (int i=0; i<list.size(); i++){
+            JSONObject temp = clbdao.view((Integer) list.get(i));
+            res.put("club"+Integer.toString(i), temp);
         }
         return res;
 
