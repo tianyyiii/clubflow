@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
 
+@CrossOrigin
 @Api(tags="用户信息")
 @RestController
 @Validated
@@ -60,6 +61,7 @@ public class UserController {
         return user;*/
         return userService.viewUser(UserIdtoView);
     }
+    @GetMapping()
     public JSONObject CheckUser(String UserName,String password){
 /*        JSONObject state=new JSONObject();
         state.put("state",1);

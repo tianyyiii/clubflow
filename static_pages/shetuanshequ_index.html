@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script> -->
     <script src="js/jquery-3.6.1.min.js"></script>
     <!-- 新 Bootstrap5 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css">
@@ -331,7 +332,6 @@
                     <!-- 列表项 -->
                     <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3 overflow-hidden" aria-current="true">
                         <div class="img-box flex-shrink-0">
-                            <!-- {{post.haveimage}} -->
                             <img v-if="post.haveimage" v-bind:src="post.imageforurl">
                             <img v-else src="images/common/default_img.png">   
                         </div>
@@ -352,8 +352,10 @@
                             </div>
                             <div class="d-flex w-100 position-absolute bottom-0 justify-content-between align-items-baseline">
                                 <div class="d-inline-flex align-items-center">
-                                    <div class="user-img-box flex-shrink-0" style="width:24px; height:24px; overflow:hidden" >
-                                        <img src="images/common/default_user.png">
+                                    <div class="user-img-box flex-shrink-0 rounded" style="width:24px; height:24px; overflow:hidden" >
+                                        <!-- {{post['haveclub profile']}} -->
+                                        <img v-if="post['haveclub profile']" aria-label="社团头像" v-bind:src="post['club profileforurl']">
+                                        <img v-else aria-label="社团头像" src="images/common/default_user.png">
                                     </div>
                                     <span class="ms-2" style="font-family:'微软雅黑', sans-serif; font-weight:400; font-size:12px;
                                             color:#999999;">{{post['club name']}}
@@ -643,10 +645,13 @@
     </nav>
 
 <script type="module">
+    var search = location.search;
+    var Userid = search.substring(search.indexOf("=") + 1);
 
     var url_head= 'http://localhost:8080/';
-    var UserId=0; // 暂定默认未登录的状态为0
-    var IsLogin = false ; // 未登录
+    var UserId=Userid; 
+    var IsLogin = true ; // 已登录
+    console.log(UserId)
 
     export {url_head, UserId, IsLogin};
 
@@ -685,6 +690,7 @@
         })
         .then( response =>{
             this.posts = JSON.stringify(response.data);
+            console.log(this.posts);
             // this.posts_json = JSON.parse(this.posts);
 
             let obj = JSON.parse(this.posts);
@@ -719,7 +725,7 @@
     }
     })
 
-    var notic = new Vue({
+    var notice = new Vue({
     el: '#notice',
     data () {
         return {
