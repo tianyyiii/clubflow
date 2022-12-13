@@ -24,23 +24,33 @@ public class UserDao {
             for (int i=0; i<list.size(); ++i){
                 Map tmp = list.get(i);
                 if (tmp.get("name").equals(username))
-                    return -1;
+                    return 0;
             }
+
             System.out.println(inform);
-            Integer id=list.size();
-            jdbcTemplate.update("insert into account(id, name, passwd, role, state) values(?,?,?,?,?)",
+//            Integer id=list.size();
+            jdbcTemplate.update("insert into account(name, passwd, role, state) values(?,?,?,?,?)",
                     //inform.getInteger("id"),inform.getString("name"), inform.getString("passwd"),
-                    id,inform.getString("name"), inform.getString("passwd"),
-                inform.getInteger("role"), 1);
-            return id;
+                    inform.getString("name"), inform.getString("passwd"), inform.getInteger("role"), 1);
+            return 1;
         }
         catch(RuntimeException e){
-            return -2;
+            return 2;
         }
     }
 
     public int modifyuser(JSONObject inform, int UserId){
+
         try{
+            String newUserName = inform.getString("name");
+            String sql = "select name from club";
+            List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, newUserName);
+            for (int i=0; i<list.size(); ++i){
+                Map tmp = list.get(i);
+                if (tmp.get("clubName").equals(newUserName))
+                    return 0;
+            }
+
             jdbcTemplate.update("update user set name=?, passwd=?, image=? where id=?",
                     inform.getString("name"), inform.getString("passwd"),inform.getString("profile"), UserId);
             return 1;
@@ -60,7 +70,7 @@ public class UserDao {
         }
     }
 
-    public String username(int UserId){
+    public String getusername(int UserId){
         try{
             String sql="select name from account where id=?";
             List<Map<String, Object>> list=jdbcTemplate.queryForList(sql, UserId);
@@ -74,20 +84,38 @@ public class UserDao {
         }
     }
 
-    public JSONObject getuser(int UserId){
+    public JSONObject getUserbyId(int UserId){
         try{
             String sql = "select * from account where id=?";
             List<Map<String,Object>> list = jdbcTemplate.queryForList(sql, UserId);
             System.out.println("yes");
-            Map<String,Object> res1 = list.get(0);
-            JSONObject res = new JSONObject(res1);
+            Map<String,Object> user = list.get(0);
+            JSONObject res = new JSONObject(user);
 //            System.out.println(res);
             return res;
         }
         catch(RuntimeException e){
             JSONObject res = new JSONObject();
-            res.put("state",0);
+            res.put("state",2);
             res.put("id", UserId);
+            return res;
+        }
+    }
+
+    public JSONObject getUserbyName(String UserName){
+        try{
+            String sql = "select * from account where name=?";
+            List<Map<String,Object>> list = jdbcTemplate.queryForList(sql, UserName);
+            System.out.println("yes");
+            Map<String,Object> res1 = list.get(0);
+            JSONObject res = new JSONObject(res1);
+
+            return res;
+        }
+        catch(RuntimeException e){
+            JSONObject res = new JSONObject();
+            res.put("state", 2);
+            res.put("id", UserName);
             return res;
         }
     }
@@ -97,21 +125,23 @@ public class UserDao {
             String sql = "select * from account where passwd=?";
             List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, password);
             System.out.println(list);
-            int result=-2;
+//            int result=-2;
             for (int i=0; i<list.size(); ++i){
                 Map tmp = list.get(i);
                 if (tmp.get("name").equals(UserName)){
-                    if (tmp.get("passwd").equals(password))
-                        {result = Integer.valueOf(tmp.get("id").toString());
-                        return result;}
+                    if (tmp.get("passwd").equals(password)) {
+//                        result = Integer.valueOf(tmp.get("id").toString());
+//                        return result;
+                        return 1;
+                    }
                     else
-                        return -3; //密码不对
+                        return 3; //密码不对
                 }
             }
-            return -1; //用户不存在
+            return 0; //用户不存在
         }
         catch (RuntimeException e){
-            return -2;
+            return 2;
         }
     }
 

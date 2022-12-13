@@ -14,19 +14,19 @@ public class ClubDAO {
     private JdbcTemplate jdbcTemplate;
     public int createclub(JSONObject inform){
 
-        String clubname = inform.getString("clubName");
-        String sql = "select clubName from club";
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, clubname);
-        for (int i=0; i<list.size(); ++i){
-            Map tmp = list.get(i);
-            if (tmp.get("clubName").equals(clubname))
-                return 0;
-        }
+         try{
+             String clubname = inform.getString("clubName");
+             String sql = "select clubName from club";
+             List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, clubname);
+             for (int i=0; i<list.size(); ++i){
+                 Map tmp = list.get(i);
+                 if (tmp.get("clubName").equals(clubname))
+                     return 0;
+             }
 
-         try{jdbcTemplate.update("insert into club(clubId,clubName,clubInfo,createDate,creator,state,image) values(?,?,?,?,?,?,?)"
-        ,inform.getInteger("id"), inform.getString("name"), inform.getString("info"),
-                inform.getString("date"), inform.getString("creator"), 1,
-                inform.getString("image"));
+             jdbcTemplate.update("insert into club(clubName,clubInfo,createDate,creator,state,image) values(?,?,?,?,?,?,?)",
+                     inform.getString("name"), inform.getString("info"), inform.getString("date"),
+                     inform.getString("creator"), 1, inform.getString("image"));
              return 1;
          }
          catch(RuntimeException e){
@@ -37,6 +37,15 @@ public class ClubDAO {
     public int modifyclub(JSONObject inform, int ClubId, int UserId){
 
         try{
+            String newClubName = inform.getString("clubName");
+            String sql = "select clubName from club";
+            List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, newClubName);
+            for (int i=0; i<list.size(); ++i){
+                Map tmp = list.get(i);
+                if (tmp.get("clubName").equals(newClubName))
+                    return 0;
+            }
+
             jdbcTemplate.update("update club set clubName=?,clubInfo=?,image=? where id=?",
                     inform.getString("name"), inform.getString("inform"),inform.getString("profile"), ClubId);
             return 1;
@@ -47,7 +56,7 @@ public class ClubDAO {
 
     }
 
-    public JSONObject view(int ClubId){
+    public JSONObject getClubbyId(int ClubId){
         try{
             String sql = "select * from club where clubId=?";
             List<Map<String,Object>> list = jdbcTemplate.queryForList(sql, ClubId);
@@ -59,11 +68,30 @@ public class ClubDAO {
         }
         catch(RuntimeException e){
             JSONObject res = new JSONObject();
-            res.put("state",0);
+            res.put("state",2);
             res.put("clubId", ClubId);
             return res;
         }
     }
+
+    public JSONObject getClubbyName(String ClubName){
+        try{
+            String sql = "select * from club where clubName=?";
+            List<Map<String,Object>> list = jdbcTemplate.queryForList(sql, ClubName);
+            System.out.println("yes");
+            Map<String,Object> club = list.get(0);
+            JSONObject res = new JSONObject(club);
+            System.out.println(res);
+            return res;
+        }
+        catch(RuntimeException e){
+            JSONObject res = new JSONObject();
+            res.put("state",2);
+            res.put("clubId", ClubName);
+            return res;
+        }
+    }
+
     public List<Object> listmyclubs(int UserId){
 /*        try catch需要重新改格式*/
         try{

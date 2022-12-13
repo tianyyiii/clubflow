@@ -13,11 +13,9 @@ public interface IPostService {
 
     public JSONObject viewPost(int PostId);
 
-    public JSONObject viewPost(int PostId, int UserId);
+//    public JSONObject viewPost(int PostId, int UserId);
 
-    public JSONObject viewPostbyUser(int UserId);
+    public JSONObject viewPostsbyUser(int UserId);
 
-    public JSONObject viewPostbyCLub(int ClubId);
-
-    public JSONObject viewPostbyClub(int ClubId);
+    public JSONObject viewPostbyClub(int ClubId,int UserId);
 }

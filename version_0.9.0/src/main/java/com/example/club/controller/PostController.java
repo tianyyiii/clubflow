@@ -16,7 +16,7 @@ public class PostController {
     @Autowired
     private ImageUtil imageUtil;
     @PutMapping("/create")
-    public JSONObject createPost(JSONObject inform,int UserId){
+    public JSONObject CreatePost(JSONObject inform,int UserId){
 
 /*        JSONObject state=new JSONObject();
         inform.put("state",1);
@@ -26,14 +26,14 @@ public class PostController {
 
     }
     @PostMapping("/modify")
-    public JSONObject modifyPost(JSONObject inform,int PostId,int UserId){
-        JSONObject state=new JSONObject();
+    public JSONObject ModifyPost(JSONObject inform,int PostId,int UserId){
+        JSONObject state = new JSONObject();
         inform.put("state",1);
         return inform;
 /*        return postService.modifyPost(inform, PostId, UserId);*/
     }
     @GetMapping("/{PostId}")
-    public JSONObject viewPost(@PathVariable int PostId,int UserId){
+    public JSONObject ViewPost(@PathVariable int PostId,int UserId){
         JSONObject post=new JSONObject();
         post.put("title","流动社团");
         post.put("context","这是关于流动社团的介绍");
@@ -48,7 +48,7 @@ public class PostController {
 /*        return postService.viewPost(PostId, UserId);*/
     }
     @GetMapping("/view_by_user")
-    public JSONObject viewPostbyUser(int UserId){
+    public JSONObject ViewPostsbyUser(int UserId){
 /*        JSONObject post_list=new JSONObject();
         for (int i=1;i<3;i++)
         {JSONObject post=new JSONObject();
@@ -68,10 +68,10 @@ public class PostController {
         }*/
 /*        return post_list;*/
         System.out.println("aple");
-        return postService.viewPostbyUser(UserId);
+        return postService.viewPostsbyUser(UserId);
     }
     @GetMapping("view_by_club")
-    public JSONObject viewPostbyCLub(int ClubId,int UserId){
+    public JSONObject ViewPostbyCLub(int ClubId,int UserId){
 /*        JSONObject post_list=new JSONObject();
         for (int i=1;i<3;i++)
         {JSONObject post=new JSONObject();
