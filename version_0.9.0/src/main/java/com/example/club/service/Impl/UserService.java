@@ -18,20 +18,29 @@ public class UserService implements IUserService {
 
     @Override
     public JSONObject createUser(JSONObject inform){
+        System.out.println(inform);
 
         JSONObject newuser = new JSONObject();
         newuser.put("name",inform.getString("name"));
         newuser.put("passwd",inform.getString("passwd"));
         newuser.put("role",inform.getString("role"));
-        newuser.put("image", inform.getString("proflie"));
+        // newuser.put("image", inform.getString("proflie"));
+        newuser.put("image", "0");
 
-        int statenow = userdao.createuser(newuser);
+        System.out.println(newuser);
+
+        int id = userdao.createuser(newuser);
+
+        int state = id<0?(-id):0;
+        int statenow = state;
+        if(state==0){statenow=1;}
+        if(state==1){statenow=0;}
 
         JSONObject res = new JSONObject();
         //state = 1, 成功创建用户；state = 0, 该用户已存在；state = 2, 创建超时
         res.put("state",statenow);
-        res.put("id", inform.getIntValue("id"));
-        res.put("name", inform.getString("name"));
+        res.put("id", id);
+        // res.put("name", inform.getString("name"));
         return res;
     }
 
@@ -75,9 +84,19 @@ public class UserService implements IUserService {
 
         JSONObject res = new JSONObject();
 
-        int statenow = userdao.login(UserName, password);
+        int id = userdao.login(UserName, password);
+        int state = id<0?(-id):0;
+        int statenow=state;
+        if(state==0){
+            statenow=1;
+        }
+        if(state==1){
+            statenow=0;
+        }
         //state = 1, 成功登录；state = 0, 该用户不存在；state = 2, 登录超时；state = 3, 密码错误
         res.put("state", statenow);
+        res.put("UserId",id);
+        System.out.println(res);
         return res;
     }
 

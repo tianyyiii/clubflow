@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>注册页</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script> -->
+    <script src="js/jquery-3.6.1.min.js"></script>
+
+    <!-- 字体文件 -->
+    <link href="fonts/NGlipingshouxie/stylesheet.css" rel="stylesheet">
+    <link rel="stylesheet" href="fonts/font-awesome-4.7/css/font-awesome.min.css">
+    <!-- 自定义js，css -->
+    <link href="data/style.css" type="text/css" rel="stylesheet"/>
+    <link href="css/register.css" type="text/css" rel="stylesheet"/>
+    <script src="js/document.js"></script>
+    <script src="js/register.js"></script>
+</head>
+<body>
+    <!-- <img src="images/index/backimg-1.png" class="backgroundimg"> -->
+    <div class="container">
+        <img src="images/index/backimg-1.png" class="backgroundimg">
+        <div class="wrapper">
+            <div class="logobacks">
+                <!-- 灰色阴影 (矩形) -->
+                <div id="u1070" class="shadow">
+                    <div id="u1070_div" class=""></div>
+                </div>
+                <!-- 白色阴影 (矩形) -->
+                <div id="u1071" class="box">
+                    <img id="u1071_img" class="img " src="images/index/u1017.svg"/>
+                </div>
+                <!-- Unnamed (线) -->
+                <div id="u1072" class="line">
+                    <img id="u1072_img" class="img " src="images/index/u1018.svg"/>
+                </div>
+                <!-- Unnamed (线) -->
+                <div id="u1073" class="line">
+                    <img id="u1073_img" class="img " src="images/index/u1019.svg"/>
+                </div>
+                <!-- 英文logo (矩形) -->
+                <div id="u1074" class="ax_default label">
+                    <!-- <div id="u1074_div" class=""></div> -->
+                    <div id="u1074_text" class="text ">
+                    <p><span>Clubflow</span></p>
+                    </div>
+                </div>
+                <!-- 红色框 (矩形) -->
+                <div id="u1075" class="ax_default box_1">
+                    <div id="u1075_div" class=""></div>
+                </div>
+                <!-- Logo (图片) -->
+                <div id="u1077" class="ax_default image1">
+                    <img id="u1077_img" class="img " src="images/index/logo-ad.png"/>
+                </div>
+            </div>
+            <div class="login-content">
+                <div class="form">
+                    <!-- 背景框 (矩形) -->
+                    <div id="u1084" class="ax_default box_2">
+                        <div id="u1084_div" class=""></div>
+
+                        <!-- Unnamed (矩形) -->
+                        <div id="u1037" class="ax_default label">
+                            <p>
+                                <span style="font-family:'FontAwesome', sans-serif;font-weight:400;color:#881717;"> </span>
+                                <span style="font-family:'FontAwesome', sans-serif;font-weight:400;color:#B82D29;">用户注册</span>
+                            </p>
+                            <!-- Unnamed (线) -->
+                            <div id="u1038" class="ax_default line">
+                                <img id="u1038_img" class="img " src="images/register/u1038.svg"/>
+                            </div>
+                        </div>
+                        
+
+                        <div class="small-container">
+                            <!-- 输入框 (文本框) -->
+                            <div style="margin-bottom: 10px;">
+                                <div id="username" class="input_boxes" data-label="输入框">
+                                    <input id="username-input" type="text" placeholder="请输入JAccount账户" value="" class="input text" maxlength="20"/>
+                                    <i class="fa fa-user-circle" aria-hidden="true"></i>
+                                </div>
+                                <div id="password" class="input_boxes" data-label="输入框">
+                                    <input id="password-input" type="password" placeholder="请输入JAccount登录密码" value="" class="input text" maxlength="20"/>
+                                    <i class="fa fa-key" aria-hidden="true"></i>
+                                </div>
+                                <div id="nickname" class="input_boxes" data-label="输入框">
+                                    <input type="text" placeholder="请设置昵称" value="" class="input text" maxlength="20"/>
+                                    <i class="fa fa-id-card" aria-hidden="true"></i>
+                                </div>
+                            </div>
+
+                            <!-- 注册类型 -->
+                            <div id="u1067" class="ax_default label">
+                                <span>请选择注册类型：</span>
+                                <div style="display: flex; align-items: center; margin-top: 8px; margin-bottom: 35px;">
+                                    <input type="radio" name="userType" value="1" style="font-size:12px; margin-left: 10px;" >&nbsp;社团管理员
+                                    <input type="radio" name="userType" value="0" style="font-size:12px;margin-left: 10px;" >&nbsp;普通用户
+                                    <input type="radio" name="userType" value="2" style="font-size:12px;margin-left: 10px;" >&nbsp;开发人员
+                                </div>
+                            </div>
+
+
+                            <!-- 同意用户协议 -->
+                            <div id="u1042" class="" data-label="text">
+                                <p>
+                                    <input type="checkbox" name="agree" >
+                                    <span style="color:#999999;">勾选同意《</span>
+                                    <a id="u1043" class="link"><span style="color:#666666;">用户服务协议</span></a>
+                                    <span style="color:#999999;">》</span>
+                                </p>
+                            </div>
+
+                            <!-- 注册按钮 (矩形) -->
+                            <button id="u1086" class="button login">
+                                <div id="u1086_div" class="block">
+                                    <span>注册</span>
+                                </div>
+                            </button>
+
+                            
+                            <!-- Unnamed (矩形) -->
+                            <a href="./index.html" id="u1089" class="button text">
+                                <p><span>已有账号，立即登录</span></p>
+                            </a>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+                
+    </div>
+</body>
+</html>

@@ -43,7 +43,9 @@ public class ClubPostDAO {
         try{
             JSONObject res=new JSONObject();
             String sql="select * from post where postId=?";
-            List<Map<String,Object>> list=jdbcTemplate.queryForList(sql,UserId);
+            // System.out.println(sql);
+            List<Map<String,Object>> list=jdbcTemplate.queryForList(sql,1);
+            // System.out.println(list);
 
 
             return list;

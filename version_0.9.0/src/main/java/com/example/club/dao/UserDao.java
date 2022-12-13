@@ -24,16 +24,18 @@ public class UserDao {
             for (int i=0; i<list.size(); ++i){
                 Map tmp = list.get(i);
                 if (tmp.get("name").equals(username))
-                    return 0;
+                    return -1;
             }
-
-            jdbcTemplate.update("insert into account(id, name, passwd, role, state, image) values(?,?,?,?,?,?)",
-                    inform.getInteger("id"),inform.getString("name"), inform.getString("passwd"),
-                inform.getInteger("role"), 1, inform.getString("image"));
-            return 1;
+            System.out.println(inform);
+            Integer id=list.size();
+            jdbcTemplate.update("insert into account(id, name, passwd, role, state) values(?,?,?,?,?)",
+                    //inform.getInteger("id"),inform.getString("name"), inform.getString("passwd"),
+                    id,inform.getString("name"), inform.getString("passwd"),
+                inform.getInteger("role"), 1);
+            return id;
         }
         catch(RuntimeException e){
-            return 2;
+            return -2;
         }
     }
 
@@ -92,22 +94,24 @@ public class UserDao {
 
     public int login(String UserName, String password){
         try {
-            String sql = "select name from account where passwd=?";
+            String sql = "select * from account where passwd=?";
             List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, password);
-
+            System.out.println(list);
+            int result=-2;
             for (int i=0; i<list.size(); ++i){
                 Map tmp = list.get(i);
                 if (tmp.get("name").equals(UserName)){
                     if (tmp.get("passwd").equals(password))
-                        return 1;
+                        {result = Integer.valueOf(tmp.get("id").toString());
+                        return result;}
                     else
-                        return 3;
+                        return -3; //密码不对
                 }
             }
-            return 0;
+            return -1; //用户不存在
         }
         catch (RuntimeException e){
-            return 2;
+            return -2;
         }
     }
 

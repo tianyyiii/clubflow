@@ -7,6 +7,7 @@ import com.example.club.utils.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/post")
 public class PostController {
@@ -66,6 +67,7 @@ public class PostController {
 
         }*/
 /*        return post_list;*/
+        System.out.println("aple");
         return postService.viewPostbyUser(UserId);
     }
     @GetMapping("view_by_club")
