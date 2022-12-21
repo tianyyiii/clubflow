@@ -2,7 +2,7 @@ package com.example.club.entity;
 
 import com.example.club.DAO.AccountDAO;
 import com.example.club.dao.ClubDAO;
-import com.example.club.DAO.HabbitDAO;
+import com.example.club.dao.HabbitDAO;
 import com.example.club.dao.ClubPostDAO;
 import com.example.club.DAO.HabbitPostDAO;
 
