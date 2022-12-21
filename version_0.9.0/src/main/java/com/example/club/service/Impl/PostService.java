@@ -5,7 +5,6 @@ import com.example.club.dao.ClubDAO;
 import com.example.club.dao.ClubPostDAO;
 import com.example.club.dao.UserDao;
 import com.example.club.service.IPostService;
-import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
