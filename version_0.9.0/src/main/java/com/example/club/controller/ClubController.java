@@ -16,8 +16,9 @@ public class ClubController {
     private ImageUtil imageUtil;
     @Autowired
     private IClubService clubService;
+   /* checked*/
     @PutMapping("/create")
-    public JSONObject CreateClub(JSONObject inform,int UserId){
+    public JSONObject CreateClub(@RequestBody JSONObject inform,int UserId){
 /*        JSONObject state=new JSONObject();
         state.put("state",1);
         state.put("club id",800);
@@ -25,13 +26,15 @@ public class ClubController {
         return clubService.createClub(inform,UserId);
 
     }
+    /*checked*/
     @PostMapping("/modify")
-    public JSONObject ModifyClub(JSONObject inform,int ClubId,int UserId){
+    public JSONObject ModifyClub(@RequestBody JSONObject inform,int ClubId,int UserId){
 /*        JSONObject state=new JSONObject();
         state.put("state",1);
         return state;*/
         return clubService.modifyClub(inform,ClubId,UserId);
     }
+   /* checked*/
     @GetMapping("/view")
     public JSONObject ViewClubPage(int ClubId,int UserId){
 /*        JSONObject club=new JSONObject();
@@ -47,6 +50,7 @@ public class ClubController {
         return club;*/
         return clubService.viewClub(ClubId,UserId);
     }
+    /*checked*/
     @GetMapping("/view_by_account")
     public JSONObject ViewClubbyAccount(int UserId){
 /*        JSONObject ClubList=new JSONObject();

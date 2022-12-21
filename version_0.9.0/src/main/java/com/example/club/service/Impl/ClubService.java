@@ -28,9 +28,9 @@ public class ClubService implements IClubService {
         newclub.put("name", inform.getString("name"));
         newclub.put("info", inform.getString("inform"));
         Date date = new Date();
-        newclub.put("date",date.toString());
+        newclub.put("date",date);
         String user = userDao.getusername(UserId);
-        newclub.put("creator", user);
+        newclub.put("creator", UserId);
         newclub.put("image", inform.getString("profile"));
         //create a new club by using newclub(JSON), return state
         int statenow = clbdao.createclub(newclub);
@@ -116,6 +116,7 @@ public class ClubService implements IClubService {
         return res;
 
     }
+    /*checked yet it is still static*/
     @Override
     public JSONObject viewAnnouncement(int UserId){
         /*return clbdao.viewannouncement(UserId);*/

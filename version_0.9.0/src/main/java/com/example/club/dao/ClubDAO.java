@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,8 @@ public class ClubDAO {
     public int createclub(JSONObject inform){
 
         try{
-            String clubname = inform.getString("clubName");
+
+            String clubname = inform.getString("name");
             String sql = "select clubName from club where clubName=?";
             List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, clubname);
             for (int i=0; i<list.size(); ++i){
@@ -25,8 +27,8 @@ public class ClubDAO {
             }
 
             jdbcTemplate.update("insert into club(clubName,clubInfo,createDate,creator,state,image) values(?,?,?,?,?,?)",
-                    inform.getString("name"), inform.getString("info"), inform.getString("date"),
-                    inform.getString("creator"), 1, 1);
+                    inform.getString("name"), inform.getString("info"), inform.getDate("date"),
+                    inform.getInteger("creator"), 1, 1);
             return 1;
         }
         catch(RuntimeException e){
@@ -37,16 +39,16 @@ public class ClubDAO {
     public int modifyclub(JSONObject inform, int ClubId, int UserId){
 
         try{
-            String newClubName = inform.getString("clubName");
+            String newClubName = inform.getString("name");
             String sql = "select clubName from club";
-            List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, newClubName);
+            List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
             for (int i=0; i<list.size(); ++i){
                 Map tmp = list.get(i);
                 if (tmp.get("clubName").equals(newClubName))
                     return 0;
             }
 
-            jdbcTemplate.update("update club set clubName=?,clubInfo=?,image=? where id=?",
+            jdbcTemplate.update("update club set clubName=?,clubInfo=?,image=? where clubId=?",
                     inform.getString("name"), inform.getString("inform"),1, ClubId);
             return 1;
         }
@@ -95,7 +97,7 @@ public class ClubDAO {
         try{
             String sql = "select clubId from clubfan where fanid=?";
             List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, UserId);
-            List<Object> res = null;
+            List<Object> res = new ArrayList<>();
             for (int i=0; i<list.size(); i++){
                 Map<String,Object> temp = list.get(i);
                 res.add(temp.get("clubId"));
