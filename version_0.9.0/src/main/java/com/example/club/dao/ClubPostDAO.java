@@ -32,11 +32,12 @@ public class ClubPostDAO {
                 if (post.get("title").equals(posttitle))
                     return 0;
             }
+            System.out.println(inform);
 
-            jdbcTemplate.update("insert into post(creator,context,thumbs,createDate,lastModifyDate,club,image)values(?,?,?,?,?,?,?)",
+            jdbcTemplate.update("insert into post(creator,context,thumbs,createDate,lastModifyDate,club,title)values(?,?,?,?,?,?,?)",
                 inform.getIntValue("creator"), inform.getString("context"),
-                inform.getIntValue("thumbs"), inform.getString("date"), inform.getString("datemodify"),
-                inform.getIntValue("club"), 1);
+                inform.getIntValue("thumbs"), inform.getDate("date"), inform.getDate("datemodify"),
+                inform.getIntValue("club"), inform.getString("title"));
             return 1;
         }
         catch(RuntimeException e){
@@ -57,8 +58,8 @@ public class ClubPostDAO {
             }
 
             Date datemodify = new Date();
-            jdbcTemplate.update("update post set title=?,context=?,image=?,lastModifyDate=? where postId=?",
-                    inform.getString("title"), inform.getString("context"),1,datemodify.toString(),PostId);
+            jdbcTemplate.update("update post set title=?,context=?,lastModifyDate=? where postId=?",
+                    inform.getString("title"), inform.getString("context"),datemodify,PostId);
             return 1;
         }
         catch(RuntimeException e){
@@ -190,6 +191,7 @@ public class ClubPostDAO {
             List<Map<String, Object>> listt = jdbcTemplate.queryForList(sqll, PostId);
             Map<String,Object> postt = listt.get(0);
             int thumbNum = (int) postt.get("thumbs");
+            System.out.println(flag);
             if (flag == 0 || flag == 2){
                 jdbcTemplate.update("update post set thumbs=? where postId=?",
                         thumbNum+1, PostId);
@@ -202,15 +204,16 @@ public class ClubPostDAO {
 
             if (flag == 0) {
                 jdbcTemplate.update("insert into postthumb(postId,thumberId,lastThumbDate,state)values(?,?,?,?)",
-                        PostId, ThumberId, date.toString(), 1);
+                        PostId, ThumberId, date, 1);
             }
             else if(flag == 1){
-                jdbcTemplate.update("update postthumb set state=?, lastModifyDate=? where postId=? AND thumberId=?",
-                        0, date.toString(), PostId, ThumberId);
+
+                jdbcTemplate.update("update postthumb set state=?, lastThumbDate=? where postId=? AND thumberId=?",
+                        0, date, PostId, ThumberId);
             }
             else{
-                jdbcTemplate.update("update postthumb set state=?, lastModifyDate=? where postId=? AND thumberId=?",
-                        1, date.toString(), PostId, ThumberId);
+                jdbcTemplate.update("update postthumb set state=?, lastThumbDate=? where postId=? AND thumberId=?",
+                        1, date, PostId, ThumberId);
             }
             return 1;
         }

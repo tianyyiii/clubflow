@@ -25,8 +25,9 @@ public class PostService implements IPostService {
         newpost.put("creator", UserId);
         newpost.put("thumbs", 0);
         Date date = new Date();
-        newpost.put("date", date.toString());
-        newpost.put("datemodify", date.toString());
+        newpost.put("date", date);
+        newpost.put("datemodify", date);
+
 
         int statenow = clubpostdao.createPost(newpost);
         //state = 1, success; state = 0, 和同一个club下的post重名； state = 2，创建超时
