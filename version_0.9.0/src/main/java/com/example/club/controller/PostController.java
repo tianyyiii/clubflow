@@ -1,97 +1,64 @@
 package com.example.club.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.example.club.service.Impl.PostService;
+import com.example.club.service.IPostService;
 import com.example.club.utils.ImageUtil;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
+@Api(tags="post api")
 @RestController
 @RequestMapping("/post")
 public class PostController {
     @Autowired
-    private PostService postService;
+    private IPostService postService;
     @Autowired
     private ImageUtil imageUtil;
+
     @PutMapping("/create")
-    public JSONObject CreatePost(JSONObject inform,int UserId){
+    public JSONObject CreatePost(JSONObject inform, int UserId){
 
-/*        JSONObject state=new JSONObject();
-        inform.put("state",1);
-        inform.put("PostId",10);
-        return inform;*/
-        return postService.createPost(inform,UserId);
-
+        return postService.createPost(inform, UserId);
+        //state=0, 目前club下已经存在一个同名post; state=1, 创建post成功；state=2, 操作超时
     }
+
     @PostMapping("/modify")
     public JSONObject ModifyPost(JSONObject inform,int PostId,int UserId){
-        JSONObject state = new JSONObject();
-        inform.put("state",1);
-        return inform;
-/*        return postService.modifyPost(inform, PostId, UserId);*/
+        //state = 1, 成功修改post；state = 0, 不合规范，修改失败；state = 2, 修改超时
+        return postService.modifyPost(inform, PostId, UserId);
     }
+
+    //从user进入post
     @GetMapping("/{PostId}")
-    public JSONObject ViewPost(@PathVariable int PostId,int UserId){
-        JSONObject post=new JSONObject();
-        post.put("title","流动社团");
-        post.put("context","这是关于流动社团的介绍");
-        post.put("thumbs-up num",10);
-        post.put("comments num",25);
-        post.put("club name","800号电影社");
-        System.out.println("aple");
-        post.put("club profile",imageUtil.ImageToBase64("C:\\Users\\26010\\Downloads\\club_project\\image\\tarkovsky.png"));
-        post.put("image", imageUtil.ImageToBase64("C:\\Users\\26010\\Downloads\\club_project\\image\\tarkovsky.png"));
-        post.put("club id",800);
-        return post;
-/*        return postService.viewPost(PostId, UserId);*/
+    public JSONObject ViewPostInUser(@PathVariable int PostId,int UserId){
+
+        //state=1, 正确访问post; state=2, 访问超时
+        return postService.viewPostInUser(PostId, UserId);
     }
+
+
     @GetMapping("/view_by_user")
     public JSONObject ViewPostsbyUser(int UserId){
-/*        JSONObject post_list=new JSONObject();
-        for (int i=1;i<3;i++)
-        {JSONObject post=new JSONObject();
-            post.put("title","流动社团");
-            post.put("context","这是关于流动社团的介绍");
-            post.put("thumbs-up num",10);
-            post.put("comments num",25);
-            post.put("club name","800号电影社");
-            System.out.println("aple");
-            post.put("club profile",imageUtil.ImageToBase64("C:\\Users\\26010\\Downloads\\club_project\\image\\tarkovsky.png"));
-            post.put("image", imageUtil.ImageToBase64("C:\\Users\\26010\\Downloads\\club_project\\image\\tarkovsky.png"));
-            post.put("club id",800);
-            post_list.put("post"+Integer.toString(i),post);
-
-
-
-        }*/
-/*        return post_list;*/
+        //state=1表示访问成功，形式是{“state”:1, "post1":JSONObject, "post2":JSONObject, ..., }
+        //state=2表示访问超时
         System.out.println("aple");
         return postService.viewPostsbyUser(UserId);
     }
+
+
     @GetMapping("view_by_club")
     public JSONObject ViewPostbyCLub(int ClubId,int UserId){
-/*        JSONObject post_list=new JSONObject();
-        for (int i=1;i<3;i++)
-        {JSONObject post=new JSONObject();
-            post.put("title","流动社团");
-            post.put("context","这是关于流动社团的介绍");
-            post.put("thumbs-up num",10);
-            post.put("comments num",25);
-            post.put("club name","800号电影社");
-            System.out.println("aple");
-            post.put("club profile",imageUtil.ImageToBase64("C:\\Users\\26010\\Downloads\\club_project\\image\\tarkovsky.png"));
-            post.put("image", imageUtil.ImageToBase64("C:\\Users\\26010\\Downloads\\club_project\\image\\tarkovsky.png"));
-            post.put("club id",800);
-            post_list.put("post"+Integer.toString(i),post);
+        //state=1表示访问成功，形式是{“state”:1, "post1":JSONObject, "post2":JSONObject, ..., }
+        //state=2表示访问超时
+        return postService.viewPostsbyClub(ClubId, UserId);
+    }
 
-
-
-        }
-        return post_list;*/
-        return postService.viewPostbyClub(ClubId, UserId);
-
+    @GetMapping("change_thumb_state")
+    public JSONObject ChangeThumbState(int PostId, int UserId){
+        //state=1,修改成功，返回新界面；state=2，修改超时
+        return postService.ThumbOrUnthumb(PostId, UserId);
     }
 }
 

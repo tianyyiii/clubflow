@@ -16,25 +16,27 @@ public class ClubPostDAO {
     private JdbcTemplate jdbcTemplate;
     @Autowired
     private UserDao userdao;
+    @Autowired
+    private ClubDAO clbdao;
 
     public int createPost(JSONObject inform){
-
+        //返回0，重名；返回1，成功；返回2，超时
         try{
-            String clubname = inform.getString("clubName");
+            int ClubId = inform.getIntValue("club");
             String posttitle = inform.getString("title");
 
-            String sql = "select title, club from post";
-            List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, clubname);
+            String sql = "select title, club from post where club=?";
+            List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, ClubId);
             for (int i=0; i<list.size(); ++i){
                 Map post = list.get(i);
                 if (post.get("title").equals(posttitle))
                     return 0;
             }
 
-            jdbcTemplate.update("insert into post(creator,context,thumbs,createDate,lastModifyDate,club,image)values(?,?,?,?,?,?,?,?)",
-                inform.getString("name"), inform.getString("context"),
-                inform.getInteger("thumbs"),inform.getString("date"),inform.getString("datemodify"),
-                inform.getString("club"),inform.getString("image"));
+            jdbcTemplate.update("insert into post(creator,context,thumbs,createDate,lastModifyDate,club,image)values(?,?,?,?,?,?,?)",
+                inform.getIntValue("creator"), inform.getString("context"),
+                inform.getIntValue("thumbs"), inform.getString("date"), inform.getString("datemodify"),
+                inform.getIntValue("club"), 1);
             return 1;
         }
         catch(RuntimeException e){
@@ -42,21 +44,21 @@ public class ClubPostDAO {
         }
     }
 
-    public int modifypost(JSONObject inform,int PostId,int UserId){
-
+    public int modifypost(JSONObject inform, int PostId, int UserId){
+        //返回0，重名；返回1，成功修改；返回2，修改超时
         try{
-            String newPostName = inform.getString("title");
-            String sql = "select title from post where name=?";
-            List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, userdao.getusername(UserId));
+            String newTitle = inform.getString("title");
+            String sql = "select title from post where creator=?";
+            List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, UserId);
             for (int i=0; i<list.size(); ++i){
                 Map tmp = list.get(i);
-                if (tmp.get("title").equals(newPostName))
+                if (tmp.get("title").equals(newTitle))
                     return 0;
             }
 
             Date datemodify = new Date();
-            jdbcTemplate.update("update post set title=?,context=?,image=?,datemodify=? where postId=?",
-                    inform.getString("title"), inform.getString("context"),inform.getString("profile"),datemodify.toString(),PostId);
+            jdbcTemplate.update("update post set title=?,context=?,image=?,lastModifyDate=? where postId=?",
+                    inform.getString("title"), inform.getString("context"),1,datemodify.toString(),PostId);
             return 1;
         }
         catch(RuntimeException e){
@@ -67,7 +69,7 @@ public class ClubPostDAO {
     public JSONObject getPostbyId(int PostId){
         try{
             String sql = "select * from post where postId=?";
-            List<Map<String,Object>> list = jdbcTemplate.queryForList(sql,PostId);
+            List<Map<String,Object>> list = jdbcTemplate.queryForList(sql, PostId);
             Map<String,Object> post = list.get(0);
             JSONObject res = new JSONObject(post);
 
@@ -80,10 +82,10 @@ public class ClubPostDAO {
         }
     }
 
-    public JSONObject getPostbyNameANDCreator(String ClubName, String PostTitle){
+    public JSONObject getPostbyTitleANDClub(int ClubId, String PostTitle){
         try{
             String sql = "select * from post where title=? AND club=?";
-            List<Map<String,Object>> list = jdbcTemplate.queryForList(sql, PostTitle, ClubName);
+            List<Map<String,Object>> list = jdbcTemplate.queryForList(sql, PostTitle, ClubId);
             Map<String,Object> post = list.get(0);
             JSONObject res = new JSONObject(post);
             return res;
@@ -95,43 +97,125 @@ public class ClubPostDAO {
         }
     }
 
-    public List<Map<String,Object>> listUserPosts(int UserId){
+    public JSONObject listUserPosts(int UserId){
         try{
-            JSONObject res = new JSONObject();
-            String sql = "select * from post where postId=?";
+            String sql = "select * from post where creator=?";
             // System.out.println(sql);
             List<Map<String,Object>> list = jdbcTemplate.queryForList(sql, UserId);
-            // System.out.println(list);
-            return list;
-        }
-        catch(RuntimeException e){
-            List<Map<String,Object>> res = null;
-            return res;
-        }
-    }
-
-    public List<Map<String,Object>> listClubPosts(int ClubId){
-        try{
             JSONObject res = new JSONObject();
-            String sql = "select * from post where club=?";
-            List<Map<String,Object>> list = jdbcTemplate.queryForList(sql, ClubId);
-//            for (int i=0; i<list.size(); i++){
-//                Map<String,Object> post = list.get(0);
-//                JSONObject temp = new JSONObject(post);
-//                res.put("post"+Integer.toString(i),temp);
-//
-//            }
-//            return res;
-            return list;
-        }
-        catch(RuntimeException e){
-//            JSONObject res=new JSONObject();
-//            res.put("state",2);
-//            return res;
-            List<Map<String,Object>> res = null;
+            for (int i=0; i<list.size(); i++){
+                JSONObject post = new JSONObject(list.get(i));
+                JSONObject tmp = new JSONObject();
+                tmp.put("title", post.getString("title"));
+                tmp.put("context", post.getString("context"));
+                tmp.put("thumbs-up num", post.getIntValue("thumbs"));
+                tmp.put("comments num", 0);
+                tmp.put("creator name", userdao.getusername(UserId));
+                tmp.put("club name", clbdao.getClubbyId(post.getIntValue("club")).getString("clubName"));
+                tmp.put("club profile", clbdao.getClubbyId(post.getIntValue("club")).getString("image"));
+                tmp.put("image", post.getString("image"));
+                tmp.put("club id", post.getIntValue("club"));
+                res.put("post"+Integer.toString(i),tmp);
+            }
             return res;
         }
-
+        catch(RuntimeException e){
+            JSONObject res = new JSONObject();
+            res.put("state", 2);
+            return res;
+        }
     }
 
+    public JSONObject listClubPosts(int ClubId){
+        try{
+            String sql = "select * from post where club=?";
+            // System.out.println(sql);
+            List<Map<String,Object>> list = jdbcTemplate.queryForList(sql, ClubId);
+            JSONObject res = new JSONObject();
+            for (int i=0; i<list.size(); i++){
+                JSONObject post = new JSONObject(list.get(i));
+                JSONObject tmp = new JSONObject();
+                tmp.put("title", post.getString("title"));
+                tmp.put("context", post.getString("context"));
+                tmp.put("thumbs-up num", post.getIntValue("thumbs"));
+                tmp.put("comments num", 0);
+                tmp.put("club name", clbdao.getClubbyId(post.getIntValue("club")).getString("clubName"));
+                tmp.put("club profile", clbdao.getClubbyId(post.getIntValue("club")).getString("image"));
+                tmp.put("image", post.getString("image"));
+                tmp.put("club id", post.getIntValue("club"));
+                res.put("post"+Integer.toString(i),tmp);
+            }
+            return res;
+        }
+        catch(RuntimeException e){
+            JSONObject res = new JSONObject();
+            res.put("state", 2);
+            return res;
+        }
+    }
+    //返回1表示该用户已点赞，返回0表示没有点赞
+    public int thumbedOrNot(int PostId, int ThumberId){
+        String sql = "select postId, thumberId, state from postthumb where postId=?";
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, PostId);
+        for(int i=0;i<list.size();++i){
+            Map post = list.get(i);
+            if (post.get("thumberId").equals(ThumberId)){
+                if (post.get("state").equals(0))
+                    return 0;
+                else
+                    return 1;
+            }
+        }
+        return 0;
+    }
+    //改变用户对post的点赞状态
+    public int changethumbpost(int PostId, int ThumberId){
+        try{
+            int flag = 0;
+            String sql = "select postId, thumberId, state from postthumb where postId=?";
+            List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, PostId);
+            for(int i=0;i<list.size();++i){
+                Map post = list.get(i);
+                if (post.get("thumberId").equals(ThumberId)){
+                    if (post.get("state").equals(1))
+                        flag = 1;
+                    else
+                        flag = 2;
+                    break;
+                }
+            }
+            //flag=0说明没有该用户对该post的点赞信息，flag = 1说明有，且是点赞状态，flag = 2说明有，且是不点赞状态
+            Date date = new Date();
+            String sqll = "select thumbs from post where postId=?";
+            List<Map<String, Object>> listt = jdbcTemplate.queryForList(sqll, PostId);
+            Map<String,Object> postt = listt.get(0);
+            int thumbNum = (int) postt.get("thumbs");
+            if (flag == 0 || flag == 2){
+                jdbcTemplate.update("update post set thumbs=? where postId=?",
+                        thumbNum+1, PostId);
+            }
+            else{
+                if(thumbNum>0)
+                    jdbcTemplate.update("update post set thumbs=? where postId=?",
+                        thumbNum-1, PostId);
+            }
+
+            if (flag == 0) {
+                jdbcTemplate.update("insert into postthumb(postId,thumberId,lastThumbDate,state)values(?,?,?,?)",
+                        PostId, ThumberId, date.toString(), 1);
+            }
+            else if(flag == 1){
+                jdbcTemplate.update("update postthumb set state=?, lastModifyDate=? where postId=? AND thumberId=?",
+                        0, date.toString(), PostId, ThumberId);
+            }
+            else{
+                jdbcTemplate.update("update postthumb set state=?, lastModifyDate=? where postId=? AND thumberId=?",
+                        1, date.toString(), PostId, ThumberId);
+            }
+            return 1;
+        }
+        catch (RuntimeException e){
+            return 2;
+        }
+    }
 }

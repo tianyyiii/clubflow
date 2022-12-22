@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class ClubService implements IClubService {
@@ -18,7 +17,6 @@ public class ClubService implements IClubService {
     private ClubDAO clbdao;
     @Autowired
     private UserDao userDao;
-//    Random r=new Random();
 
     @Override
     public JSONObject createClub(JSONObject inform, int UserId){
@@ -29,7 +27,6 @@ public class ClubService implements IClubService {
         newclub.put("info", inform.getString("inform"));
         Date date = new Date();
         newclub.put("date",date);
-        String user = userDao.getusername(UserId);
         newclub.put("creator", UserId);
         newclub.put("image", inform.getString("profile"));
         //create a new club by using newclub(JSON), return state
@@ -116,11 +113,10 @@ public class ClubService implements IClubService {
         return res;
 
     }
-    /*checked yet it is still static*/
     @Override
     public JSONObject viewAnnouncement(int UserId){
         /*return clbdao.viewannouncement(UserId);*/
-/*        因为数据库目前没有announcement存储，同时前端没有发布的位置，所以暂时静态*/
+        /*        因为数据库目前没有announcement存储，同时前端没有发布的位置，所以暂时静态*/
         JSONObject AnnouncementList=new JSONObject();
         for (int i=1;i<3;i++)
         {   JSONObject Announcement=new JSONObject();
@@ -133,8 +129,8 @@ public class ClubService implements IClubService {
 
     @Override
     public JSONObject viewAttensionList(int UserId){
-/*        目前前端没有做界面，所以可以先不实现*/
-/*        return clbdao.viewattensionlist(UserId);*/
+        /*        目前前端没有做界面，所以可以先不实现*/
+        /*        return clbdao.viewattensionlist(UserId);*/
         JSONObject res = new JSONObject();
         return res;
     }

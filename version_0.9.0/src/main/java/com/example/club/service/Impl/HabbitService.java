@@ -3,7 +3,6 @@ package com.example.club.service.Impl;
 import com.alibaba.fastjson.JSONObject;
 import com.example.club.dao.HabbitDAO;
 import com.example.club.dao.UserDao;
-import com.example.club.service.IClubService;
 import com.example.club.service.IHabbitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
