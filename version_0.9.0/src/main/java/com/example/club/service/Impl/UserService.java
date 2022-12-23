@@ -15,14 +15,12 @@ public class UserService implements IUserService {
 
     @Override
     public JSONObject createUser(JSONObject inform){
-        System.out.println(inform);
 
         JSONObject newuser = new JSONObject();
         newuser.put("name",inform.getString("name"));
-        newuser.put("passwd",inform.getString("passwd"));
-        newuser.put("role", inform.getString("role"));
-        // newuser.put("image", inform.getString("proflie"));
-        newuser.put("image", "0");
+        newuser.put("passwd",inform.getString("password"));
+        newuser.put("role", inform.getInteger("role"));
+        newuser.put("image", inform.getString("profile"));
 
         System.out.println(newuser);
 

@@ -29,9 +29,10 @@ public class UserDao {
 
             System.out.println(inform);
 //            Integer id=list.size();
-            jdbcTemplate.update("insert into account(name, passwd, role, state) values(?,?,?,?,?)",
+            jdbcTemplate.update("insert into account(name, passwd, role, state,image) values(?,?,?,?,?)",
                     //inform.getInteger("id"),inform.getString("name"), inform.getString("passwd"),
-                    inform.getString("name"), inform.getString("passwd"), inform.getInteger("role"), 1);
+                    inform.getString("name"), inform.getString("passwd"), inform.getInteger("role"),
+                    1,inform.getString("image"));
             return 1;
         }
         catch(RuntimeException e){
@@ -43,16 +44,15 @@ public class UserDao {
 
         try{
             String newUserName = inform.getString("name");
-            String sql = "select name from club";
-            List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, newUserName);
+            String sql = "select name from account";
+            List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
             for (int i=0; i<list.size(); ++i){
                 Map tmp = list.get(i);
-                if (tmp.get("clubName").equals(newUserName))
+                if (tmp.get("name").equals(newUserName))
                     return 0;
             }
-
-            jdbcTemplate.update("update user set name=?, passwd=?, image=? where id=?",
-                    inform.getString("name"), inform.getString("passwd"),inform.getString("profile"), UserId);
+            jdbcTemplate.update("update account set name=?, passwd=?, image=? where id=?",
+                    inform.getString("name"), inform.getString("password"),inform.getString("profile"), UserId);
             return 1;
         }
         catch(RuntimeException e){
