@@ -136,7 +136,7 @@ public class SubCommentService {
         int thumbs= (int) inform.get("thumbs");
         thumbs=thumbs-1;
         int state= subCommentDAO.unthumb(SubCommentId,thumbs);
-        subCommentDAO.deleteThumb(SubCommentId);
+        subCommentDAO.deleteThumb(SubCommentId,UserId);
         res.put("state",1);
         return res;}
     }

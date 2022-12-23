@@ -113,9 +113,9 @@ public class SubCommentDAO {
 
     }
 
-    public int deleteThumb(Integer SubCommentId){
+    public int deleteThumb(Integer SubCommentId,Integer ThumberId){
         try{
-            jdbcTemplate.update("delete from subcommnetthumb where subcommmentId=?", SubCommentId);
+            jdbcTemplate.update("delete from subcommnetthumb where subcommmentId=? and thumberId=?", SubCommentId,ThumberId);
             return 1;
         }
         catch(RuntimeException e){

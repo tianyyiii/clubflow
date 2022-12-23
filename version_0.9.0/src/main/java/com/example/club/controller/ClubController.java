@@ -1,7 +1,9 @@
 package com.example.club.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.example.club.service.IClubService;
+import com.example.club.service.Impl.ClubService;
 import com.example.club.utils.ImageUtil;
 import io.swagger.annotations.Api;
 import jakarta.annotation.security.PermitAll;
@@ -17,7 +19,7 @@ public class ClubController {
     @Autowired
     private ImageUtil imageUtil;
     @Autowired
-    private IClubService clubService;
+    private ClubService clubService;
    /* checked*/
     @PermitAll
     @PutMapping("/create")
@@ -76,7 +78,9 @@ public class ClubController {
 
 
     }
-    @GetMapping("/view_announcement")
+    @Deprecated
+    @GetMapping("/announcement/view")
+    /*this will be deprecated,the announcements can be found in ViewClubbyAccount*/
     public JSONObject ViewAnnouncement(int UserId) {
 /*        JSONObject AnnouncementList=new JSONObject();
         for (int i=1;i<3;i++)
@@ -89,6 +93,32 @@ public class ClubController {
 
     }*/
         return clubService.viewAnnouncement(UserId);
+    }
+/*inform get context,which is string*/
+    /*checked*/
+    @PutMapping("/announcement/create")
+    public JSONObject CreateAnnouncement(@RequestBody JSONObject inform,int ClubId,int UserId){
+        return clubService.createAnnouncement(inform, ClubId, UserId);
+    }
+    /*checked*/
+    @PostMapping("/announcement/modify")
+    public JSONObject ModifyAnnouncement(@RequestBody JSONObject inform,int ClubId,int UserId){
+        return clubService.modifyAnnouncement(inform, ClubId, UserId);
+    }
+    /*checked*/
+    @DeleteMapping("/announcement/delete")
+    public JSONObject DeleteAnnouncement(int ClubId,int UserId){
+        return clubService.deleteAnnouncement(ClubId, UserId);
+    }
+    /*checked*/
+    @PostMapping("/subscribe")
+    public JSONObject Subscribe(int ClubId,int UserId){
+        return clubService.subscribe(ClubId,UserId);
+    }
+    /*checked*/
+    @PostMapping("/unsubscribe")
+    public JSONObject Unsubscribe(int ClubId,int UserId){
+        return clubService.unsubscribe(ClubId, UserId);
     }
 
 /*

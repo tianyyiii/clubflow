@@ -26,9 +26,9 @@ public class ClubDAO {
                     return 0;
             }
 
-            jdbcTemplate.update("insert into club(clubName,clubInfo,createDate,creator,state,image) values(?,?,?,?,?,?)",
+            jdbcTemplate.update("insert into club(clubName,clubInfo,createDate,creator, state,image,publicationsNum,fansNum,commentsNum)values(?,?,?,?,?,?,?,?,?)",
                     inform.getString("name"), inform.getString("info"), inform.getDate("date"),
-                    inform.getInteger("creator"), 1, 1);
+                    inform.getInteger("creator"), 1, 1,0,0,0);
             return 1;
         }
         catch(RuntimeException e){
@@ -110,7 +110,102 @@ public class ClubDAO {
             return res;
         }
 
+
     }
+    public String viewAnnouncementbyClubId(int ClubId){
+        try{
+            String sql = "select announcement from club where clubid=?";
+            List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, ClubId);
+            String res= list.get(0).toString();
+            return res;
+        }
+        catch(RuntimeException e){
+            return "dao error";
+        }
+    }
+
+    public int editAnnouncementbyClubId(String inform,int ClubId){
+        try{
+            String sql=" update club set announcement=? where clubId=?";
+            jdbcTemplate.update(sql,inform,ClubId);
+            return 1;
+        }
+        catch(RuntimeException e){
+            return 0;
+        }
+    }
+
+    public Integer subscribeAdd(Integer id,Integer subscribes){
+        try{
+            jdbcTemplate.update("update club set fansNum=? where clubId=?",subscribes,id);
+            return 1;
+        }
+        catch(RuntimeException e){
+            return 0;
+        }
+
+    }
+
+    public int subscribeMinus(Integer id,Integer subscribes){
+        try{
+            jdbcTemplate.update("update club set fansNum=? where clubId=?",subscribes,id);
+            return 1;
+        }
+        catch(RuntimeException e){
+            return 0;
+        }
+
+    }
+
+
+
+
+    public int createSubscribe(JSONObject inform){
+        int state=1;
+        try{
+            System.out.println(inform);
+            jdbcTemplate.update("insert into clubfan(clubid,fanid,joinDate,state) values(?,?,?,?)"
+                    ,inform.getInteger("clubid"),inform.getInteger("fanid"),inform.getDate("date")
+                    ,inform.getInteger("state"));
+            return state;
+
+        }
+        catch(RuntimeException e){
+            state=0;
+            return state;
+        }
+
+    }
+
+    public int deleteSubscribe(Integer ClubId,Integer UserId){
+        try{
+            jdbcTemplate.update("delete from clubfan where clubid=? and fanid=?", ClubId,UserId);
+            return 1;
+        }
+        catch(RuntimeException e){
+            return 0;
+        }
+    }
+
+    public int checkSubscribebyUser(Integer ClubId,Integer UserId){
+        try{
+            String sql = "select * from clubfan where clubid=? and fanid=?";
+            List<Map<String,Object>> list = jdbcTemplate.queryForList(sql,ClubId,UserId);
+            if (list.isEmpty()){
+                return 2;
+            }
+            else{
+                return 1;
+            }
+        }
+        catch(RuntimeException e){
+            return 0;
+        }
+
+    }
+
+
+
 
 
 }

@@ -26,5 +26,5 @@ public interface IClubService {
 
     public JSONObject viewAnnouncement(int UserId);
 
-    public JSONObject viewAttensionList(int UserId);
+    /*public JSONObject viewAttentionList(int UserId);*/
 }
