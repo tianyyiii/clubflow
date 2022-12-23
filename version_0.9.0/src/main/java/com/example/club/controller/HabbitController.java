@@ -20,7 +20,7 @@ public class HabbitController {
     private ImageUtil imageUtil;
     @Autowired
     private HabbitService habbitService;
-    /*除头像外可以正常完成*/
+
     @PutMapping("/create")
     public JSONObject CreateHabbit(@RequestBody JSONObject inform,int UserId){
 /*        JSONObject state=new JSONObject();
@@ -30,7 +30,7 @@ public class HabbitController {
         return habbitService.createHabbit(inform,UserId);
 
     }
-    /*除头像外可以正常完成*/
+
     @PostMapping("/modify")
     public JSONObject ModifyHabbit(@RequestBody JSONObject inform,int HabbitId,int UserId){
 /*        JSONObject state=new JSONObject();
@@ -38,7 +38,7 @@ public class HabbitController {
         return state;*/
         return habbitService.modifyHabbit(inform,HabbitId,UserId);
     }
-    /*可以完成，但res外一些是静态的*/
+
     @GetMapping("/view")
     public JSONObject ViewHabbitPage(int HabbitId,int UserId){
 /*        JSONObject habbit=new JSONObject();
@@ -54,7 +54,7 @@ public class HabbitController {
         return habbit;*/
         return habbitService.viewHabbit(HabbitId,UserId);
     }
-    /*基本功能可以完成，问题同上*/
+
     @GetMapping("/view_by_account")
     public JSONObject ViewHabbitbyAccount(int UserId){
 /*        JSONObject HabbitList=new JSONObject();
@@ -76,28 +76,14 @@ public class HabbitController {
 
 
     }
-/*    @GetMapping("/view_announcement")
-    public JSONObject ViewAnnouncement(int UserId) {
-*//*        JSONObject AnnouncementList=new JSONObject();
-        for (int i=1;i<3;i++)
-        {   JSONObject Announcement=new JSONObject();
-            Announcement.put("context","塔可夫斯基《乡愁》放映");
-            AnnouncementList.put("announcement"+Integer.toString(i),Announcement);
-        }
-        return AnnouncementList;
+    @PostMapping("/subscribe")
+    public JSONObject subscribe(int HabbitId,int UserId){
+        return habbitService.subscribe(HabbitId,UserId);
+    }
 
-
-    }*//*
-        return habbitService.viewAnnouncement(UserId);
-    }*/
-
-/*
-    @Autowired
-    private HabbitService habbitservice;
-*/
-
-
-
-
+    @PostMapping("/unsubscribe")
+    public JSONObject unsubscribe(int HabbitId,int UserId){
+        return habbitService.unsubscribe(HabbitId,UserId);
+    }
 
 }

@@ -40,11 +40,11 @@ public class ClubDAO {
 
         try{
             String newClubName = inform.getString("name");
-            String sql = "select clubName from club";
+            String sql = "select clubId,clubName from club";
             List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
             for (int i=0; i<list.size(); ++i){
                 Map tmp = list.get(i);
-                if (tmp.get("clubName").equals(newClubName))
+                if (tmp.get("clubName").equals(newClubName) && (Integer)tmp.get("clubId")!=ClubId)
                     return 0;
             }
 

@@ -16,8 +16,9 @@ public class HabbitDAO {
     public int createhabbit(JSONObject inform){
 
         try{
+
             String habbitname = inform.getString("name");
-            String sql = "select habbitName from habbit where habbitname=?";
+            String sql = "select habbitName from habbit where habbitName=?";
             List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, habbitname);
             for (int i=0; i<list.size(); ++i){
                 Map tmp = list.get(i);
@@ -25,9 +26,10 @@ public class HabbitDAO {
                     return 0;
             }
             System.out.println(inform);
-            jdbcTemplate.update("insert into habbit(habbitName,habbitInfo,createDate,creator,state,image) values(?,?,?,?,?,?)",
+
+            jdbcTemplate.update("insert into habbit(habbitName,habbitInfo,createDate,creator, state,image,publicationNum,fansNum,commentsNum)values(?,?,?,?,?,?,?,?,?)",
                     inform.getString("name"), inform.getString("info"), inform.getDate("date"),
-                    inform.getInteger("creator"), 1, 1);
+                    inform.getInteger("creator"), 1, 1,0,0,0);
             return 1;
         }
         catch(RuntimeException e){
@@ -39,11 +41,11 @@ public class HabbitDAO {
 
         try{
             String newHabbitName = inform.getString("name");
-            String sql = "select habbitName from habbit where habbitName=?";
-            List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, newHabbitName);
+            String sql = "select habbitName,habbitId from habbit";
+            List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
             for (int i=0; i<list.size(); ++i){
                 Map tmp = list.get(i);
-                if (tmp.get("habbitName").equals(newHabbitName))
+                if (tmp.get("habbitName").equals(newHabbitName) && (Integer)tmp.get("habbitId")!=HabbitId)
                     return 0;
             }
 
@@ -94,7 +96,7 @@ public class HabbitDAO {
     public List<Object> listmyhabbits(int UserId){
         /*        try catch需要重新改格式*/
         try{
-            String sql = "select habbitid from habbitfan where fanid=?";
+            String sql = "select habbitId from habbitfan where fanid=?";
             List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, UserId);
             List<Object> res = new ArrayList<>();
             for (int i=0; i<list.size(); i++){
@@ -109,7 +111,102 @@ public class HabbitDAO {
             return res;
         }
 
+
     }
+    public String viewAnnouncementbyHabbitId(int HabbitId){
+        try{
+            String sql = "select announcement from habbit where habbitid=?";
+            List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, HabbitId);
+            String res= list.get(0).toString();
+            return res;
+        }
+        catch(RuntimeException e){
+            return "dao error";
+        }
+    }
+
+    public int editAnnouncementbyHabbitId(String inform,int HabbitId){
+        try{
+            String sql=" update habbit set announcement=? where habbitId=?";
+            jdbcTemplate.update(sql,inform,HabbitId);
+            return 1;
+        }
+        catch(RuntimeException e){
+            return 0;
+        }
+    }
+
+    public Integer subscribeAdd(Integer id,Integer subscribes){
+        try{
+            jdbcTemplate.update("update habbit set fansNum=? where habbitId=?",subscribes,id);
+            return 1;
+        }
+        catch(RuntimeException e){
+            return 0;
+        }
+
+    }
+
+    public int subscribeMinus(Integer id,Integer subscribes){
+        try{
+            jdbcTemplate.update("update habbit set fansNum=? where habbitId=?",subscribes,id);
+            return 1;
+        }
+        catch(RuntimeException e){
+            return 0;
+        }
+
+    }
+
+
+
+
+    public int createSubscribe(JSONObject inform){
+        int state=1;
+        try{
+            System.out.println(inform);
+            jdbcTemplate.update("insert into habbitfan(habbitid,fanid,joinDate,state) values(?,?,?,?)"
+                    ,inform.getInteger("habbitid"),inform.getInteger("fanid"),inform.getDate("date")
+                    ,inform.getInteger("state"));
+            return state;
+
+        }
+        catch(RuntimeException e){
+            state=0;
+            return state;
+        }
+
+    }
+
+    public int deleteSubscribe(Integer HabbitId,Integer UserId){
+        try{
+            jdbcTemplate.update("delete from habbitfan where habbitid=? and fanid=?", HabbitId,UserId);
+            return 1;
+        }
+        catch(RuntimeException e){
+            return 0;
+        }
+    }
+
+    public int checkSubscribebyUser(Integer HabbitId,Integer UserId){
+        try{
+            String sql = "select * from habbitfan where habbitid=? and fanid=?";
+            List<Map<String,Object>> list = jdbcTemplate.queryForList(sql,HabbitId,UserId);
+            if (list.isEmpty()){
+                return 2;
+            }
+            else{
+                return 1;
+            }
+        }
+        catch(RuntimeException e){
+            return 0;
+        }
+
+    }
+
+
+
 
 
 }
