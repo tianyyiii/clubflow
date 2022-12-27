@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>社团内容</title>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script src="F:\文件\clubflow-main\javascript\club.js"></script>
+
+<script type="text/javascript">
+	var club_events=new Array();
+</script>	
+
+<script>
+    function get_place(label)
+    {
+        var i=0;
+        for(;i<j_label.length;i++)
+        {
+            if(j_label[i]==label)
+            {
+                return i;
+            }
+        }
+    }
+</script>
+
+<script>
+    function get_result(label)
+    {
+        club_information=F(1,6);
+        for(var i=0;i<club_information[0].length;i++)
+        {
+            if(club_information[0][i]==label)
+            {               
+                return club_information[1][i];                
+            }
+        }
+    }
+
+</script>
+
+
+
+</head>
+<body background="F:\文件\clubflow-main\images\backimg-1.png">
+	<div style="background-color: red;">
+		<p style="color: red;">1</p>
+		<button type="button" id="个人" style="float:right;width: 80px;height: 30px;" onclick="go_to_Url('www.baidu.com')">个人</button>
+		<button type="button" id="首页" style="float:left;width: 80px;height: 50px; background-color: red; border-style:none;">首页</button>
+		
+		<button type="button" id="社团社区" style="float:left;width: 80px;height: 50px; background-color: red; border-style:none;">社团社区</button>
+		<button type="button" id="爱好社区" style="float:left;width: 80px;height: 50px; background-color: red; border-style:none;">爱好社区</button>
+	
+		<br>
+		<p style="color: red;">1</p>
+	</div>
+	
+
+
+	
+	
+	<br/> <br/> <br/> <br/> <br/> <br/>
+
+	<div class="photo" style="float: center;">
+		<img id="image" src="" />
+	</div>
+
+	<script>
+		var id = document.getElementById("image");
+		var str=get_result("profile");
+		id.src=str;
+	</script>
+
+	<div align="center" id="Layer1" left:212px; top:400px; width:424px; height:15px; >
+		<front size="2">
+			<script language=javascript>
+				//这里是社团的名称
+				document.write(get_result("name"));
+			</script>
+		</front>
+	</div>
+
+	<br/>
+
+	<div align="center">
+		<button type="button" id="关注" style="margin-right:10px;width: 60px;height: 30px;" onclick="follow()">关注</button>
+		<button type="button" id="私信" style="margin-right:10px;width: 60px;height: 30px;" onclick="chat()">私信</button>
+	</div>
+
+	<br/> <br/> <br/> <br/> <br/> <br/>
+
+	<div align="center">
+		<button type="button" id="首页" style="margin-right:10px;width: 60px;height: 30px;" >首页</button>
+		<button type="button" id="资料" style="margin-right:10px;width: 60px;height: 30px;" >资料</button>
+		<button type="button" id="评论" style="margin-right:10px;width: 60px;height: 30px;" >评论</button>
+		<button type="button" id="推荐" style="margin-right:10px;width: 60px;height: 30px;" >推荐</button>
+
+	</div>
+
+	<br/> <br/> <br/>
+	
+	<div id="box" style="width: 70%; float:left;">
+
+	</div>
+
+	<div id="information" style="float: right; width:30%;">
+		<script>
+			document.write(get_result(""))
+		</script>
+	</div>
+
+  
+	<script>
+		
+		/*var AnnouncementList=G(1,2);
+		alert(AnnouncementList[0].length);
+		//Show_Announcements(AnnouncementList);
+		//alert(AnnouncementList)
+		for(var i=0;i<AnnouncementList[0].length;i++)
+		{
+			
+			
+			alert(i);
+		}*/
+		Show_Announcements();
+	</script>
+
+</body>
+</html>

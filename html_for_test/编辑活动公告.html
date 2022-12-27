@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>个人内容</title>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script src="F:\文件\clubflow-main\javascript\edit_announcement.js"></script>
+
+<script>
+    function get_place(label)
+    {
+        var i=0;
+        for(;i<j_label.length;i++)
+        {
+            if(j_label[i]==label)
+            {
+                return i;
+            }
+        }
+    }
+</script>
+
+<script>
+    var url='http://localhost:8080/club/announcement/modify';
+    var club_information=F(url,1,6);
+    alert(club_information);
+    function get_result(label)
+    {
+        
+        for(var i=0;i<club_information[0].length;i++)
+        {
+            if(club_information[0][i]==label)
+            {               
+                return club_information[1][i];                
+            }
+        }
+    }
+
+</script>
+
+
+
+</head>
+
+<body>
+    <div style="background-color: red;">
+		<p>1</p>
+		<button type="button" id="个人" style="float:right;width: 60px;height: 30px;" onclick="go_to_Url('www.baidu.com')">个人</button>
+		<button type="button" id="首页" style="float:left;margin-right:10px;width: 60px;height: 30px;">首页</button>
+		
+		<button type="button" id="社团社区" style="float:left;margin-right:10px;width: 60px;height: 30px;">社团社区</button>
+		<button type="button" id="爱好社区" style="float:left;margin-right:10px;width: 60px;height: 30px;">爱好社区</button>
+
+	</div>
+
+    <br>
+
+    <div id="announcement">
+        <div id="announcement_text">
+
+        </div>
+        <div id="announcement_photo">
+
+        </div>
+    </div>
+
+    <script>
+        var announcement_text=document.getElementById("announcement_text");
+        var announcement_photo=document.getElementById("announcement_photo");
+        //text=get_result("")//文字的名字
+        //photo=get_result("")//图片的名字
+        text="文字的名字"
+        announcement_text.append(text);
+        announcement_photo.append(photo);
+    </script>
+</body>

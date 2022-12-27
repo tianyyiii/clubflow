@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>创建社团</title>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script src="F:\文件\clubflow-main\javascript\create_club.js"></script>
+<script>
+    var params={};
+</script>
+
+</head>
+
+<style>
+    .photo
+    {
+        float: left;
+        width: 10%;
+    }
+    .intro
+    {
+        float:right;
+        width: 85%;
+    }
+    .upload_cover
+    {
+        float:right;
+        width:15%;
+    }
+</style>
+
+
+
+<body>
+    <div>
+        基本信息
+    </div>
+
+    <br/> <br/>  <br/> <br/>
+
+    <script type="text/javascript">
+        Information_MOdification=new Array();
+    </script>
+
+    <div>
+        社团名称：
+        <input id="club_name" type="text" name="name" />
+
+        <br/>
+        社团头像：
+        <input id="file" type="file" onchange="imgChange(this)" accept="image/png" />
+        封面预览
+        <img width="120" height="120" src="">
+        <script type="text/javascript">
+            function imgChange(obj) {
+                var image = obj.files[0]; //获取文件域中选中的图片
+                var reader = new FileReader(); //实例化文件读取对象
+                reader.readAsDataURL(image); //将文件读取为 DataURL,也就是base64编码
+                reader.onload = function(ev) { //文件读取成功完成时触发
+                    var dataURL = ev.target.result; //获得文件读取成功后的DataURL,也就是base64编码
+                    var name="profile";
+                    params[name]=dataURL;
+                    document.querySelector("img").src = dataURL; //将DataURL码赋值给img标签
+                    console.log(dataURL);
+                }
+                console.log(image);
+            }
+        </script>
+    </div>
+
+    <br/> <br/>  <br/> <br/> 
+
+    <div>
+        <br/>
+        <p>填写社团简介 </p>
+        <textarea id="club_brief_introduction" type="text" name="inform" style="width:100%; height:200px;" > </textarea>
+    </div>
+
+    <br/> <br/>  <br/> <br/>
+
+    
+
+    <div>
+        <button type="button" id="提交" style="float: right;" onclick="Submit()">提交</button>
+        <button type="button" id="取消" style="float: right; margin-right:10px;" onclick="Submit()">取消</button>
+    </div>
+
+    
+    <script>
+        function Submit()
+        {
+            var club_information=get_club_information();
+            send_json(url,club_information);
+        }
+        
+    </script>
+
+</body>

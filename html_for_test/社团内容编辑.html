@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>创建社团社区编辑页</title>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script src="F:\文件\clubflow-main\javascript\edit_club.js"></script>
+<script>
+    var params={};
+</script>
+<script>
+function F(userid,clubid)
+	{
+		var j_data=new Array();
+		var j_label=new Array();
+		var res=new Array();
+		$.ajaxSetup({async:false});
+				$.getJSON('http://localhost:8080/club/view',{"UserId":userid,"ClubId":clubid},function(result)
+				{
+					$.each(result, function(i, field)
+					{
+						var I=i;
+						var F=field;
+						j_label.push(I);
+						j_data.push(F);
+					});
+					return j_data.length;
+				});
+				res.push(j_label);
+				res.push(j_data);
+				return res;
+	};
+</script>
+
+<script>
+    function get_place(label)
+    {
+        var i=0;
+        for(;i<j_label.length;i++)
+        {
+            if(j_label[i]==label)
+            {
+                return i;
+            }
+        }
+    }
+</script>
+
+
+<script>
+    function get_result(label)
+    {
+        club_information=F(1,6);
+        for(var i=0;i<club_information[0].length;i++)
+        {
+            if(club_information[0][i]==label)
+            {               
+                return club_information[1][i];                
+            }
+        }
+    }
+</script>
+
+</head>
+
+<style>
+    .photo
+    {
+        float: left;
+        width: 10%;
+    }
+    .intro
+    {
+        float:right;
+        width: 85%;
+    }
+    .upload_cover
+    {
+        float:right;
+        width:15%;
+    }
+</style>
+
+
+
+<body background="F:\文件\clubflow-main\images\backimg-1.png">
+    
+
+    
+    <div style="background-color: red;">
+		<p style="color: red;">1</p>
+		<button type="button" id="个人" style="float:right;width: 80px;height: 30px;" onclick="go_to_Url('www.baidu.com')">个人</button>
+		<button type="button" id="首页" style="float:left;margin-right:10px;width: 80px;height: 30px;">首页</button>
+		
+		<button type="button" id="社团社区" style="float:left;margin-right:10px;width: 80px;height: 30px;">社团社区</button>
+		<button type="button" id="爱好社区" style="float:left;margin-right:10px;width: 80px;height: 30px;">爱好社区</button>
+
+		
+		<br>
+		<p style="color: red;">1</p>
+	</div>
+
+    <br/> <br/>  <br/> <br/> <br/> <br/>  <br/> <br/> 
+
+    <div float: left>
+        
+        
+        <div class="photo">
+            <img id="image" src="" />
+        </div>
+
+        <script>
+            var id = document.getElementById("image");
+            var str=get_result("profile");
+            id.src=get_base64(str);
+        </script>
+
+        <div class="intro">
+            <script type="text/javascript">
+                var Club_Name=get_result("name");
+                document.write(Club_Name);
+            </script>
+        </div>
+        <div class="upload_cover" style="float:right">
+            上传社团封面：
+            暂时空缺
+        </div>
+        
+    </div>
+
+    <br/> <br/>  <br/> <br/>
+
+
+    <div>
+        基本信息
+    </div>
+
+    <br/> <br/>  <br/> <br/>
+
+    <script type="text/javascript">
+        var Information_MOdification=new Array();
+    </script>
+
+    <div>
+        社团名称：
+        <input id="club_name" type="text" name="club_name" />
+
+        <br/>
+        社团头像：
+        <input id="club_profile_photo" type="file" name="profile" onchange="imgChange(this)" accept="image/png" />
+        <img width="12" height="12" src="">
+        <script type="text/javascript">
+            function imgChange(obj) {
+                var image = obj.files[0]; //获取文件域中选中的图片
+                var reader = new FileReader(); //实例化文件读取对象
+                reader.readAsDataURL(image); //将文件读取为 DataURL,也就是base64编码
+                reader.onload = function(ev) { //文件读取成功完成时触发
+                    var dataURL = ev.target.result; //获得文件读取成功后的DataURL,也就是base64编码
+                    var name="profile";
+                    params[name]=dataURL;
+                }
+                console.log(image);
+            }
+        </script>
+    </div>
+
+    <br/> <br/>  <br/> <br/> 
+
+    <div>
+        <p>社团简介 </p>
+        <script type="text/javascript">
+            var Introduction=get_result("inform");
+            document.write(Introduction);
+        </script>
+        <br/>
+        <p>更新社团简介 </p>
+        <textarea id="club_brief_introduction" type="text" name="inform" style="width:100%; height:200px;" > </textarea>
+    </div>
+
+    <br/> <br/>  <br/> <br/>
+
+    
+
+    <div>
+        <button type="button" id="提交" style="float: right;" onclick="Submit()">提交</button>
+        <button type="button" id="取消" style="float: right; margin-right:10px;" onclick="Submit()">取消</button>
+    </div>
+
+    
+    <script>
+        function Submit()
+        {
+            url="http://localhost:8080/club//modify";
+            var club_information=get_club_information();
+            send_json(url,club_information);
+        }
+        
+    </script>
+
+</body>
