@@ -34,6 +34,7 @@ public class PostService implements IPostService {
         if (statenow == 1){
             //state = 1, success。 res的state可能等于2，创建成功之后访问超时
             JSONObject res = clubpostdao.getPostbyTitleANDClub(inform.getIntValue("clubId"), inform.getString("title"));
+            res.put("state", statenow);
             return res;
         }
         else{
@@ -69,6 +70,14 @@ public class PostService implements IPostService {
         int thumbedornot = clubpostdao.thumbedOrNot(PostId, UserId);
         tmp.put("thumbed or not", thumbedornot);
         return tmp;
+    }
+
+    @Override
+    public JSONObject viewPostList(){
+        //state=1表示访问成功，形式是{“state”:1, "post1":JSONObject, "post2":JSONObject, ..., }
+        //state=2表示访问超时
+        JSONObject inform = clubpostdao.listAllPosts();
+        return inform;
     }
 
     @Override

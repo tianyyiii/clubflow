@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import java.sql.ResultSet;
 
 import java.util.Date;
 import java.util.List;
@@ -34,13 +35,14 @@ public class ClubPostDAO {
             }
             System.out.println(inform);
 
-            jdbcTemplate.update("insert into post(creator,context,thumbs,createDate,lastModifyDate,club,title)values(?,?,?,?,?,?,?)",
+            jdbcTemplate.update("insert into post(creator,context,thumbs,createDate,lastModifyDate,club,title,image)values(?,?,?,?,?,?,?,?)",
                 inform.getIntValue("creator"), inform.getString("context"),
                 inform.getIntValue("thumbs"), inform.getDate("date"), inform.getDate("datemodify"),
-                inform.getIntValue("club"), inform.getString("title"));
+                inform.getIntValue("club"), inform.getString("title"), inform.getString("image"));
             return 1;
         }
         catch(RuntimeException e){
+            System.out.println(e);
             return 2;
         }
     }
@@ -98,6 +100,40 @@ public class ClubPostDAO {
         }
     }
 
+    public JSONObject listAllPosts(){
+        try{
+//            String sql = "select * from post order by UNIX_TIMESTAMP(lastModifyDate) desc"; // 排序顺序总是有问题
+            String sql = "select * from post";
+            // System.out.println(sql);
+            List<Map<String,Object>> list = jdbcTemplate.queryForList(sql);
+            JSONObject res = new JSONObject();
+            for (int i=0; i<list.size(); i++){
+                JSONObject post = new JSONObject(list.get(i));
+                int UserId=post.getIntValue("creator");
+                JSONObject tmp = new JSONObject();
+                tmp.put("title", post.getString("title"));
+                tmp.put("context", post.getString("context"));
+                tmp.put("thumbs-up num", post.getIntValue("thumbs"));
+                tmp.put("comments num", 0);
+                tmp.put("creator name", userdao.getusername(UserId));
+                tmp.put("club name", clbdao.getClubbyId(post.getIntValue("club")).getString("clubName"));
+                tmp.put("club profile", clbdao.getClubbyId(post.getIntValue("club")).getString("image"));
+                tmp.put("image", post.getString("image"));
+                tmp.put("club id", post.getIntValue("club"));
+                tmp.put("date", post.getString("lastModifyDate"));
+                tmp.put("postId",post.getString("postId"));
+                res.put("post"+Integer.toString(i),tmp);
+            }
+            System.out.println(res);
+            return res;
+        }
+        catch(RuntimeException e){
+            JSONObject res = new JSONObject();
+            res.put("state", 2);
+            return res;
+        }
+    }
+
     public JSONObject listUserPosts(int UserId){
         try{
             String sql = "select * from post where creator=?";
@@ -116,6 +152,8 @@ public class ClubPostDAO {
                 tmp.put("club profile", clbdao.getClubbyId(post.getIntValue("club")).getString("image"));
                 tmp.put("image", post.getString("image"));
                 tmp.put("club id", post.getIntValue("club"));
+                tmp.put("date", post.getString("lastModifyDate"));
+                tmp.put("postId",post.getString("postId"));
                 res.put("post"+Integer.toString(i),tmp);
             }
             return res;
@@ -144,6 +182,8 @@ public class ClubPostDAO {
                 tmp.put("club profile", clbdao.getClubbyId(post.getIntValue("club")).getString("image"));
                 tmp.put("image", post.getString("image"));
                 tmp.put("club id", post.getIntValue("club"));
+                tmp.put("date", post.getString("lastModifyDate"));
+                tmp.put("postId",post.getString("postId"));
                 res.put("post"+Integer.toString(i),tmp);
             }
             return res;

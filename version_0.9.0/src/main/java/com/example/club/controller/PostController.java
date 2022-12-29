@@ -18,8 +18,8 @@ public class PostController {
     private ImageUtil imageUtil;
 /*checked*/
     @PutMapping("/create")
-    public JSONObject CreatePost(@RequestBody JSONObject inform, int UserId){
-
+    public JSONObject CreatePost(@RequestBody JSONObject inform){
+        int UserId = inform.getIntValue("UserId");
         return postService.createPost(inform, UserId);
         //state=0, 目前club下已经存在一个同名post; state=1, 创建post成功；state=2, 操作超时
     }
@@ -36,6 +36,15 @@ public class PostController {
 
         //state=1, 正确访问post; state=2, 访问超时
         return postService.viewPostInUser(PostId, UserId);
+    }
+
+    /*checked*/
+    //在首页获取全部posts
+    @GetMapping("/view_list")
+    public JSONObject ViewPosts(){
+
+        //state=1, 正确访问post; state=2, 访问超时
+        return postService.viewPostList();
     }
 
 /*checked*/
