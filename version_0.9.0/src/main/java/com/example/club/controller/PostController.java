@@ -64,7 +64,7 @@ public class PostController {
         return postService.viewPostsbyClub(ClubId, UserId);
     }
 /*checked*/
-    @PostMapping("change_thumb_state")
+    @GetMapping("change_thumb_state")
     public JSONObject ChangeThumbState(int PostId, int UserId){
         //state=1,修改成功，返回新界面；state=2，修改超时
         return postService.ThumbOrUnthumb(PostId, UserId);

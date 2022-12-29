@@ -27,7 +27,7 @@ public class UserDao {
                     return 0;
             }
 
-            System.out.println(inform);
+//            System.out.println(inform);
 //            Integer id=list.size();
             jdbcTemplate.update("insert into account(name, passwd, role, state,image) values(?,?,?,?,?)",
                     //inform.getInteger("id"),inform.getString("name"), inform.getString("passwd"),

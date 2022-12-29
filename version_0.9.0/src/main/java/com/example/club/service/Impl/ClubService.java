@@ -87,8 +87,12 @@ public class ClubService implements IClubService {
             res.put("publications number",club.getInteger("publicationsNum"));
             //Club doesn't have "comment number", default 50
             res.put("comments number",club.getInteger("commentsNum"));
-            //Club doesn't have "subscribe", default 156
-            res.put("subscribe",156);
+            //subscribe指用户有没有订阅
+            int subscribe = clbdao.checkSubscribebyUser(ClubId,UserId) == 1? 1:0;
+            res.put("subscribe",subscribe);
+
+            //Club announcement
+            res.put("announcement",club.getInteger("announcement"));
 
             res.put("inform", club.getString("clubInfo"));
             res.put("profile", club.getString("image"));
@@ -115,6 +119,18 @@ public class ClubService implements IClubService {
         }
         return res;
 
+    }
+
+    @Override
+    public JSONObject viewClubFans(int ClubId){
+        List<Object> list = clbdao.listclubfans(ClubId);
+        JSONObject res = new JSONObject();
+        for (int i=0; i<list.size(); i++){
+            JSONObject temp = userDao.getUserbyId((Integer) list.get(i));
+            res.put("fan"+Integer.toString(i), temp);
+//            System.out.println(temp);
+        }
+        return res;
     }
 
     @Override

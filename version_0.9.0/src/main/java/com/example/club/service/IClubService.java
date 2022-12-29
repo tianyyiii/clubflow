@@ -24,6 +24,8 @@ public interface IClubService {
 
     public JSONObject viewClubbyAccount(int UserId);
 
+    public JSONObject viewClubFans(int ClubId);
+
     public JSONObject viewAnnouncement(int UserId);
 
     /*public JSONObject viewAttentionList(int UserId);*/

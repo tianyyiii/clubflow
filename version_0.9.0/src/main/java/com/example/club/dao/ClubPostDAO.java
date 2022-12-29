@@ -35,10 +35,19 @@ public class ClubPostDAO {
             }
             System.out.println(inform);
 
+            // 更新club信息中的publicationsNum
+            String sql1 = "select publicationsNum from club where clubId=?";
+            List<Map<String,Object>> list1 = jdbcTemplate.queryForList(sql1, ClubId);
+            Map<String,Object> clubInfo = list1.get(0);
+            int pubNum = (int) clubInfo.get("publicationsNum");
+            jdbcTemplate.update("update club set publicationsNum=? where clubId=?",
+                    ClubId, pubNum+1);
+
             jdbcTemplate.update("insert into post(creator,context,thumbs,createDate,lastModifyDate,club,title,image)values(?,?,?,?,?,?,?,?)",
                 inform.getIntValue("creator"), inform.getString("context"),
                 inform.getIntValue("thumbs"), inform.getDate("date"), inform.getDate("datemodify"),
                 inform.getIntValue("club"), inform.getString("title"), inform.getString("image"));
+
             return 1;
         }
         catch(RuntimeException e){
@@ -75,7 +84,8 @@ public class ClubPostDAO {
             List<Map<String,Object>> list = jdbcTemplate.queryForList(sql, PostId);
             Map<String,Object> post = list.get(0);
             JSONObject res = new JSONObject(post);
-
+            res.put("club name", clbdao.getClubbyId(res.getIntValue("club")).getString("clubName"));
+            System.out.println(res);
             return res;
         }
         catch(RuntimeException e){
@@ -124,7 +134,7 @@ public class ClubPostDAO {
                 tmp.put("postId",post.getString("postId"));
                 res.put("post"+Integer.toString(i),tmp);
             }
-            System.out.println(res);
+            //System.out.println(res);
             return res;
         }
         catch(RuntimeException e){

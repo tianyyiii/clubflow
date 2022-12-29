@@ -57,6 +57,8 @@ public class ClubController {
         return clubService.viewClub(ClubId,UserId);
     }
     /*checked*/
+
+//    查看某用户关注的社团
     @GetMapping("/view_by_account")
     public JSONObject ViewClubbyAccount(int UserId){
 /*        JSONObject ClubList=new JSONObject();
@@ -75,6 +77,22 @@ public class ClubController {
         }
         return ClubList;*/
         return clubService.viewClubbyAccount(UserId);
+
+
+    }
+
+    @GetMapping("/view_fans")
+//    查看某一社团的粉丝
+    public JSONObject ViewClubFans(int ClubId){
+/*        JSONObject FanList=new JSONObject();
+        for (int i=1;i<3;i++)
+        {   JSONObject fan=new JSONObject();
+            fan.put("image","url");
+            fan.put("name","geyuan");
+            fan.put("id",1);
+        }
+        return ClubList;*/
+        return clubService.viewClubFans(ClubId);
 
 
     }
@@ -112,12 +130,18 @@ public class ClubController {
     }
     /*checked*/
     @PostMapping("/subscribe")
-    public JSONObject Subscribe(int ClubId,int UserId){
+    public JSONObject Subscribe(@RequestBody JSONObject inform){
+        int ClubId = inform.getIntValue("ClubId");
+        int UserId = inform.getIntValue("UserId");
+        // state0 失败，state1 成功
         return clubService.subscribe(ClubId,UserId);
     }
     /*checked*/
     @PostMapping("/unsubscribe")
-    public JSONObject Unsubscribe(int ClubId,int UserId){
+    public JSONObject Unsubscribe(@RequestBody JSONObject inform){
+        int ClubId = inform.getIntValue("ClubId");
+        int UserId = inform.getIntValue("UserId");
+        // state0 失败，state1 成功
         return clubService.unsubscribe(ClubId, UserId);
     }
 

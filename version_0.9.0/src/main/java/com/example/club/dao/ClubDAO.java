@@ -64,6 +64,7 @@ public class ClubDAO {
             List<Map<String,Object>> list = jdbcTemplate.queryForList(sql, ClubId);
             Map<String,Object> club = list.get(0);
             JSONObject res = new JSONObject(club);
+            System.out.println(res);
             return res;
         }
         catch(RuntimeException e){
@@ -112,6 +113,27 @@ public class ClubDAO {
 
 
     }
+    public List<Object> listclubfans(int ClubId){
+        /*        try catch需要重新改格式*/
+        try{
+            String sql = "select fanid from clubfan where clubid=?";
+            List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, ClubId);
+            List<Object> res = new ArrayList<>();
+            for (int i=0; i<list.size(); i++){
+                Map<String,Object> temp = list.get(i);
+                res.add(temp.get("fanid"));
+            }
+            return res;
+
+        }
+        catch(RuntimeException e){
+            List<Object> res = null;
+            return res;
+        }
+
+
+    }
+
     public String viewAnnouncementbyClubId(int ClubId){
         try{
             String sql = "select announcement from club where clubid=?";
