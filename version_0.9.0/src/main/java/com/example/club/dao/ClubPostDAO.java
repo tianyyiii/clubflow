@@ -39,9 +39,15 @@ public class ClubPostDAO {
             String sql1 = "select publicationsNum from club where clubId=?";
             List<Map<String,Object>> list1 = jdbcTemplate.queryForList(sql1, ClubId);
             Map<String,Object> clubInfo = list1.get(0);
-            int pubNum = (int) clubInfo.get("publicationsNum");
-            jdbcTemplate.update("update club set publicationsNum=? where clubId=?",
-                    ClubId, pubNum+1);
+            if(clubInfo.get("publicationsNum")!=null) {
+                int pubNum = (int) clubInfo.get("publicationsNum");
+                jdbcTemplate.update("update club set publicationsNum=? where clubId=?",
+                        ClubId, pubNum + 1);
+            }
+            else {
+                jdbcTemplate.update("update club set publicationsNum=? where clubId=?",
+                        ClubId, 1);
+            }
 
             jdbcTemplate.update("insert into post(creator,context,thumbs,createDate,lastModifyDate,club,title,image)values(?,?,?,?,?,?,?,?)",
                 inform.getIntValue("creator"), inform.getString("context"),

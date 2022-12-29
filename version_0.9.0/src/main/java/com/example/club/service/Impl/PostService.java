@@ -28,7 +28,6 @@ public class PostService implements IPostService {
         newpost.put("date", date);
         newpost.put("datemodify", date);
 
-
         int statenow = clubpostdao.createPost(newpost);
         //state = 1, success; state = 0, 和同一个club下的post重名； state = 2，创建超时
         if (statenow == 1){
