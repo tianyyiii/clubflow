@@ -115,7 +115,6 @@
 </template>
 
 <script>
-
 export default{
     data(){
         return {
@@ -149,9 +148,9 @@ export default{
             location.reload();
         }
         this.$axios
-          .get('/user', {params:{
+          .get('/user/check', {params:{
                 UserName: this.loginForm.username,
-                password: this.loginForm.password
+                Password: this.loginForm.password
             }})
           .then(resp => {
             if (resp.data.state!=this.SuccessState) {
@@ -163,7 +162,7 @@ export default{
             //   _this.$router.replace({path: path === '/' || path === undefined ? '/admin/dashboard' : path})
             } else {
                 alert("登陆成功")
-                var UserId = resp.data.UserId
+                var UserId = resp.data.id
                 _this.$store.commit('login', UserId)
                 // console.log("commit成功")
                 // const store = useStore();

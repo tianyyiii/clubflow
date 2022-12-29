@@ -83,7 +83,7 @@ export default {
   align-items: center;
   text-align: center;
   justify-content: center;
-  background-image: url("@/assets/images/hobbycontent/u603.svg");
+  background-image: url("@/assets/images/habbitcontent/u603.svg");
 }
 
 .follow-btn {

@@ -66,6 +66,7 @@
 
 export default {
     name:"Post",
+    props:['PostId'],
     components:{},
     data(){
         return {

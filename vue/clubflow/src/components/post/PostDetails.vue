@@ -8,7 +8,7 @@
         <div class="col-md-8 me-5" >
             <!-- 文章 -->
             <div class="w-100">
-                <Post></Post>
+                <Post v-bind:PostId="PostId"></Post>
             </div>
 
             <!-- 评论 -->
@@ -42,7 +42,17 @@ import Post from './Post.vue'
   export default {
     name: 'PostDetails',
     components: {ClubInfo, Comments, ArtList, Post},
+    data(){
+        return{
+            PostId:0,
+        }
+    },
     methods: {
+    },
+    mounted(){
+        this.PostId=this.$route.query.PostId
+        console.log(this.PostId)
+
     }
   }
 </script>

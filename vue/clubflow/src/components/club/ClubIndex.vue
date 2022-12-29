@@ -182,7 +182,7 @@
                 <!-- 新闻最多展示前5项 -->
                 <ul v-for="(post,index) in posts_json" class="m-0 p-0">
                     <!-- 列表项 -->
-                    <a v-if="index<5" href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3 overflow-hidden" aria-current="true">
+                    <a v-if="index<5" @click="jumpToPost(post.postId)" class="list-group-item list-group-item-action d-flex gap-3 py-3 overflow-hidden" aria-current="true">
                         <div class="img-box flex-shrink-0">
                             <img v-if="post.haveimage" :src="post.imageforurl">
                             <img v-else src="@/assets/images/common/default_img.png">   
@@ -198,7 +198,8 @@
                                     </p>
                                 </div>
                                 <small class="opacity-50 text-nowrap" style="font-size: 12px;">
-                                    <i class="fa fa-clock-o" aria-hidden="true"></i> 12-13 16:00
+                                    <!-- <i class="fa fa-clock-o" aria-hidden="true"></i> 12-13 16:00 -->
+                                    <i class="fa fa-clock-o" aria-hidden="true"></i> {{post.date}}
                                 </small>
                             </div>
                             <div class="d-flex w-100 position-absolute bottom-0 justify-content-between align-items-baseline">
@@ -453,18 +454,40 @@ import SubTitle from '../common/SubTitle.vue';
         }
     },
     methods :{
+        jumpToPost(postId){
+            this.$router.push({path:'/postdetails',query:{PostId:postId}})
+        },
         check_img_fields : function(field){
             // 检查是否有图片，没有则设havefield为false，field为 'img' 或 'club profile' 等键值
             this.posts_json.forEach(function(post){
-            if (post[field]==undefined){
+            if (post[field]==undefined || post[field]==''){
             post['have'+field]=false;
             }
                 else {
                     post['have'+field]=true;
-                    post[field+'forurl']="data:image/png;base64,"+post[field];//html标签的src中的url
+                    // post[field+'forurl']="data:image/png;base64,"+post[field];//html标签的src中的url
+                    post[field+'forurl']=post[field];//html标签的src中的url
                 }
-        })
-            
+            })
+        },
+        convertIdeogramToNormalCharacter(val) {
+            const arrEntities = {'lt':'<','gt':'>','nbsp':' ','amp':'&','quot':'"'};
+            return val.replace(/&(lt|gt|nbsp|amp|quot);/ig,function(all,t){return arrEntities[t];});
+        },
+        // 获取富文本的纯文字内容
+        getPlainText (richCont) {
+            const str = richCont;
+            let value = richCont;
+            if(richCont){
+                // 方法一： 
+                value= value.replace(/\s*/g, "");  //去掉空格
+                value= value.replace(/<[^>]+>/g, ""); //去掉所有的html标记
+                value = value.replace(/↵/g, "");     //去掉所有的↵符号
+                value = value.replace(/[\r\n]/g, "") //去掉回车换行
+                value = value.replace(/&nbsp;/g, "") //去掉空格
+                value = this.convertIdeogramToNormalCharacter(value);
+                return value;
+            }
         }
     },
     mounted () {
@@ -475,11 +498,7 @@ import SubTitle from '../common/SubTitle.vue';
             this.IsLogin=true
         }
         this.$axios
-        .get('post/view_by_user',{
-        params: {
-            UserId: (UserId)?UserId:0
-        }
-        })
+        .get('post/view_list')
         .then( response =>{
             this.posts = JSON.stringify(response.data);
             // console.log(this.posts);
@@ -502,8 +521,21 @@ import SubTitle from '../common/SubTitle.vue';
                 that.check_img_fields(field);
                 
             }
+            // 解析html文本
+            this.posts_json.forEach(function(post){
+                if (post.context!=undefined){
+                    post.context=that.getPlainText(post.context)
+                }
+            })
+            // 转化日期
             
-            
+            this.posts_json.forEach(function(post){
+                if (post.date!=undefined){
+                    var ct = new Date(post.date);
+                    post.date=ct.Format('yyyy-MM-dd hh:mm')
+                }
+            })
+            // console.log(this.posts_json.context)
             // console.log(this.posts_json[0]['haveimage']);
             // console.log(this.posts_json[0]['haveclub profile']);
 
@@ -650,6 +682,7 @@ import SubTitle from '../common/SubTitle.vue';
     border-left:0 ;
     border-right: 0;
     border-color: var(--themecolor);
+    cursor: pointer;
 }
 
 .list-group-item {

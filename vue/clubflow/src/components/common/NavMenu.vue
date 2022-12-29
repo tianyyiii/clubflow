@@ -4,13 +4,13 @@
         <!-- <ul class="navbar-nav"> -->
         <ul class="nav col-12 col-md-4 d-flex me-auto">
             <li class="nav-item ">
-              <a class="nav-link text-light" href="#">首页</a>
+              <router-link to="/index" class="nav-link text-light">首页</router-link>
             </li>
              <!-- Dropdown -->
              <li class="nav-item active dropdown">
-                <a class="nav-link text-light" href="#" id="navbardrop" data-bs-toggle="dropdown">
+                <router-link to="/index" class="nav-link text-light" id="navbardrop" data-bs-toggle="dropdown">
                 社团社区
-                </a>
+                </router-link>
                 <ul class="dropdown-menu" style="border-radius: 2%; visibility: hidden;display: block">
                 <li>
                     <a class="dropdown-item d-flex gap-2 align-items-center" href="#">

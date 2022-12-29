@@ -32,12 +32,30 @@ const routes = [
       {
         path: '/postdetails',
         name: 'PostDetails', // 内容详情页
-        component: () => import('../components/post/PostDetails.vue')
+        component: () => import('../components/post/PostDetails.vue'),
       },
       {
         path: '/habbit',
-        name: 'HabbitContent', // 内容详情页
+        name: 'HabbitContent', // 爱好社区详情页
         component: () => import('../components/habbit/HabbitContent.vue')
+      },
+      {
+        path: '/createhabbit',
+        name: 'CreateHabbit', // 创建爱好社区编辑页
+        component: () => import('../components/habbit/CreateHabbit.vue')
+      },
+      {
+        path: '/createclub',
+        name: 'Createlub', // 创建社团编辑页
+        component: () => import('../components/club/CreateClub.vue')
+      },
+      {
+        path: '/ClubEditPage',
+        name: 'ClubEditPage', // 社团个人主页
+        component: () => import('../components/club/ClubEditPage.vue'),
+        meta: {
+          requireAuth: false
+        }
       }
 
     ]
