@@ -54,7 +54,15 @@ const routes = [
         name: 'ClubEditPage', // 社团个人主页
         component: () => import('../components/club/ClubEditPage.vue'),
         meta: {
-          requireAuth: false
+          requireAuth: true
+        }
+      },
+      {
+        path: '/userhome',
+        name: 'UserHome', // 社团个人主页
+        component: () => import('../components/user/UserHome.vue'),
+        meta: {
+          requireAuth: true
         }
       }
 

@@ -185,13 +185,13 @@
                     <a v-if="index<5" @click="jumpToPost(post.postId)" class="list-group-item list-group-item-action d-flex gap-3 py-3 overflow-hidden" aria-current="true">
                         <div class="img-box flex-shrink-0">
                             <img v-if="post.haveimage" :src="post.imageforurl">
-                            <img v-else src="@/assets/images/common/default_img.png">   
+                            <img v-else src="@/assets/images/common/default_img.png">
                         </div>
                         <div class="gap-2 w-100 position-relative">
                             <div class="d-flex w-100 justify-content-between">
                                 <div class="text-start justify-content-start">
                                     <h6 class="mb-0" style="font-family:'微软雅黑', sans-serif; font-weight: 600; font-size:16px;">
-                                        [招新] {{post.title}}
+                                        {{post.title}}
                                     </h6>
                                     <p class="textlines-overflow-2 mt-2 ms-1 mb-0" style="font-family:'微软雅黑', sans-serif;font-weight:400; font-size:13px;color:#999999; text-align:left;">
                                         {{post.context}}
@@ -693,11 +693,21 @@ import SubTitle from '../common/SubTitle.vue';
     width:153px; height:108px;overflow:hidden;
 }
 .img-box>img {
-    max-width:153px;
+    /* max-width:153px; */
+    object-fit: cover; /* background-size */
+    object-position: center; /* 类似background-position */
+    /* 图片必须width和height为100% */
+    width:100%;
+    height: 100%;
     /* _width:expression( this.width > 153 ? "153px" : this.width); */
 }
 .user-img-box>img {
-    max-width:24px;
+    /* max-width:24px; */
+    object-fit: cover; /* background-size */
+    object-position: center; /* 类似background-position */
+    /* 图片必须width和height为100% */
+    width:100%;
+    height: 100%;
     /* _width:expression( this.width > 24 ? "24px" : this.width); */
 }
 

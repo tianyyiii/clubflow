@@ -2,50 +2,45 @@
     <div class="w-100">
         <div id="art-title" style="border-color: #e1e1e1;border-width: thin; border-top: 0; border-left: 0; border-right: 0; border-style: solid;">
             <p style="font-size:20px;">
-                <span style="font-family:'微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑', sans-serif;font-weight:700;color:#666666;">[招新]xx协会2022年度招新信息</span>
+                <span style="font-family:'微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑', sans-serif;font-weight:700;color:#666666;">{{title}}</span>
             </p>
             <p style="font-size:14px;">
                 <span style="font-family:'微软雅黑', sans-serif;font-weight:400;color:#666666;">&nbsp;原创文章</span>
                 <span style="font-family:'微软雅黑', sans-serif;font-weight:400;color:#999999;">&nbsp; xx协会&nbsp; 分类：</span>
                 <span style="font-family:'微软雅黑', sans-serif;font-weight:400;color:#0079FE;">文化艺术类&nbsp; </span>
                 <span style="font-family:'FontAwesome', sans-serif;font-weight:400;font-size:13px;color:#999999;"> </span>
-                <span style="font-family:'微软雅黑', sans-serif;font-weight:400;font-size:13px;color:#999999;">招新信息</span>
+                <span style="font-family:'微软雅黑', sans-serif;font-weight:400;font-size:13px;color:#999999;">文章分类</span>
             </p>
             <p style="font-size:14px;">
                 <!-- 点赞 -->
                 <span style="font-family:'FontAwesome', sans-serif;font-weight:400;color:#999999;">&nbsp; </span>
-                <span style="font-family:'微软雅黑', sans-serif;font-weight:400;color:#999999;">7777&nbsp;&nbsp;</span>
+                <span style="font-family:'微软雅黑', sans-serif;font-weight:400;color:#999999;">{{thumbs}}&nbsp;&nbsp;</span>
                 <!-- 评论 -->
                 <span style="font-family:'FontAwesome', sans-serif;font-weight:400;color:#999999;"> </span>
-                <span style="font-family:'微软雅黑', sans-serif;font-weight:400;color:#999999;">100&nbsp; </span>
+                <span style="font-family:'微软雅黑', sans-serif;font-weight:400;color:#999999;">---&nbsp; </span>
                 <!-- 收藏 -->
                 <span style="font-family:'FontAwesome', sans-serif;font-weight:400;color:#999999;"> </span>
-                <span style="font-family:'微软雅黑', sans-serif;font-weight:400;color:#999999;">100+&nbsp; </span>
+                <span style="font-family:'微软雅黑', sans-serif;font-weight:400;color:#999999;">---&nbsp; </span>
                 <!-- 浏览 -->
                 <span style="font-family:'FontAwesome', sans-serif;font-weight:400;color:#999999;"> </span>
-                <span style="font-family:'微软雅黑', sans-serif;font-weight:400;color:#999999;">33333&nbsp; &nbsp;&nbsp; </span>
+                <span style="font-family:'微软雅黑', sans-serif;font-weight:400;color:#999999;">---&nbsp; &nbsp;&nbsp; </span>
                 <!-- 日期 -->
                 <span style="font-family:'FontAwesome', sans-serif;font-weight:400;color:#999999;"> </span>
-                <span style="font-family:'微软雅黑', sans-serif;font-weight:400;color:#999999;">10-23 12:00</span>
+                <span style="font-family:'微软雅黑', sans-serif;font-weight:400;color:#999999;">{{date}}</span>
             </p>
         </div>
 
-        <div id="art-text" class="m-3">
-            这里是图文内容<br>
-            这里是图文内容<br>
-            这里是图文内容<br>
-            这里是图文内容<br>
-        </div>
+        <div v-html="context" id="art-text" class="mt-3 w-100"></div>
 
         <div class="m-3">
-            <span style="font-size: 13px; color:#999999;font-family:'FontAwesome', sans-serif;">&nbsp; 招新信息</span>
+            <span style="font-size: 13px; color:#999999;font-family:'FontAwesome', sans-serif;">&nbsp; 文章分类</span>
         </div>
 
         <div class="d-flex w-100 justify-content-center position-relative">
-            <button id="like" class="d-flex justify-content-center align-items-end">
+            <button @click="changeThumbState" id="like" class="d-flex justify-content-center align-items-end">
                 <p style="font-size:20px;">
-                    <span style="font-family:'FontAwesome', sans-serif;font-weight:400;"> </span>
-                    <span style="font-family:'微软雅黑', sans-serif;font-weight:400;font-size:14px;">点赞 50</span>
+                    <span v-bind:class="{'redtext': thumbOrNot}" style="font-family:'FontAwesome', sans-serif;font-weight:400;"> </span>
+                    <span style="font-family:'微软雅黑', sans-serif;font-weight:400;font-size:14px;">点赞 {{thumbs}}</span>
                 </p>
             </button>
 
@@ -70,17 +65,84 @@ export default {
     components:{},
     data(){
         return {
-
+            UserId:0,
+            post: null,
+            context: '',
+            title:'',
+            clubName:'',
+            thumbs: 0,
+            date:"10-23 12:00",
+            thumbOrNot:false,
         }
     },
     methods:{
-
+        showHtml(str){
+            return str
+            .replace(str ? /&(?!#?\w+;)/g : /&/g, '&amp;')
+            .replace(/&lt;/g,"<")
+            .replace(/&gt;/g,">")
+            .replace(/&quot;/g,"\"")
+            .replace(/&#39;/g, "\'")
+            .replace(/&amp;nbsp;/g,'\u3000')
+        },
+        changeThumbState(){
+            this.thumbOrNot=!this.thumbOrNot
+            var UserId=this.UserId
+            if(!UserId){
+                this.$router.push('/login')
+            }
+            this.$axios
+            .get('post/change_thumb_state', {
+                params:{
+                    PostId:this.PostId,
+                    UserId:UserId
+                }
+            })
+            .then(response =>{
+                console.log(response.data)
+            }
+            )
+        .catch(function (error) { // 请求失败处理
+            console.log(error);
+        });
+        }
     },
     created(){
 
     },
     mounted(){
-        
+        let that = this;
+        // console.log(that.$store.state.UserId)
+        var UserId=that.$store.state.UserId
+        this.UserId=UserId
+        //console.log(this.PostId)
+        if(String(UserId)){
+            this.IsLogin=true
+        }
+        this.$axios
+        .get('post/'+that.PostId, {params:{UserId:UserId}})
+        .then( response =>{
+            this.post = response.data;
+            // console.log(this.post);
+            this.title=this.post.title
+            this.clubName=this.post['club name']
+            this.thumbs=this.post.thumbs
+            this.thumbOrNot=this.post['thumbed or not']
+            // 解析html文本
+            if (this.post.context!=undefined){
+                this.context=that.showHtml(this.post.context)
+                console.log(this.post.context)
+            }
+            // 转化日期
+            if (this.post.lastModifyDate!=undefined){
+                var ct = new Date(this.post.lastModifyDate);
+                this.date=ct.Format('yyyy-MM-dd hh:mm')
+            }
+        }
+            )
+        .catch(function (error) { // 请求失败处理
+            console.log(error);
+        });
     }
 }
 </script>
@@ -139,8 +201,15 @@ export default {
     cursor: pointer;
 }
 
+.redtext {
+    color: rgb(77, 0, 0);
+}
 
-
+/* 穿透 */
+#art-text::v-deep img{
+  max-width: 100%;
+  object-fit: fill;
+}
 
 
 

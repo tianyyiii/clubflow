@@ -161,9 +161,10 @@ export default{
             //   var path = _this.$route.query.redirect
             //   _this.$router.replace({path: path === '/' || path === undefined ? '/admin/dashboard' : path})
             } else {
-                alert("登陆成功")
+                alert("登录成功")
                 var UserId = resp.data.id
-                _this.$store.commit('login', UserId)
+                var Role = resp.data.role
+                _this.$store.commit('login', UserId, Role)
                 // console.log("commit成功")
                 // const store = useStore();
                 console.log(_this.$store.state.UserId);

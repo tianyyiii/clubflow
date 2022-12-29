@@ -1,8 +1,8 @@
 <template>
     <!-- 导航栏 -->
-    <nav id="Nav" class="navbar navbar-expand-sm p-0">
+    <nav class="navbar navbar-expand-sm p-0">
         <!-- <ul class="navbar-nav"> -->
-        <ul class="nav col-12 col-md-4 d-flex me-auto">
+        <ul id="Nav" class="nav col-12 col-md-4 d-flex me-auto">
             <li class="nav-item ">
               <router-link to="/index" class="nav-link text-light">首页</router-link>
             </li>
@@ -12,49 +12,49 @@
                 社团社区
                 </router-link>
                 <ul class="dropdown-menu" style="border-radius: 2%; visibility: hidden;display: block">
-                <li>
-                    <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
-                        <img id="u177_img" class="img " src="@/assets/images/shetuanshequ_index/u184.png"/>
-                        思想政治
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
-                        <img class="img " src="@/assets/images/shetuanshequ_index/u184.png"/>
-                        公益服务
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
-                        <img class="img " src="@/assets/images/shetuanshequ_index/u184.png"/>
-                        文化艺术
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
-                        <img class="img " src="@/assets/images/shetuanshequ_index/u184.png"/>
-                        学术科技
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
-                        <img class="img " src="@/assets/images/shetuanshequ_index/u184.png"/>
-                        文化体育
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
-                        <img class="img " src="@/assets/images/shetuanshequ_index/u184.png"/>
-                        实践能力
-                    </a>
-                </li>
-                <li><hr class="dropdown-divider"></li>
-                <li>
-                    <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
-                        <img class="img " src="@/assets/images/shetuanshequ_index/说明_u177.svg"/>
-                        社团名录
-                    </a>
-                </li>
+                    <li>
+                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                            <img id="u177_img" class="img " src="@/assets/images/shetuanshequ_index/u184.png"/>
+                            思想政治
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                            <img class="img " src="@/assets/images/shetuanshequ_index/u184.png"/>
+                            公益服务
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                            <img class="img " src="@/assets/images/shetuanshequ_index/u184.png"/>
+                            文化艺术
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                            <img class="img " src="@/assets/images/shetuanshequ_index/u184.png"/>
+                            学术科技
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                            <img class="img " src="@/assets/images/shetuanshequ_index/u184.png"/>
+                            文化体育
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                            <img class="img " src="@/assets/images/shetuanshequ_index/u184.png"/>
+                            实践能力
+                        </a>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                            <img class="img " src="@/assets/images/shetuanshequ_index/说明_u177.svg"/>
+                            社团名录
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li class="nav-item">
@@ -77,38 +77,68 @@
 
 
         <!-- 登录头像 -->
-        <span class="pe-5">
-            <a class="image-button" href="#">
+        <span class="pe-5 dropdown">
+            <a @click="LoginOrJump" class="image-button" href="#">
                 <i class="fa fa-user-o" aria-hidden="true"></i>
             </a>
+            <a v-if="IsLogin" @click="logout" class="image-button ms-3" href="#">
+                <i class="fa fa-sign-out" aria-hidden="true"></i>
+            </a>
         </span>
+
+        
         
     </nav>
 </template>
 
 <script>
+import store from '@/store/index.js'
 export default {
     name: 'NavMenu',
     components: {},
     data: function () {
-      return {}
+      return {
+        IsLogin:false
+      }
     },
     created:function(){
+        if (String(store.state.UserId)){
+            this.IsLogin=true
+        }
+    },
+    methods:{
+        LoginOrJump(){
+            if(this.IsLogin){
+                this.$router.push('/userhome')
+            }else{
+                this.$router.push('/login')
+            }
+        },
+        logout(){
+            this.$store.commit('logout')
+            alert("已退出登录！")
+            this.$router.push('/login')
+        }
     },
     mounted:function(){
-      $("#Nav .dropdown").mouseenter(function(){
-        var top=$("#Nav .nav-link").offset().top+$("#Nav .nav-link").height(); 
-        var left=$("#Nav .nav-item").offset().left;
+        $("#Nav .dropdown").mouseenter(function(){
+            var top=$("#Nav .nav-link").offset().top+$("#Nav .nav-link").height(); 
+            var left=$("#Nav .nav-item").offset().left;
 
-        console.log(left);
-        $("#Nav .dropdown-menu").css({"visibility": "visible","top":top*2, "left":left-10});
-        
-      $("Nav .dropdown-menu").show();
-    });
-    $("#Nav .dropdown").mouseleave(function(){
-        $("#Nav .dropdown-menu").css({"visibility": "hidden"});
-      $("#Nav .dropdown-menu").hide();
-    });
+            // console.log(left);
+            // console.log(top);
+            $("#Nav .dropdown-menu").css({"visibility": "visible","top":top*2, "left":left-10});
+            
+            $("Nav .dropdown-menu").show();
+        });
+        $("#Nav .dropdown").mouseleave(function(){
+            $("#Nav .dropdown-menu").css({"visibility": "hidden"});
+            $("#Nav .dropdown-menu").hide();
+        });
+
+        if(this.IsLogin){
+
+        }
     }
   }
 
@@ -150,6 +180,10 @@ export default {
   border-color:var(--activecolor);
 }
 .dropdown-menu {
+  background-color: var(--greycolor);
+  border-radius:0px;
+}
+.dropdown-menu-2 {
   background-color: var(--greycolor);
   border-radius:0px;
 }

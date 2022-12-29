@@ -21,7 +21,7 @@
         <div class="col-md-3 px-4">
             <!-- 协会信息 -->
             <div class="w-100">
-                <ClubInfo></ClubInfo>
+                <ClubInfo v-bind:ClubId="ClubId"></ClubInfo>
             </div>
             
             <!-- 热门文章 -->
@@ -45,13 +45,30 @@ import Post from './Post.vue'
     data(){
         return{
             PostId:0,
+            ClubId:0,
         }
     },
     methods: {
     },
-    mounted(){
+    created(){
         this.PostId=this.$route.query.PostId
         console.log(this.PostId)
+        var UserId=this.$store.state.UserId
+        console.log(UserId)
+        this.$axios
+        .get('post/'+this.PostId, {params:{UserId:UserId}})
+        .then( response =>{
+            console.log(response.data)
+            this.ClubId=response.data.club
+            console.log(this.ClubId)
+        }
+            )
+        .catch(function (error) { // 请求失败处理
+            console.log(error);
+        });
+    },
+    mounted(){
+        
 
     }
   }

@@ -150,7 +150,7 @@ export default{
             location.reload();
         }
         // var put={name:userName,passwd:pwd,role:role,profile:"0"};
-        var result_json={state:0,UserId:0,name:"0"};
+        var result_json={state:0,UserId:0,name:"0",role:0};
         var _this = this
         this.$axios
         .put('user/create',this.registerForm)
@@ -160,9 +160,10 @@ export default{
                 result_json.state=data.state;
                 result_json.UserId=data.id;
                 result_json.name=data.name;
+                result_json.role=data.role;
                 if(result_json.state==1){
                     alert("注册成功！");
-                    _this.$store.commit('login', result_json.UserId)
+                    _this.$store.commit('login', result_json.UserId, result_json.role)
                     // window.location.href = "./shetuanshequ_index.html?UserId="+result_json.UserId;
                     _this.$router.replace('/home')
                 }
