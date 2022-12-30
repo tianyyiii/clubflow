@@ -109,7 +109,6 @@ public class UserDao {
             System.out.println("yes");
             Map<String,Object> res1 = list.get(0);
             JSONObject res = new JSONObject(res1);
-
             return res;
         }
         catch(RuntimeException e){

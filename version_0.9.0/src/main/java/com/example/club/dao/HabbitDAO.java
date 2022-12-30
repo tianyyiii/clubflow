@@ -113,6 +113,24 @@ public class HabbitDAO {
 
 
     }
+
+    public List<Object> listallhabbits(){
+        try{
+            String sql = "select habbitId from habbit";
+            List<Map<String,Object>> list = jdbcTemplate.queryForList(sql);
+            List<Object> res = new ArrayList<>();
+            for (int i=0; i<list.size(); i++){
+                Map<String,Object> temp = list.get(i);
+                res.add(temp.get("habbitId"));
+            }
+            return res;
+        }
+        catch(RuntimeException e){
+            List<Object> res = null;
+            return res;
+        }
+
+    }
     public String viewAnnouncementbyHabbitId(int HabbitId){
         try{
             String sql = "select announcement from habbit where habbitid=?";

@@ -33,7 +33,7 @@ public class ClubPostDAO {
                 if (post.get("title").equals(posttitle))
                     return 0;
             }
-            System.out.println(inform);
+            //System.out.println(inform);
 
             // 更新club信息中的publicationsNum
             String sql1 = "select publicationsNum from club where clubId=?";

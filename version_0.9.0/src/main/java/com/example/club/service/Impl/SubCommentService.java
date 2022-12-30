@@ -108,7 +108,7 @@ public class SubCommentService {
             return res;
         }
         else{
-        JSONObject inform=subCommentDAO.viewSubComment(SubCommentId);
+        JSONObject inform=subCommentDAO.viewSubComment(SubCommentId,UserId);
         int thumbs= (int) inform.get("thumbs");
         thumbs=thumbs+1;
         int state= subCommentDAO.thumb(SubCommentId,thumbs);
@@ -132,7 +132,7 @@ public class SubCommentService {
             return res;
         }
         else{
-        JSONObject inform=subCommentDAO.viewSubComment(SubCommentId);
+        JSONObject inform=subCommentDAO.viewSubComment(SubCommentId,UserId);
         int thumbs= (int) inform.get("thumbs");
         thumbs=thumbs-1;
         int state= subCommentDAO.unthumb(SubCommentId,thumbs);

@@ -98,7 +98,7 @@ public class PostService implements IPostService {
         for (int i=0; i<list.size(); i++){
             JSONObject temp = clubpostdao.listClubPosts((Integer) list.get(i));
             // 只取一个
-            System.out.println(temp);
+            // System.out.println(temp);
             res.put("club"+Integer.toString(i), temp.get("post1"));
         }
         return res;

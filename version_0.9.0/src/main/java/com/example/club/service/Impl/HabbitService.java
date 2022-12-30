@@ -120,6 +120,17 @@ public class HabbitService  {
         return res;
 
     }
+
+    public JSONObject viewAllHabbits(){
+        List<Object> list = clbdao.listallhabbits();
+        JSONObject res = new JSONObject();
+        for (int i=0; i<list.size(); i++){
+            JSONObject temp = clbdao.getHabbitbyId((Integer) list.get(i));
+            res.put("habbit"+Integer.toString(i), temp);
+        }
+        return res;
+
+    }
     public JSONObject subscribe(Integer HabbitId,Integer UserId){
         JSONObject res=new JSONObject();
         if (clbdao.checkSubscribebyUser(HabbitId,UserId)==1){

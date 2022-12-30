@@ -76,6 +76,28 @@ public class HabbitController {
 
 
     }
+    @GetMapping("/view_all_habbits")
+//    查看存在的所有社团列表
+    public JSONObject ViewAllHabbits(){
+/*        JSONObject ClubList=new JSONObject();
+        for (int i=1;i<3;i++)
+        {   JSONObject club=new JSONObject();
+            club.put("name","800号电影社");
+            club.put("category","文化艺术类");
+            club.put("fans number",10000);
+            club.put("publications number",100);
+            club.put("comments number",50);
+            club.put("inform","这是一个电影社团");
+            club.put("profile",imageUtil.ImageToBase64("C:\\Users\\26010\\Downloads\\club_project\\image\\tarkovsky.png"));
+            club.put("created time","2010-10-2");
+            club.put("subscribe",1);
+            ClubList.put("club"+Integer.toString(i),club);
+        }
+        return ClubList;*/
+        return habbitService.viewAllHabbits();
+
+
+    }
     @PostMapping("/subscribe")
     public JSONObject subscribe(int HabbitId,int UserId){
         return habbitService.subscribe(HabbitId,UserId);
