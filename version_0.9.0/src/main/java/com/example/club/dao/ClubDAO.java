@@ -64,7 +64,8 @@ public class ClubDAO {
             List<Map<String,Object>> list = jdbcTemplate.queryForList(sql, ClubId);
             Map<String,Object> club = list.get(0);
             JSONObject res = new JSONObject(club);
-            System.out.println(res);
+
+            //System.out.println(res);
             return res;
         }
         catch(RuntimeException e){
