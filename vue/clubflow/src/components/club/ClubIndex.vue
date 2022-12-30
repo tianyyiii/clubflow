@@ -1,22 +1,10 @@
 <template>
-        <!-- banner -->
-        <div class="container-fluid d-flex text-center justify-content-center p-0">
-        <img id="banner_img" class="img col-12 banner" src="@/assets/images/shetuanshequ_index/banner.png"/>
-        <img id="title_img" class="img position-absolute" src="@/assets/images/shetuanshequ_index/title.png"/>
-        
-        <div class="position-absolute" id="so">
-            <form>
-                <div class="input-group">               
-                    <span class="input-group-text opacity-25" id="searchicon1">
-                        <i class="fa fa-search" aria-hidden="true"></i>
-                    </span>
-                    <input type="text" id="main-searchbox" class="form-control opacity-50 border-0" onkeydown="onKeyDown(event)" 
-                        placeholder="请输入社团关键字……" aria-label="Search-content" aria-describedby="searchicon1"/>
-                </div>
-            </form>
-        </div>
+    <!-- banner -->
+    <div>
+        <ClubSearch></ClubSearch>
     </div>
     
+    <!-- 面包屑导航 -->
     <div class="container ms-3">
         <ul class="breadcrumb py-2 bg-opacity-100"  data-label="面包屑导航">
             <li><a class="mdaohang" href="#">首页</a></li>
@@ -27,73 +15,103 @@
 
     <!-- 社团分类 -->
     <SubTitle v-bind:subtitle="shetuanfenlei"></SubTitle>
-
     <div class="container-fluid mt-5 col-md-10 offset-md-1 justify-content-center row">
         <li id="card1" class="card me-5 mb-5 p-0" style="width:200px; height: 230px;border-radius: 0;">
-            <div class="img-default justify-content-center align-items-center">
-                <p><span></span></p>
+            <!-- 遮罩 -->
+            <div class="position-absolute cover" style="width: 100%; height:166px; background-color: #a93931; z-index: 2; opacity: 50%;display:none; "></div>
+            <div class="arrow" style="z-index: 3;position: absolute;text-align: center;width: 100%;top: 50px;display:none;">
+                <img style="width:36px;height:36px;" src="@/assets/images/clubspace/u40.svg"/>
             </div>
-            <!-- <img class="card-img-top" src="https://static.runoob.com/images/mix/img_avatar.png" alt="Card image" style="max-height:73%"> -->
+            <!-- 图片部分 -->
+            <div class="card-img w-100" style="height: 166px; z-index: 1;">
+                <img src="@/assets/images/common/default_img.png" alt="社团头像">
+            </div>
+            <!-- 文字部分 -->
             <div class="card-body pt-2 px-0 pb-0">
               <h5 class="card-title text-center" style="font-size: 16px; font-weight: 900;">思想政治</h5>
               <div class="w-100 d-flex justify-content-end p-0">
                 <a href="#" class="btn p-1 pure-text-btn">查看更多>></a></div>
             </div>
         </li>
-
-        <li id="card2" class="card me-5 mb-5 p-0" style="width:200px; height: 230px; border-radius: 0;">
-            <div class="img-default justify-content-center align-items-center">
-                <p><span></span></p>
+        <li id="card1" class="card me-5 mb-5 p-0" style="width:200px; height: 230px;border-radius: 0;">
+            <!-- 遮罩 -->
+            <div class="position-absolute cover" style="width: 100%; height:166px; background-color: #a93931; z-index: 2; opacity: 50%;display:none; "></div>
+            <div class="arrow" style="z-index: 3;position: absolute;text-align: center;width: 100%;top: 50px;display:none;">
+                <img style="width:36px;height:36px;" src="@/assets/images/clubspace/u40.svg"/>
             </div>
-            <!-- <img class="card-img-top" src="https://static.runoob.com/images/mix/img_avatar.png" alt="Card image" style="max-height:73%"> -->
+            <!-- 图片部分 -->
+            <div class="card-img w-100" style="height: 166px; z-index: 1;">
+                <img src="@/assets/images/common/default_img.png" alt="社团头像">
+            </div>
+            <!-- 文字部分 -->
             <div class="card-body pt-2 px-0 pb-0">
               <h5 class="card-title text-center" style="font-size: 16px; font-weight: 900;">公益服务</h5>
               <div class="w-100 d-flex justify-content-end p-0">
                 <a href="#" class="btn p-1 pure-text-btn">查看更多>></a></div>
             </div>
         </li>
-
-        <li id="card3" class="card me-5 mb-5 p-0" style="width:200px; height: 230px; border-radius: 0;">
-            <div class="img-default justify-content-center align-items-center">
-                <p><span></span></p>
+        <li id="card1" class="card me-5 mb-5 p-0" style="width:200px; height: 230px;border-radius: 0;">
+            <!-- 遮罩 -->
+            <div class="position-absolute cover" style="width: 100%; height:166px; background-color: #a93931; z-index: 2; opacity: 50%;display:none; "></div>
+            <div class="arrow" style="z-index: 3;position: absolute;text-align: center;width: 100%;top: 50px;display:none;">
+                <img style="width:36px;height:36px;" src="@/assets/images/clubspace/u40.svg"/>
             </div>
-            <!-- <img class="card-img-top" src="https://static.runoob.com/images/mix/img_avatar.png" alt="Card image" style="max-height:73%"> -->
+            <!-- 图片部分 -->
+            <div class="card-img w-100" style="height: 166px; z-index: 1;">
+                <img src="@/assets/images/common/default_img.png" alt="社团头像">
+            </div>
+            <!-- 文字部分 -->
             <div class="card-body pt-2 px-0 pb-0">
               <h5 class="card-title text-center" style="font-size: 16px; font-weight: 900;">文化艺术</h5>
               <div class="w-100 d-flex justify-content-end p-0">
                 <a href="#" class="btn p-1 pure-text-btn">查看更多>></a></div>
             </div>
         </li>
-
-        <li id="card4" class="card me-5 mb-5 p-0" style="width:200px; height: 230px; border-radius: 0;">
-            <div class="img-default justify-content-center align-items-center">
-                <p><span></span></p>
+        <li id="card1" class="card me-5 mb-5 p-0" style="width:200px; height: 230px;border-radius: 0;">
+            <!-- 遮罩 -->
+            <div class="position-absolute cover" style="width: 100%; height:166px; background-color: #a93931; z-index: 2; opacity: 50%;display:none; "></div>
+            <div class="arrow" style="z-index: 3;position: absolute;text-align: center;width: 100%;top: 50px;display:none;">
+                <img style="width:36px;height:36px;" src="@/assets/images/clubspace/u40.svg"/>
             </div>
-            <!-- <img class="card-img-top" src="https://static.runoob.com/images/mix/img_avatar.png" alt="Card image" style="max-height:73%"> -->
+            <!-- 图片部分 -->
+            <div class="card-img w-100" style="height: 166px; z-index: 1;">
+                <img src="@/assets/images/common/default_img.png" alt="社团头像">
+            </div>
+            <!-- 文字部分 -->
             <div class="card-body pt-2 px-0 pb-0">
               <h5 class="card-title text-center" style="font-size: 16px; font-weight: 900;">学术科技</h5>
               <div class="w-100 d-flex justify-content-end p-0">
                 <a href="#" class="btn p-1 pure-text-btn">查看更多>></a></div>
             </div>
         </li>
-
-        <li id="card5" class="card me-5 mb-5 p-0" style="width:200px; height: 230px; border-radius: 0;">
-            <div class="img-default justify-content-center align-items-center">
-                <p><span></span></p>
+        <li id="card1" class="card me-5 mb-5 p-0" style="width:200px; height: 230px;border-radius: 0;">
+            <!-- 遮罩 -->
+            <div class="position-absolute cover" style="width: 100%; height:166px; background-color: #a93931; z-index: 2; opacity: 50%;display:none; "></div>
+            <div class="arrow" style="z-index: 3;position: absolute;text-align: center;width: 100%;top: 50px;display:none;">
+                <img style="width:36px;height:36px;" src="@/assets/images/clubspace/u40.svg"/>
             </div>
-            <!-- <img class="card-img-top" src="https://static.runoob.com/images/mix/img_avatar.png" alt="Card image" style="max-height:73%"> -->
+            <!-- 图片部分 -->
+            <div class="card-img w-100" style="height: 166px; z-index: 1;">
+                <img src="@/assets/images/common/default_img.png" alt="社团头像">
+            </div>
+            <!-- 文字部分 -->
             <div class="card-body pt-2 px-0 pb-0">
               <h5 class="card-title text-center" style="font-size: 16px; font-weight: 900;">文化体育</h5>
               <div class="w-100 d-flex justify-content-end p-0">
                 <a href="#" class="btn p-1 pure-text-btn">查看更多>></a></div>
             </div>
         </li>
-
-        <li id="card6" class="card me-5 mb-5 p-0" style="width:200px; height: 230px; border-radius: 0;">
-            <div class="img-default justify-content-center align-items-center">
-                <p><span></span></p>
+        <li id="card1" class="card me-5 mb-5 p-0" style="width:200px; height: 230px;border-radius: 0;">
+            <!-- 遮罩 -->
+            <div class="position-absolute cover" style="width: 100%; height:166px; background-color: #a93931; z-index: 2; opacity: 50%;display:none; "></div>
+            <div class="arrow" style="z-index: 3;position: absolute;text-align: center;width: 100%;top: 50px;display:none;">
+                <img style="width:36px;height:36px;" src="@/assets/images/clubspace/u40.svg"/>
             </div>
-            <!-- <img class="card-img-top" src="https://static.runoob.com/images/mix/img_avatar.png" alt="Card image" style="max-height:73%"> -->
+            <!-- 图片部分 -->
+            <div class="card-img w-100" style="height: 166px; z-index: 1;">
+                <img src="@/assets/images/common/default_img.png" alt="社团头像">
+            </div>
+            <!-- 文字部分 -->
             <div class="card-body pt-2 px-0 pb-0">
               <h5 class="card-title text-center" style="font-size: 16px; font-weight: 900;">实践能力</h5>
               <div class="w-100 d-flex justify-content-end p-0">
@@ -109,9 +127,9 @@
             <p><span>不止于社团...</span></p>
         </h3>
         <span id="u78" class="text p-0 position-absolute">
-            <a class="p-0 btn pure-text-btn" id="u78_text" href="#" >
+            <router-link to="/habbitspace" class="p-0 btn pure-text-btn" id="u78_text">
                 了解爱好社区 <i class="fa fa-chevron-right" aria-hidden="true"></i>
-            </a>
+            </router-link>
         </span>
 
         <!-- 轮播 -->
@@ -127,22 +145,13 @@
             <!-- 轮播图片 -->
             <div class="carousel-inner d-flex" style="width: 540px; height: 303px;">
                 <div class="carousel-item active">
-                    <div class="img-default d-flex justify-content-center text-center align-items-center" style="height:100%;">
-                        <p><span></span></p>
-                    </div>
-                <!-- <img src="https://static.runoob.com/images/mix/img_fjords_wide.jpg" class="d-block" style="height:100%;"> -->
+                    <img src="@/assets/images/common/default_img-large.png" class="d-block" style="height:100%;width:100%;object-fit: cover;object-position: center;">
                 </div>
                 <div class="carousel-item">
-                    <div class="img-default d-flex justify-content-center text-center align-items-center" style="height:100%;">
-                        <p><span></span></p>
-                    </div>
-                <!-- <img src="https://static.runoob.com/images/mix/img_nature_wide.jpg" class="d-block" style="height:100%"> -->
+                    <img src="@/assets/images/common/default_img-large.png" class="d-block" style="height:100%;width:100%;object-fit: cover;object-position: center;">
                 </div>
                 <div class="carousel-item">
-                    <div class="img-default d-flex justify-content-center text-center align-items-center" style="height:100%;">
-                        <p><span></span></p>
-                    </div>
-                <!-- <img src="https://static.runoob.com/images/mix/img_mountains_wide.jpg" class="d-block" style="height:100%"> -->
+                    <img src="@/assets/images/common/default_img-large.png" class="d-block" style="height:100%;width:100%;object-fit: cover;object-position: center;">
                 </div>
             </div>
             
@@ -160,8 +169,6 @@
 
     <!-- 热门内容 -->
     <SubTitle v-bind:subtitle="remenneirong"></SubTitle>
-
-    
     <div class="row container-fluid d-flex justify-content-center my-5">
         <!-- 资讯栏 -->
         <div class="col-md-6 me-5" >
@@ -384,34 +391,34 @@
                 <!-- 登录状态 -->
                 <div v-if="IsLogin" class="list-group" style="border-radius: 0; border: 0; ">
                     <!-- 列表项 -->
-                    <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3 overflow-hidden" aria-current="true">
+                    <a @click="jumpToPost(post_notice.postId)" class="list-group-item list-group-item-action d-flex gap-3 py-3 overflow-hidden" aria-current="true">
                         <div class="gap-2 w-100 position-relative">
                             <div class="d-flex w-100 justify-content-between">
                                 <div>
                                     <h6 class="mb-0" style="font-family:'微软雅黑', sans-serif; font-weight: 600; font-size:16px;">
-                                        [招新]2022年秋季招新
+                                        {{post_notice.title}}
                                     </h6>
                                     <p class="textlines-overflow-2 mt-2 ms-1 mb-0" style="font-family:'微软雅黑', sans-serif; font-weight:400; font-size:13px;
                                         color:#999999; text-align:left;">
-                                        资讯内容
+                                        {{post_notice.context}}
                                     </p>
                                 </div>
                                 <small class="opacity-50 text-nowrap" style="font-size: 12px;">
-                                    <i class="fa fa-clock-o" aria-hidden="true"></i> 12-13 16:00
+                                    <i class="fa fa-clock-o" aria-hidden="true"></i> {{post_notice.date}}
                                 </small>
                             </div>
                             <div class="d-flex w-100 position-absolute bottom-0 justify-content-between align-items-baseline">
                                 <div class="d-inline-flex align-items-center">
                                     <div class="user-img-box flex-shrink-0" style="width:24px; height:24px; overflow:hidden" >
-                                        <img src="@/assets/images/common/default_user.png">
+                                        <img :src="post_notice['club profile']">
                                     </div>
                                     <span class="ms-2" style="font-family:'微软雅黑', sans-serif; font-weight:400; font-size:12px;
-                                            color:#999999;">xx协会
+                                            color:#999999;">{{post_notice['club name']}}
                                     </span>
                                 </div>
                                 <p class="m-0" style="font-family:'FontAwesome', '微软雅黑', sans-serif; font-weight:400; font-size:13px;
                                 color:#999999;">
-                                     6666&nbsp;  7777&nbsp;  33333
+                                     {{post_notice['thumbs-up num']}}&nbsp;  {{post_notice['comments num']}}&nbsp;  --
                                 </p>
                             </div>
                         </div>
@@ -437,11 +444,11 @@
 
 <script>
 import SubTitle from '../common/SubTitle.vue';
-
+import ClubSearch from './ClubSearch.vue';
     export default{
     name:"ClubIndex",
     components:{
-        SubTitle
+        SubTitle, ClubSearch
     },
     data () {
         return {
@@ -450,7 +457,25 @@ import SubTitle from '../common/SubTitle.vue';
             IsLogin: false,
             gengduofaxian:"更多发现",
             remenneirong:"热门内容",
-            shetuanfenlei:"社团分类"
+            shetuanfenlei:"社团分类",
+            post_notice:{
+                clubId:0,
+                "club name":"xx协会",
+                "club profile":require("@/assets/images/common/default_user.png"),
+                "comments num":0,
+                context:"您关注的协会没有最新信息",
+                date:"12-30 00:00",
+                image:"",
+                postId:0,
+                "thumbs-up num":0,
+                title:"[--]您关注的协会没有最新信息"
+            }
+        }
+    },
+    created(){
+        var UserId=this.$store.state.UserId
+        if(String(UserId)){
+            this.IsLogin=true
         }
     },
     methods :{
@@ -499,12 +524,23 @@ import SubTitle from '../common/SubTitle.vue';
         }
     },
     mounted () {
+        // 动画
+        $(".card-img").mouseenter(function(){
+            var cover=$(this).siblings(".cover")
+            cover.slideDown()
+            var arrow=$(this).siblings(".arrow")
+            arrow.delay("fast").fadeIn()
+        });
+        $(".card").mouseleave(function(){
+            var arrow=$(this).children(".arrow")
+            arrow.fadeOut("fast")
+            var cover=$(this).children(".cover")
+            cover.delay("fast").slideUp()
+        });
+
         let that = this;
         // console.log(that.$store.state.UserId)
         var UserId=that.$store.state.UserId
-        if(String(UserId)){
-            this.IsLogin=true
-        }
         this.$axios
         .get('post/view_list')
         .then( response =>{
@@ -536,21 +572,43 @@ import SubTitle from '../common/SubTitle.vue';
                 }
             })
             // 转化日期
-            
             this.posts_json.forEach(function(post){
                 if (post.date!=undefined){
                     var ct = new Date(post.date);
                     post.date=ct.Format('yyyy-MM-dd hh:mm')
                 }
             })
-            // console.log(this.posts_json.context)
-            // console.log(this.posts_json[0]['haveimage']);
-            // console.log(this.posts_json[0]['haveclub profile']);
+        })
+        .catch(function (error) { // 请求失败处理
+            console.log(error);
+        });
 
-            // alert(this.posts);
-            // alert(this.posts_json)
-        }
-            )
+        that = this
+        // 消息通知栏
+        this.$axios
+        .get('post/view_user_subscribed',{params:{UserId:UserId}})
+        .then(resp =>{
+            console.log(resp.data.club0)
+            if(resp.data.club0!=undefined){
+                this.post_notice = resp.data.club0;
+                // console.log(this.post_notice)
+                // 验证是否有图片域
+                var a = that.checkImgUrl(this.post_notice['club profile'])
+                if(!a){
+                    this.post_notice['club profile']=require("@/assets/images/common/default_user.png")
+                }
+                // 解析html文本
+                if (this.post_notice.context!=undefined){
+                    this.post_notice.context=that.getPlainText(this.post_notice.context)
+                }
+                // 转化日期
+                if (this.post_notice.date!=undefined){
+                    var ct = new Date(this.post_notice.date);
+                    this.post_notice.date=ct.Format('yyyy-MM-dd hh:mm')
+                }
+            }
+            
+        })
         .catch(function (error) { // 请求失败处理
             console.log(error);
         });
@@ -560,31 +618,6 @@ import SubTitle from '../common/SubTitle.vue';
 </script>
 
 <style scoped>
-
-#banner_img {
-    z-index: -1;
-}
-
-#title-text {
-    font-family: NGlipingshouxie, sans-serif;
-    top:30%;
-}
-#title_img {
-    top: 237px;
-    width: 250px;
-}
-
-#so {
-    top: 380px;
-    width: 32%;
-}
-
-#main-searchbox {
-    padding-left: 20px;
-    border-radius: 0;
-    height: 60px;
-    font-size: 12px;
-}
 
 .breadcrumb > li + li:before {
     color: #CCCCCC;
@@ -620,7 +653,15 @@ import SubTitle from '../common/SubTitle.vue';
     color:#FFFFFF;
     text-align: center;
 }
-
+.card img {
+    /* max-width:153px; */
+    object-fit: cover; /* background-size */
+    object-position: center; /* 类似background-position */
+    /* 图片必须width和height为100% */
+    width:100%;
+    height: 100%;
+    /* _width:expression( this.width > 153 ? "153px" : this.width); */
+}
 #middle-banner{
     height: 446px;
     background-image: url('@/assets/images/shetuanshequ_index/中部背景.png');
@@ -719,15 +760,7 @@ import SubTitle from '../common/SubTitle.vue';
     /* _width:expression( this.width > 24 ? "24px" : this.width); */
 }
 
-.textlines-overflow-2 {
-    /* 最多两行 */
-    display: -webkit-box;  /*弹性伸缩盒子*/
-    -webkit-box-orient: vertical;/*垂直排列*/
-    line-clamp: 2;
-    -webkit-line-clamp: 2;  /*只显示2行*/
-    overflow: hidden;   /*溢出隐藏*/
-    text-overflow: ellipsis;   /*省略号代替*/
-}
+
 
 .mybg-1 {
     z-index: -1;

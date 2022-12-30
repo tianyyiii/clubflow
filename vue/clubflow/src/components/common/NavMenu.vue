@@ -8,7 +8,7 @@
             </li>
              <!-- Dropdown -->
              <li class="nav-item active dropdown">
-                <router-link to="/index" class="nav-link text-light" id="navbardrop" data-bs-toggle="dropdown">
+                <router-link to="/clubspace" class="nav-link text-light" id="navbardrop">
                 社团社区
                 </router-link>
                 <ul class="dropdown-menu" style="border-radius: 2%; visibility: hidden;display: block">
@@ -58,7 +58,7 @@
                 </ul>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-light" href="#">爱好社区</a>
+              <router-link to="/habbitspace" class="nav-link text-light" href="#">爱好社区</router-link>
             </li>
             <li class="nav-item">
               <a class="nav-link text-light disabled" href="#">其他</a>
@@ -78,12 +78,12 @@
 
         <!-- 登录头像 -->
         <span class="pe-5 dropdown">
-            <a @click="LoginOrJump" class="image-button" href="#">
+            <button @click="LoginOrJump" class="image-button">
                 <i class="fa fa-user-o" aria-hidden="true"></i>
-            </a>
-            <a v-if="IsLogin" @click="logout" class="image-button ms-3" href="#">
+            </button>
+            <button v-if="IsLogin" @click="logout" class="image-button ms-3">
                 <i class="fa fa-sign-out" aria-hidden="true"></i>
-            </a>
+            </button>
         </span>
 
         

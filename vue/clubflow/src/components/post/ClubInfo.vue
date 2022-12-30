@@ -150,12 +150,16 @@
 </template>
 
 <script>
+import { useRoute } from 'vue-router';
+
 export default {
     name: 'ClubInfo',
     props: ['ClubId'],
     components: {},
     data: function () {
       return {
+        UserId:0,
+        IsLogin:false,
         Club:0,
         ClubInfo:{
             CreateTime:'2011-03-30',
@@ -210,52 +214,59 @@ export default {
         // 关注
         subOrUnsub(){
             // 检查是否登录
-            if(!this.$store.state.UserId){
+            if(!this.IsLogin){
                 alert("请先登录！")
                 this.$router.push('/login')
             }
-            if(this.ClubInfo.Subscribe){
-                let _this = this
-                this.$axios
-                .post('/club/unsubscribe', { 
-                    ClubId: this.Club,
-                    UserId: _this.$store.state.UserId
-                })
-                .then(resp => {
-                    if (resp.data.state === 1) {
-                        console.log(resp.data)
-                        alert("取消成功！")
-                        location.reload() // 刷新页面
-                    } else {
-                        alert(resp.data.error)
-                    }
-                })
-                .catch(failResponse => {
-                    alert("取消失败！")
-                })
-            } else {
-                let _this = this
-                this.$axios
-                .post('/club/subscribe', { 
-                    ClubId: this.Club,
-                    UserId: _this.$store.state.UserId
-                })
-                .then(resp => {
-                    if (resp.data.state === 1) {
-                        console.log(resp.data)
-                        alert("关注成功！")
-                        location.reload() // 刷新页面
-                    } else {
-                        alert(resp.data.error)
-                    }
-                })
-                .catch(failResponse => {
-                    alert("关注失败！")
-                })
+            else{
+                if(this.ClubInfo.Subscribe){
+                    this.$axios
+                    .post('/club/unsubscribe', { 
+                        ClubId: this.Club,
+                        UserId: this.UserId
+                    })
+                    .then(resp => {
+                        if (resp.data.state === 1) {
+                            // console.log(resp.data)
+                            alert("取消成功！")
+                            location.reload() // 刷新页面
+                        } else {
+                            alert(resp.data.error)
+                        }
+                    })
+                    .catch(failResponse => {
+                        alert("取消失败！")
+                    })
+                } else {
+                    this.$axios
+                    .post('/club/subscribe', { 
+                        ClubId: this.Club,
+                        UserId: this.UserId
+                    })
+                    .then(resp => {
+                        if (resp.data.state === 1) {
+                            console.log(resp.data)
+                            alert("关注成功！")
+                            location.reload() // 刷新页面
+                        } else {
+                            alert(resp.data.error)
+                        }
+                    })
+                    .catch(failResponse => {
+                        alert("关注失败！")
+                    })
+                }
             }
+            
         }
     },
     created:function(){
+        this.UserId=this.$store.state.UserId
+        if(!String(this.UserId)){
+            this.UserId=0
+        }else{
+            this.IsLogin=true
+        }
     },
     watch: {
         ClubId: {
@@ -264,14 +275,18 @@ export default {
             deep: true,
             handler(newVal, oldVal) {
                 // console.log(newVal, "newVal");
+                if(this.Club!=0){
+                    // console.log(this.Club)
+                    return
+                }
                 this.Club=newVal;
-                console.log(this.Club)
-                var UserId=this.$store.state.UserId
+                // console.log(this.Club)
+                var UserId=this.UserId
                 this.$axios
                 .get('/club/view',{params:{ClubId:this.Club,UserId:UserId}})
                 .then(
                     resp => {
-                        console.log(resp)
+                        // console.log(resp)
                         var ct = new Date(resp.data['created time']);
                         this.ClubInfo.CreateTime=ct.Format('yyyy-MM-dd')
                         this.ClubInfo.Name=resp.data.name
@@ -295,9 +310,6 @@ export default {
         }
     },
     mounted:function(){
-        // console.log(this.ClubId)
-        // console.log(this.Club)
-        
     }
   }
 </script>

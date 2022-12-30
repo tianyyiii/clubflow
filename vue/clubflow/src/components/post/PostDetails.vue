@@ -46,15 +46,22 @@ import Post from './Post.vue'
         return{
             PostId:0,
             ClubId:0,
+            UserId:0
         }
     },
     methods: {
     },
     created(){
         this.PostId=this.$route.query.PostId
-        console.log(this.PostId)
-        var UserId=this.$store.state.UserId
-        console.log(UserId)
+        // console.log(this.PostId)
+        this.UserId=this.$store.state.UserId
+        if(!String(this.UserId)){
+            this.UserId=0
+        }else{
+            this.IsLogin=true
+        }
+        var UserId=this.UserId
+        // console.log(UserId)
         this.$axios
         .get('post/'+this.PostId, {params:{UserId:UserId}})
         .then( response =>{
