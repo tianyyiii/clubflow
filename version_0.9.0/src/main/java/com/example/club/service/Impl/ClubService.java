@@ -92,7 +92,7 @@ public class ClubService implements IClubService {
             res.put("subscribe",subscribe);
 
             //Club announcement
-            res.put("announcement",club.getInteger("announcement"));
+            res.put("announcement",club.getString("announcement"));
 
             res.put("inform", club.getString("clubInfo"));
             res.put("profile", club.getString("image"));
@@ -112,6 +112,18 @@ public class ClubService implements IClubService {
     @Override
     public JSONObject viewClubbyAccount(int UserId){
         List<Object> list = clbdao.listmyclubs(UserId);
+        JSONObject res = new JSONObject();
+        for (int i=0; i<list.size(); i++){
+            JSONObject temp = clbdao.getClubbyId((Integer) list.get(i));
+            res.put("club"+Integer.toString(i), temp);
+        }
+        return res;
+
+    }
+
+    @Override
+    public JSONObject viewAllClubs(){
+        List<Object> list = clbdao.listallclubs();
         JSONObject res = new JSONObject();
         for (int i=0; i<list.size(); i++){
             JSONObject temp = clbdao.getClubbyId((Integer) list.get(i));

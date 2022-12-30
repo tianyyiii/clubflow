@@ -14,6 +14,8 @@ public interface IPostService {
 
     public JSONObject viewPostsbyUser(int UserId);
 
+    public JSONObject viewPostsSubscribed(int UserId);
+
     public JSONObject viewPostsbyClub(int ClubId,int UserId);
 
     public JSONObject ThumbOrUnthumb(int PostId, int UserId);

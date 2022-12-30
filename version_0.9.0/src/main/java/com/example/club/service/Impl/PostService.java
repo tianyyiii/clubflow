@@ -1,17 +1,21 @@
 package com.example.club.service.Impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.club.dao.ClubDAO;
 import com.example.club.dao.ClubPostDAO;
 import com.example.club.service.IPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class PostService implements IPostService {
     @Autowired
     private ClubPostDAO clubpostdao;
+    @Autowired
+    private ClubDAO clbdao;
 
 //    private Random r=new Random();
     @Override
@@ -85,6 +89,19 @@ public class PostService implements IPostService {
         //state=2表示访问超时
         JSONObject inform = clubpostdao.listUserPosts(UserId);
         return inform;
+    }
+
+    @Override
+    public JSONObject viewPostsSubscribed(int UserId){
+        List<Object> list = clbdao.listmyclubs(UserId);
+        JSONObject res = new JSONObject();
+        for (int i=0; i<list.size(); i++){
+            JSONObject temp = clubpostdao.listClubPosts((Integer) list.get(i));
+            // 只取一个
+            System.out.println(temp);
+            res.put("club"+Integer.toString(i), temp.get("post1"));
+        }
+        return res;
     }
 
     @Override

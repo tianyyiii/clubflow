@@ -114,6 +114,26 @@ public class ClubDAO {
 
 
     }
+
+    public List<Object> listallclubs(){
+        try{
+            String sql = "select clubId from club";
+            List<Map<String,Object>> list = jdbcTemplate.queryForList(sql);
+            List<Object> res = new ArrayList<>();
+            for (int i=0; i<list.size(); i++){
+                Map<String,Object> temp = list.get(i);
+                res.add(temp.get("clubId"));
+            }
+            return res;
+        }
+        catch(RuntimeException e){
+            List<Object> res = null;
+            return res;
+        }
+
+    }
+
+
     public List<Object> listclubfans(int ClubId){
         /*        try catch需要重新改格式*/
         try{

@@ -48,12 +48,19 @@ public class PostController {
     }
 
 /*checked*/
+    // 查看用户创建的posts
     @GetMapping("/view_by_user")
     public JSONObject ViewPostsbyUser(int UserId){
         //state=1表示访问成功，形式是{“state”:1, "post1":JSONObject, "post2":JSONObject, ..., }
         //state=2表示访问超时
         System.out.println("aple");
         return postService.viewPostsbyUser(UserId);
+    }
+
+    // 查看用户关注社团的posts
+    @GetMapping("/view_user_subscribed")
+    public JSONObject ViewPostsSubscribed(int UserId){
+        return postService.viewPostsSubscribed(UserId);
     }
 
 /*checked*/
