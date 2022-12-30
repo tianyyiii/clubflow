@@ -4,6 +4,7 @@ export default createStore({
   state: {
     UserId: window.localStorage.getItem('UserId') == null ? '' : JSON.parse(window.localStorage.getItem('UserId' || '[]')),
     Role: window.localStorage.getItem('Role') == null ? 0 : JSON.parse(window.localStorage.getItem('UserId' || '[]')),
+    // role: 1 -- admin开发人员,   2 -- official account社团管理,   3 -- common user普通用户,   4 -- black user
   },
   getters: {
   },

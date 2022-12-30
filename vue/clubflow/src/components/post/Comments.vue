@@ -8,8 +8,15 @@
 
         <!-- 发表区 -->
         <div class="my-3 w-100 d-inline-flex">
-            <div id="user-img" class="user-img me-1 text-center" style="width: 10%; color:#999999;">
-
+            <div v-if="IsLogin" id="user-img" class="user-img me-1 text-center" style="width: 10%; color:#999999;">
+                <div>
+                    <img class="rounded-circle" :src="UserInfo.image" alt="用户头像" style="width: 46px; height: 46px;">
+                </div>
+                <div class="mt-2" title="请先登录" style="font-family:'微软雅黑', sans-serif; font-size:12px;">
+                    <span>{{ UserInfo.name }}</span>
+                </div>
+            </div>
+            <div v-else id="user-img" class="user-img me-1 text-center" style="width: 10%; color:#999999;">
                 <!-- <div class="default-img-big" style="font-family:'FontAwesome', sans-serif; font-size:48px; color:#CCCCCC;">
                     <span></span>
                 </div> -->
@@ -19,10 +26,16 @@
                 <div class="mt-2" title="请先登录" style="font-family:'微软雅黑', sans-serif; font-size:12px;">
                     <span>未登录</span>
                 </div>
-
             </div>
+
             <form class="ms-3 w-100" action="">
-                <fieldset disabled>
+                <div v-if="IsLogin">
+                    <div class="mb-3">
+                        <textarea id="comment-text" class="form-control" placeholder="请文明评论！" rows="5" name="text"></textarea>
+                    </div>
+                    <button title="发布评论" type="submit" class="btn btn-primary float-end" style="font-size:14px; width:80px">发布</button>
+                </div>
+                <fieldset v-else disabled>
                     <div class="mb-3">
                         <textarea id="comment-text" class="form-control" placeholder="您未登录，请先登录！" rows="5" name="text"></textarea>
                     </div>
@@ -280,14 +293,44 @@ export default {
     components:{},
     data(){
         return {
-
+            IsLogin:false,
+            UserId:0,
+            UserInfo:{
+                image:require("@/assets/images/common/default-user-round.png"),
+                name:""
+            }
         }
     },
     methods:{
-
+        checkImgUrl(str){
+            // str="http://localhost:8080/file/3232.jpg"
+            var r = /^http/g; // 检查是否是域名
+            var a = r.test(str) // true or false
+            return a
+        },
+        getUserInfo(UserId){
+            // 先拿到当前用户头像和名字
+            let _this = this
+            this.$axios
+            .get('user/view', {params:{UserIdtoView:UserId, UserId:UserId}})
+            .then( resp =>{
+                // console.log(resp.data)
+                if(resp.data.image && _this.checkImgUrl(resp.data.image)){
+                    this.UserInfo.image=resp.data.image
+                }
+                this.UserInfo.name=resp.data.name
+            })
+            .catch(function (error) { // 请求失败处理
+                console.log(error);
+            });
+        }
     },
     created(){
-
+        if(this.$store.state.UserId){
+            this.IsLogin=true
+            this.UserId=this.$store.state.UserId
+            this.getUserInfo(this.UserId)
+        }
     },
     mounted(){
         

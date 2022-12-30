@@ -63,7 +63,7 @@
                                     <i class="fa fa-user-circle" aria-hidden="true"></i>
                                 </div>
                                 <div id="password" class="input_boxes" data-label="输入框">
-                                    <input v-model="registerForm.passwd" id="password-input" type="password" placeholder="请输入JAccount登录密码" class="input text" maxlength="20"/>
+                                    <input v-model="registerForm.password" id="password-input" type="password" placeholder="请输入JAccount登录密码" class="input text" maxlength="20"/>
                                     <i class="fa fa-key" aria-hidden="true"></i>
                                 </div>
                                 <div id="nickname" class="input_boxes" data-label="输入框">
@@ -76,9 +76,10 @@
                             <div id="u1067" class="ax_default label">
                                 <span>请选择注册类型：</span>
                                 <div style="display: flex; align-items: center; margin-top: 8px; margin-bottom: 35px;">
-                                    <input type="radio" name="userType" value="1" style="font-size:12px; margin-left: 10px;" >&nbsp;社团管理员
-                                    <input type="radio" name="userType" value="0" style="font-size:12px;margin-left: 10px;" >&nbsp;普通用户
-                                    <input type="radio" name="userType" value="2" style="font-size:12px;margin-left: 10px;" >&nbsp;开发人员
+                                    <!-- role: 1 -- admin, 2 -- official account, 3 -- common user, 4 -- black user -->
+                                    <input type="radio" name="userType" value="2" style="font-size:12px; margin-left: 10px;" >&nbsp;社团管理员
+                                    <input type="radio" name="userType" value="3" style="font-size:12px;margin-left: 10px;" >&nbsp;普通用户
+                                    <input type="radio" name="userType" value="1" style="font-size:12px;margin-left: 10px;" >&nbsp;开发人员
                                 </div>
                             </div>
 
@@ -123,7 +124,7 @@ export default{
         return {
             registerForm:{
                 name:'',
-                passwd:'',
+                password:'',
                 nickName:'',
                 role:0,
                 profile:"0"
@@ -138,14 +139,12 @@ export default{
         // console.log(this.registerForm.role)
         if(!this.registerForm.role){
             alert("请勾选注册类型！");
-            location.reload();
         }
         // console.log(this.checked)
         if(!this.checked){
             alert("请勾选协议！");
-            location.reload();
         }
-        if(!this.registerForm.name || !this.registerForm.passwd){
+        if(!this.registerForm.name || !this.registerForm.password){
             alert("账号或密码不能为空！");
             location.reload();
         }

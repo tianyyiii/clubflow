@@ -118,6 +118,8 @@ export default {
         //console.log(this.PostId)
         if(String(UserId)){
             this.IsLogin=true
+        }else{
+            UserId=0
         }
         this.$axios
         .get('post/'+that.PostId, {params:{UserId:UserId}})

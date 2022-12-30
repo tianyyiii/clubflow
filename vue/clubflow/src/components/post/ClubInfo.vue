@@ -209,6 +209,11 @@ export default {
 
         // 关注
         subOrUnsub(){
+            // 检查是否登录
+            if(!this.$store.state.UserId){
+                alert("请先登录！")
+                this.$router.push('/login')
+            }
             if(this.ClubInfo.Subscribe){
                 let _this = this
                 this.$axios

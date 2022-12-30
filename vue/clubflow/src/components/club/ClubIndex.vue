@@ -457,12 +457,20 @@ import SubTitle from '../common/SubTitle.vue';
         jumpToPost(postId){
             this.$router.push({path:'/postdetails',query:{PostId:postId}})
         },
+        checkImgUrl(str){
+            // str="http://localhost:8080/file/3232.jpg"
+            var r = /^http/g; // 检查是否是域名
+            var a = r.test(str) // true or false
+            return a
+        },
         check_img_fields : function(field){
             // 检查是否有图片，没有则设havefield为false，field为 'img' 或 'club profile' 等键值
+            let _this = this
             this.posts_json.forEach(function(post){
-            if (post[field]==undefined || post[field]==''){
-            post['have'+field]=false;
-            }
+                // console.log(_this.checkImgUrl(post[field]))
+                if (post[field]==undefined || post[field]=='' || !_this.checkImgUrl(post[field])){
+                    post['have'+field]=false;
+                }
                 else {
                     post['have'+field]=true;
                     // post[field+'forurl']="data:image/png;base64,"+post[field];//html标签的src中的url
