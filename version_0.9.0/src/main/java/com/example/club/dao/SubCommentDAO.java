@@ -9,9 +9,11 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.security.PublicKey;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -79,21 +81,41 @@ public class SubCommentDAO {
 
     }
 
-    public JSONObject viewSubComment(Integer id){
-        try{
-            String sql = "select * from subcomment where subcommentId=?";
-            List<Map<String,Object>> list = jdbcTemplate.queryForList(sql, id);
-            Map<String,Object> res1 = list.get(0);
-            JSONObject res = new JSONObject(res1);
-            return res;
-
+    //返回1表示已点赞，返回0表示未点赞
+    public int isthumbed(int SubcommentId, int UserId){
+        String sql = "select * from subcommnetthumb where thumberId=?";
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, UserId);
+        for (int i=0;i<list.size();++i){
+            Map<String, Object> tmp = list.get(i);
+            if (tmp.get("subcommmentId").equals(SubcommentId)){
+                return 1;
+            }
         }
-        catch(RuntimeException e){
-            JSONObject res=new JSONObject();
-            res.put("state",0);
-            return res;
-        }
+        return 0;
+    }
 
+    public JSONObject viewSubComment(int SubcommentId, int UserId){
+        String sql = "select * from subcomment where subcommentId=?";
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, UserId);
+        Map<String, Object> subcomment = list.get(0);
+        JSONObject res = new JSONObject(subcomment);
+        res.put("isthumbed", isthumbed(SubcommentId, UserId));
+        return res;
+
+    }
+
+    //这个函数需要显示某条主评论下所有的subcomments，并根据用户id显示是否已点赞
+    public List<JSONObject> viewSubcommentsByCommentId(int CommentId, int UserId){
+        String sql = "select subcommentId from subcomment where comment=?";
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, CommentId);
+        List<JSONObject> res = new ArrayList<>();
+        for(int i=0;i<list.size();++i){
+            Map<String, Object> tmp1 = list.get(i);
+            int subId = (int) tmp1.get("subcommentId");
+            JSONObject tmp = viewSubComment(subId, UserId);
+            res.add(tmp);
+        }
+        return res;
     }
 
     public int createThumb(JSONObject inform){
@@ -107,7 +129,7 @@ public class SubCommentDAO {
 
         }
         catch(RuntimeException e){
-            state=0;
+            state=2;
             return state;
         }
 
@@ -119,7 +141,7 @@ public class SubCommentDAO {
             return 1;
         }
         catch(RuntimeException e){
-            return 0;
+            return 2;
         }
     }
 
@@ -128,14 +150,14 @@ public class SubCommentDAO {
             String sql = "select * from subcommnetthumb where subcommmentId=? and thumberId=?";
             List<Map<String,Object>> list = jdbcTemplate.queryForList(sql,SubCommentId,UserId);
             if (list.isEmpty()){
-                return 2;
+                return 0;
             }
             else{
                 return 1;
             }
         }
         catch(RuntimeException e){
-            return 0;
+            return 2;
         }
 
     }
