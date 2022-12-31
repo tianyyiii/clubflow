@@ -266,11 +266,12 @@ export default {
     },
     created:function(){
         this.UserId=this.$store.state.UserId
-        if(!String(this.UserId)){
+        if(!this.UserId){
             this.UserId=0
         }else{
             this.IsLogin=true
         }
+        console.log(this.UserId)
     },
     watch: {
         ClubId: {
@@ -279,19 +280,24 @@ export default {
             deep: true,
             handler(newVal, oldVal) {
                 // console.log(newVal, "newVal");
-                if(this.Club!=0){
+                if(!newVal){
                     // console.log(this.Club)
                     return
                 }
+                this.UserId=this.$store.state.UserId
+                if(!this.UserId){
+                    this.UserId=0
+                }else{
+                    this.IsLogin=true
+                }
                 this.Club=newVal;
                 // console.log(this.Club)
-                var UserId=this.UserId
                 let that = this
                 this.$axios
-                .get('/club/view',{params:{ClubId:this.Club,UserId:UserId}})
+                .get('/club/view',{params:{ClubId:this.Club,UserId:this.UserId}})
                 .then(
                     resp => {
-                        // console.log(resp)
+                        console.log(resp)
                         var ct = new Date(resp.data['created time']);
                         this.ClubInfo.CreateTime=ct.Format('yyyy-MM-dd')
                         this.ClubInfo.Name=resp.data.name

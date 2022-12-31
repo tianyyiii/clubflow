@@ -41,8 +41,15 @@
 
 <script>
 export default {
-    name:"ClubBanner",
+    name:"UserBanner",
     components:{},
-    props:["ClubId"]
+    data(){
+        return{
+            UserId:0
+        }
+    },
+    created(){
+        this.UserId=this.$store.state.UserId
+    }
 }
 </script>
