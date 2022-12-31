@@ -46,10 +46,13 @@ public class ClubController {
     }
     /*checked*/
     @PostMapping("/modify")
-    public JSONObject ModifyClub(@RequestBody JSONObject inform,int ClubId,int UserId){
+    public JSONObject ModifyClub(@RequestBody JSONObject inform){
 /*        JSONObject state=new JSONObject();
         state.put("state",1);
         return state;*/
+        // ClubId UserId name inform image
+        int ClubId = inform.getIntValue("ClubId");
+        int UserId = inform.getIntValue("UserId");
         return clubService.modifyClub(inform,ClubId,UserId);
     }
    /* checked*/

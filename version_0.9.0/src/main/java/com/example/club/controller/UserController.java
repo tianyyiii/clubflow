@@ -39,6 +39,9 @@ public class UserController {
     @PostMapping("/modify/{UserId}")
     public JSONObject ModifyUser(@RequestBody JSONObject inform, @Max(value=1000,message="not more than 10") @PathVariable("UserId")int UserId){
 
+        System.out.println(inform);
+        System.out.println(UserId);
+        // name password profile
         return userService.modifyUser(inform,UserId);
     }
     /*checked*/

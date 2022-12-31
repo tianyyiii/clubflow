@@ -48,8 +48,8 @@ public class UserDao {
             List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
             for (int i=0; i<list.size(); ++i){
                 Map tmp = list.get(i);
-                if (tmp.get("name").equals(newUserName))
-                    return 0;
+                //if (tmp.get("name").equals(newUserName))
+                    //return 0;
             }
             jdbcTemplate.update("update account set name=?, passwd=?, image=? where id=?",
                     inform.getString("name"), inform.getString("password"),inform.getString("profile"), UserId);

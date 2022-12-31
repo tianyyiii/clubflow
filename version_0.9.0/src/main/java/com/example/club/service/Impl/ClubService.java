@@ -105,7 +105,6 @@ public class ClubService implements IClubService {
             res.put("created time", club.getString("createDate"));
             res.put("creator", club.getString("creator"));
             res.put("state",1);
-
             return res;
         }
         catch (RuntimeException e){

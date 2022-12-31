@@ -49,7 +49,7 @@ public class ClubDAO {
             }
 
             jdbcTemplate.update("update club set clubName=?,clubInfo=?,image=? where clubId=?",
-                    inform.getString("name"), inform.getString("inform"),1, ClubId);
+                    inform.getString("name"), inform.getString("inform"),inform.getString("image"), ClubId);
             return 1;
         }
         catch(RuntimeException e){
