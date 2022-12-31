@@ -3,7 +3,7 @@
     <div class="w-100">
 
         <!-- 社团名片 -->
-        <div id="id-card" class="px-3 d-inline-flex w-100" style="background-color:rgb(228, 228, 228); padding-top: 30px; padding-bottom: 30px;">
+        <div @click="jumpToClub" id="id-card" class="px-3 d-inline-flex w-100" style="background-color:rgb(228, 228, 228); padding-top: 30px; padding-bottom: 30px;">
             <!-- <img src="@/assets/images/common/default-user-square-dark.png" style="width: 74px; height: 74px;" alt="用户头像"> -->
             <img :src="ClubInfo.Profile" style="width: 74px; height: 74px;" alt="用户头像">
             <div class="ms-4 w-100">
@@ -97,7 +97,7 @@
                 {{ ClubInfo.Announcement }}
             </div>
             <div class="w-100 pe-4 d-flex justify-content-end">
-                <button style="font-family:'Cambria', sans-serif; font-size:13px;">
+                <button @click="jumpToClub" style="font-family:'Cambria', sans-serif; font-size:13px;">
                     >> more
                 </button>
             </div>
@@ -150,7 +150,6 @@
 </template>
 
 <script>
-import { useRoute } from 'vue-router';
 
 export default {
     name: 'ClubInfo',
@@ -258,6 +257,11 @@ export default {
                 }
             }
             
+        },
+
+        // 去社团展示页
+        jumpToClub(){
+            this.$router.push({path:'/clubhome',query:{ClubId:this.Club}})
         }
     },
     created:function(){
@@ -282,6 +286,7 @@ export default {
                 this.Club=newVal;
                 // console.log(this.Club)
                 var UserId=this.UserId
+                let that = this
                 this.$axios
                 .get('/club/view',{params:{ClubId:this.Club,UserId:UserId}})
                 .then(
@@ -292,7 +297,7 @@ export default {
                         this.ClubInfo.Name=resp.data.name
                         this.ClubInfo.FansNumber=resp.data['fans number']
                         if(resp.data.profile){
-                            var a = this.checkImgUrl(resp.data.profile)
+                            var a = that.checkImgUrl(resp.data.profile)
                             // console.log(a)
                             if(a){this.ClubInfo.Profile=resp.data.profile}
                         }
@@ -315,6 +320,10 @@ export default {
 </script>
 
 <style scoped>
+
+#id-card:hover {
+    cursor: pointer;
+}
 
 
 .message-btn {

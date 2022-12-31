@@ -146,36 +146,38 @@ export default{
         if(!this.loginForm.verifycode){
             alert("请填写验证码");
             location.reload();
+        }else{
+            this.$axios
+            .get('/user/check', {params:{
+                    UserName: this.loginForm.username,
+                    Password: this.loginForm.password
+                }})
+            .then(resp => {
+                if (resp.data.state!=this.SuccessState) {
+                    alert("不存在该用户或密码错误！", {confirmButtonText: '确定'});
+                    location.reload(); // 刷新当前页面
+                //   var data = resp.data.result
+                //   _this.$store.commit('login', data)
+                //   var path = _this.$route.query.redirect
+                //   _this.$router.replace({path: path === '/' || path === undefined ? '/admin/dashboard' : path})
+                } else {
+                    alert("登录成功")
+                    var UserId = resp.data.id
+                    var Role = resp.data.role
+                    _this.$store.commit('login', {UserId:UserId, Role:Role})
+                    // console.log("commit成功")
+                    // const store = useStore();
+                    console.log(_this.$store.state.UserId);
+                    console.log(_this.$store.state.Role);
+                    var path = _this.$route.query.redirect
+                    // console.log(path)
+                    // alert(path)
+                    _this.$router.replace({path: (path === '/' || path === undefined) ? '/home' : path})
+                
+                }
+            })
+            .catch(failResponse => {})
         }
-        this.$axios
-          .get('/user/check', {params:{
-                UserName: this.loginForm.username,
-                Password: this.loginForm.password
-            }})
-          .then(resp => {
-            if (resp.data.state!=this.SuccessState) {
-                alert("不存在该用户或密码错误！", {confirmButtonText: '确定'});
-                location.reload(); // 刷新当前页面
-            //   var data = resp.data.result
-            //   _this.$store.commit('login', data)
-            //   var path = _this.$route.query.redirect
-            //   _this.$router.replace({path: path === '/' || path === undefined ? '/admin/dashboard' : path})
-            } else {
-                alert("登录成功")
-                var UserId = resp.data.id
-                var Role = resp.data.role
-                _this.$store.commit('login', UserId, Role)
-                // console.log("commit成功")
-                // const store = useStore();
-                console.log(_this.$store.state.UserId);
-                var path = _this.$route.query.redirect
-                // console.log(path)
-                // alert(path)
-                _this.$router.replace({path: (path === '/' || path === undefined) ? '/home' : path})
-            
-            }
-          })
-          .catch(failResponse => {})
       }
     }
 }

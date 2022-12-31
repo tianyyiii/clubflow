@@ -162,7 +162,7 @@ export default{
                 result_json.role=data.role;
                 if(result_json.state==1){
                     alert("注册成功！");
-                    _this.$store.commit('login', result_json.UserId, result_json.role)
+                    _this.$store.commit('login', {UserId:result_json.UserId, Role:result_json.role})
                     // window.location.href = "./shetuanshequ_index.html?UserId="+result_json.UserId;
                     _this.$router.replace('/home')
                 }

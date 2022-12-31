@@ -76,7 +76,7 @@ export default {
                 modules: {
                     ImageExtend: {
                         loading:true,
-                        name: 'file_name', // 参数名
+                        name: 'file', // 参数名
                         action: getCurrentInstance()?.appContext.config.globalProperties.$Baseurl + 'comment/image', // 服务器地址，如果为空则采用base64插入图片
                         headers: xhr => { // 设置请求头参数（选填）
                             //xhr.setRequestHeader('s', '疯狂星期四v50')

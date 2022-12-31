@@ -2,7 +2,8 @@ import {createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-// import './common/initHTMLeditor.js'
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
 
 
 import $ from 'jquery'
@@ -30,6 +31,7 @@ const app=createApp(App)
 
 app.use(store)
 app.use(router)
+app.use(ElementPlus)
 app.config.globalProperties.$axios = axios
 app.config.globalProperties.$Baseurl = BASE_URL //全局变量
 
@@ -59,7 +61,8 @@ router.beforeEach((to, from, next) => {
           next()
         } else {
           // console.log("转到别的页面")
-          // console.log(store.state.Role)
+          console.log(store.state.Role)
+          console.log(store.state.UserId)
           next({
             path: '/errornotoff',
             query: {redirect: to.fullPath}

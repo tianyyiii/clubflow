@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import Home from '../components/Home'
 
 const routes = [
@@ -115,14 +114,6 @@ const routes = [
     ]
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  },
-  {
     path: '/login',
     name: 'Login',
     component: () => import('../components/Login.vue'),
@@ -144,6 +135,15 @@ const routes = [
     path: '/errornotoff',
     name: 'ErrorNotOff',
     component: () => import('../components/pages/ErrorNotOff.vue'),
+    meta: {
+      requireAuth: false, // 不需要登录
+      requireClub: 0, // 1 => 需要社团管理员操作 ;  2 => 需要非社团管理员操作  ;  0 => 没有要求
+    }
+  },
+  {
+    path: '/upimage',
+    name: 'UpImage',
+    component: () => import('../components/common/UpImage.vue'),
     meta: {
       requireAuth: false, // 不需要登录
       requireClub: 0, // 1 => 需要社团管理员操作 ;  2 => 需要非社团管理员操作  ;  0 => 没有要求
