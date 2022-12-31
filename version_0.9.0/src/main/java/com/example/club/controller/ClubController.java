@@ -23,12 +23,25 @@ public class ClubController {
    /* checked*/
     @PermitAll
     @PutMapping("/create")
-    public JSONObject CreateClub(@RequestBody JSONObject inform,int UserId){
+    public JSONObject CreateClub(@RequestBody JSONObject inform){
 /*        JSONObject state=new JSONObject();
         state.put("state",1);
         state.put("club id",800);
         return state;*/
+//        需要：name inform profile UserId
+        int UserId = inform.getIntValue("UserId");
         return clubService.createClub(inform,UserId);
+
+    }
+
+    @GetMapping("/get_created_club")
+    public JSONObject GetCreatedClub(int UserId){
+/*        JSONObject state=new JSONObject();
+        state.put("state",1);
+        state.put("club id",800);
+        return state;*/
+//        state == 1 成功 ，state ==2 失败
+        return clubService.getCreatedClub(UserId);
 
     }
     /*checked*/
@@ -138,12 +151,17 @@ public class ClubController {
 /*inform get context,which is string*/
     /*checked*/
     @PutMapping("/announcement/create")
-    public JSONObject CreateAnnouncement(@RequestBody JSONObject inform,int ClubId,int UserId){
+    public JSONObject CreateAnnouncement(@RequestBody JSONObject inform){
+        int ClubId = inform.getIntValue("ClubId");
+        int UserId = inform.getIntValue("UserId");
+//        传入"context" "ClubId" "UserId"
         return clubService.createAnnouncement(inform, ClubId, UserId);
     }
     /*checked*/
     @PostMapping("/announcement/modify")
-    public JSONObject ModifyAnnouncement(@RequestBody JSONObject inform,int ClubId,int UserId){
+    public JSONObject ModifyAnnouncement(@RequestBody JSONObject inform){
+        int ClubId = inform.getIntValue("ClubId");
+        int UserId = inform.getIntValue("UserId");
         return clubService.modifyAnnouncement(inform, ClubId, UserId);
     }
     /*checked*/

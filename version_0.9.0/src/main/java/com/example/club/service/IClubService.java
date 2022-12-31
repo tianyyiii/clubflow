@@ -18,6 +18,8 @@ public interface IClubService {
 
     public JSONObject createClub(JSONObject inform, int UserId);
 
+    public  JSONObject getCreatedClub(int UserId);
+
     public JSONObject modifyClub(JSONObject inform,int ClubId,int UserId);
 
     public JSONObject viewClub(int ClubId,int UserId);

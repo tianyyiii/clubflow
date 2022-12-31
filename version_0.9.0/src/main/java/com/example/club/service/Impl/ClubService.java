@@ -52,6 +52,12 @@ public class ClubService implements IClubService {
     }
 
     @Override
+    public  JSONObject getCreatedClub(int UserId){
+        JSONObject res = clbdao.getClubbyCreatorId(UserId);
+        return res;
+    }
+
+    @Override
     public JSONObject modifyClub(JSONObject inform,int ClubId,int UserId){
         //modify club(ClubId), return state
 

@@ -58,6 +58,24 @@ public class ClubDAO {
 
     }
 
+    public JSONObject getClubbyCreatorId(int UserId){
+        try{
+            String sql = "select * from club where creator=?";
+            List<Map<String,Object>> list = jdbcTemplate.queryForList(sql, UserId);
+            Map<String,Object> club = list.get(0);
+            JSONObject res = new JSONObject(club);
+
+            //System.out.println(res);
+            return res;
+        }
+        catch(RuntimeException e){
+            JSONObject res = new JSONObject();
+            res.put("state",2);
+            res.put("UserId", UserId);
+            return res;
+        }
+    }
+
     public JSONObject getClubbyId(int ClubId){
         try{
             String sql = "select * from club where clubId=?";

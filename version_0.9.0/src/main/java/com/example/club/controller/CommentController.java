@@ -17,16 +17,16 @@ public class CommentController {
 
     // 上传图片到后端的资源文件夹
     @PostMapping("/image")
-    public JSONObject imageUpload(MultipartFile file_name) throws Exception {
+    public JSONObject imageUpload(MultipartFile file) throws Exception {
         String folder = "D:/workspace/img"; // 图片保存目录
         JSONObject res=new JSONObject();
         File imageFolder = new File(folder);
-        File f = new File(imageFolder, ImageUtil.getRandomString(6) + file_name.getOriginalFilename()
-                .substring(file_name.getOriginalFilename().length() - 4));
+        File f = new File(imageFolder, ImageUtil.getRandomString(6) + file.getOriginalFilename()
+                .substring(file.getOriginalFilename().length() - 4));
         if (!f.getParentFile().exists())
             f.getParentFile().mkdirs();
         try {
-            file_name.transferTo(f);
+            file.transferTo(f);
             String imgURL = "http://localhost:8080/file/" + f.getName();
             res.put("imgURL",imgURL);
             res.put("state",1); // success
