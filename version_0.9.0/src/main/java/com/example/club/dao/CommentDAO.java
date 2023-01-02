@@ -32,15 +32,19 @@ public class CommentDAO {
 
     //返回1表示已点赞，返回0表示未点赞
     public int isthumbed(int CommentId, int UserId){
-        String sql = "select * from commnetthumb where thumberId=?";
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, UserId);
-        for (int i=0;i<list.size();++i){
-            Map<String, Object> tmp = list.get(i);
-            if (tmp.get("commnetId").equals(CommentId)){
+        try{
+            String sql = "select * from commnetthumb where thumberId=?";
+            List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, UserId);
+            if(list.isEmpty()){
+                return 0;
+            }
+            else{
                 return 1;
             }
+        }catch (RuntimeException e){
+            return 2;
         }
-        return 0;
+
     }
 
 
@@ -90,36 +94,42 @@ public class CommentDAO {
         }
     }
 
-    public JSONObject thumb(int CommentId, int UserId){
+    public int thumb(int CommentId, int UserId){
         try{
             Date date = new Date();
             jdbcTemplate.update("insert into commnetthumb(commnetId, thumberId, lastThumbDate, state)",
                     CommentId, UserId, date, 1);
             jdbcTemplate.update("update comment set thumbs=thumbs+1 where commentId=?", CommentId);
 
-            JSONObject res = viewComment(CommentId, UserId);
-            return res;
+            return 1;
 
         }catch (RuntimeException e){
-            JSONObject res = new JSONObject();
-            res.put("state", 2);
-            return res;
+            return 2;
         }
 
     }
 
-    public JSONObject unthumb(int CommentId, int UserId){
+    public int unthumb(int CommentId, int UserId){
         try{
             jdbcTemplate.update("delete * from commnetthumb where commnetId=? AND thumberId=?",CommentId, UserId);
             jdbcTemplate.update("update comment set thumbs=thumbs-1 where commentId=?", CommentId);
 
-            JSONObject res = viewComment(CommentId, UserId);
-            return res;
+            return 1;
 
         }catch (RuntimeException e){
-            JSONObject res = new JSONObject();
-            res.put("state", 2);
-            return res;
+            return 2;
+        }
+    }
+
+    public int Check(int CommentId, int UserId){
+        String sql = "select thumberId from comment where commentId=?";
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, CommentId);
+        Map<String, Object> comment = list.get(0);
+        if(comment.get("commenter").equals(UserId)){
+            return 1;
+        }
+        else{
+            return 0;
         }
     }
 
