@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class SubCommentService {
@@ -22,124 +21,164 @@ public class SubCommentService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public JSONObject createSubComment(JSONObject inform,Integer CommentId){
-        JSONObject temp=new JSONObject();
+    public JSONObject createSubComment(JSONObject inform, Integer CommentId){
+        JSONObject temp = new JSONObject();
         Date date = new Date();
-        temp.put("subcommenter",inform.get("UserId"));
-        temp.put("context",inform.get("Context"));
+        temp.put("subcommenter", inform.get("UserId"));
+        temp.put("context", inform.get("Context"));
         temp.put("date", date);
-        temp.put("comment",CommentId);
-        temp.put("replyWho",userDao.getUserbyName((String) inform.get("ReplyWho")).get("id"));
-        temp.put("thumbs",0);
+        temp.put("comment", CommentId);
+        temp.put("replyWho", userDao.getUserbyName((String) inform.get("ReplyWho")).get("id"));
+        temp.put("thumbs", 0);
         int state;
         try{
             subCommentDAO.createSubComment(temp);
-            state=1;
+            state = 1;
             System.out.println("yes");
         }
         catch(RuntimeException e){
-            state=0;
+            state = 2;
         }
         JSONObject res=new JSONObject();
-        res.put("state",state);
+        res.put("state", state);
         return res;
-
-
 
     }
 
     public JSONObject modifySubComment(JSONObject inform,Integer SubCommentId){
-        JSONObject temp=new JSONObject();
-        Date date=new Date();
-        temp.put("context",inform.get("Context"));
-        temp.put("commnetDate",date);
-        temp.put("replyWho",userDao.getUserbyName((String) inform.get("ReplyWho")).get("id"));
+        JSONObject temp = new JSONObject();
+        Date date = new Date();
+        temp.put("context", inform.get("Context"));
+        temp.put("commnetDate", date);
+        temp.put("replyWho", userDao.getUserbyName((String) inform.get("ReplyWho")).get("id"));
         int state;
         try{
-            subCommentDAO.modifySubComment(temp,SubCommentId);
-            state=1;
+            subCommentDAO.modifySubComment(temp, SubCommentId);
+            state = 1;
         }
         catch(RuntimeException e){
-            state=0;
+            state = 2;
         }
-        JSONObject res=new JSONObject();
+        JSONObject res = new JSONObject();
         res.put("state",state);
         return res;
-
     }
 
     public JSONObject deleteSubComment(Integer SubCommentId){
         int state;
         try{
             subCommentDAO.deleteSubComment(SubCommentId);
-            state=1;
+            state = 1;
         }
         catch(RuntimeException e){
-            state=0;
+            state = 2;
         }
-        JSONObject res=new JSONObject();
-        res.put("state",state);
+        JSONObject res = new JSONObject();
+        res.put("state", state);
         return res;
-
     }
 
-/*这里的返回格式需要再改变*/
-    public JSONObject viewSubCommentbyComment(Integer CommentId,Integer UserId){
-        JSONObject res=new JSONObject();
-        String sql = "select * from subcomment where subcommentId=?";
-        List<Map<String,Object>> list = jdbcTemplate.queryForList(sql, CommentId);
+
+    public JSONObject viewSubCommentsbyComment(Integer CommentId,Integer UserId){
+       List<JSONObject> list = subCommentDAO.viewSubcommentsByCommentId(CommentId, UserId);
+       JSONObject res = new JSONObject();
         for (int i=0;i<list.size();i++){
-            Map<String,Object> res1= list.get(i);
-            JSONObject temp=new JSONObject(res1);
-            int thumbstate= subCommentDAO.checkThumbbyUser((Integer) temp.get("subcommentId"),UserId);
-            temp.put("thumbstate",thumbstate);
-            res.put("subcomment"+Integer.toString(i),temp);
-
+            JSONObject tmp = list.get(i);
+            res.put("subcomment"+Integer.toString(i), tmp);
         }
         return res;
     }
 
-
+    //返回0表示已经点过赞了，返回1表示点赞成功，返回2表示超时
     public JSONObject thumb(Integer SubCommentId,Integer UserId){
-        JSONObject res=new JSONObject();
-        if (subCommentDAO.checkThumbbyUser(SubCommentId,UserId)==1){
-            res.put("state",0);
-            res.put("error","already thumbed");
+//        JSONObject res=new JSONObject();
+//        if (subCommentDAO.checkThumbbyUser(SubCommentId,UserId)==1){
+//            res.put("state",0);
+//            res.put("error","already thumbed");
+//            return res;
+//        }
+//        else{
+//        JSONObject inform=subCommentDAO.viewSubComment(SubCommentId,UserId);
+//        int thumbs= (int) inform.get("thumbs");
+//        thumbs = thumbs+1;
+//        int state= subCommentDAO.thumb(SubCommentId,thumbs);
+//        JSONObject temp=new JSONObject();
+//        Date date=new Date();
+//        temp.put("subcommentid",SubCommentId);
+//        temp.put("thumberId",UserId);
+//        temp.put("state",1);
+//        temp.put("date",date);
+//        subCommentDAO.createThumb(temp);
+//        res.put("state",1);
+//        return res;}
+        int flag = subCommentDAO.isthumbed(SubCommentId, UserId);
+        if (flag==1){
+            JSONObject res = new JSONObject();
+            res.put("state", 0);
+            res.put("error", "already thumbed");
             return res;
         }
-        else{
-        JSONObject inform=subCommentDAO.viewSubComment(SubCommentId,UserId);
-        int thumbs= (int) inform.get("thumbs");
-        thumbs=thumbs+1;
-        int state= subCommentDAO.thumb(SubCommentId,thumbs);
-        JSONObject temp=new JSONObject();
-        Date date=new Date();
-        temp.put("subcommentid",SubCommentId);
-        temp.put("thumberId",UserId);
-        temp.put("state",1);
-        temp.put("date",date);
-        subCommentDAO.createThumb(temp);
-        res.put("state",1);
-        return res;}
+        else if (flag==0){
+            JSONObject inform = new JSONObject();
+            inform.put("subcommentId", SubCommentId);
+            inform.put("thumberId", UserId);
+            Date date = new Date();
+            inform.put("date", date);
+            int state = subCommentDAO.createThumb(inform);
+            JSONObject res = new JSONObject();
+            res.put("state", state);
+            return res;
 
+        }
+        else {
+            JSONObject res = new JSONObject();
+            res.put("state", flag);
+            res.put("error", "Runtime error");
+            return res;
+        }
     }
 
+    //state返回0表示本身就没点赞，返回1表示取消点赞成功，返回2表示超时
     public JSONObject unthumb(Integer SubCommentId,Integer UserId){
-        JSONObject res=new JSONObject();
-        if (subCommentDAO.checkThumbbyUser(SubCommentId,UserId)==2){
-            res.put("state",0);
-            res.put("error","haven't thumbed");
+//        JSONObject res=new JSONObject();
+//        if (subCommentDAO.checkThumbbyUser(SubCommentId,UserId)==2){
+//            res.put("state",0);
+//            res.put("error","haven't thumbed");
+//            return res;
+//        }
+//        else{
+//        JSONObject inform=subCommentDAO.viewSubComment(SubCommentId,UserId);
+//        int thumbs= (int) inform.get("thumbs");
+//        thumbs=thumbs-1;
+//        int state= subCommentDAO.unthumb(SubCommentId,thumbs);
+//        subCommentDAO.deleteThumb(SubCommentId,UserId);
+//        res.put("state",1);
+//        return res;}
+        int flag = subCommentDAO.isthumbed(SubCommentId, UserId);
+        if (flag==0){
+            JSONObject res = new JSONObject();
+            res.put("state", 0);
+            res.put("error", "already unthumbed");
             return res;
         }
-        else{
-        JSONObject inform=subCommentDAO.viewSubComment(SubCommentId,UserId);
-        int thumbs= (int) inform.get("thumbs");
-        thumbs=thumbs-1;
-        int state= subCommentDAO.unthumb(SubCommentId,thumbs);
-        subCommentDAO.deleteThumb(SubCommentId,UserId);
-        res.put("state",1);
-        return res;}
-    }
+        else if (flag==1){
+            JSONObject inform = new JSONObject();
+            inform.put("subcommentId", SubCommentId);
+            inform.put("thumberId", UserId);
+            Date date = new Date();
+            inform.put("date", date);
+            int state = subCommentDAO.deleteThumb(SubCommentId, UserId);
+            JSONObject res = new JSONObject();
+            res.put("state", state);
+            return res;
 
+        }
+        else {
+            JSONObject res = new JSONObject();
+            res.put("state", flag);
+            res.put("error", "Runtime error");
+            return res;
+        }
+    }
 
 }
