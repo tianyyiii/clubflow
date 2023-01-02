@@ -15,8 +15,8 @@ public class SubCommentController {
     private SubCommentService subCommentService;
     /*checked*/
     @PutMapping("/create")
-    public JSONObject createSubComment(@RequestBody JSONObject inform,Integer CommentId){
-        return subCommentService.createSubComment(inform,CommentId);
+    public JSONObject createSubComment(@RequestBody JSONObject inform,Integer SubcommentId){
+        return subCommentService.createSubComment(inform, SubcommentId);
     }
 /*checked*/
     @PostMapping("/modify")
@@ -33,7 +33,7 @@ public class SubCommentController {
 /*checked*/
     @GetMapping("/view")
     public JSONObject viewSubCommentbyComment(Integer CommentId,Integer UserId){
-        return subCommentService.viewSubCommentbyComment(CommentId,UserId);
+        return subCommentService.viewSubCommentsbyComment(CommentId,UserId);
 
     }
 /*checked*/

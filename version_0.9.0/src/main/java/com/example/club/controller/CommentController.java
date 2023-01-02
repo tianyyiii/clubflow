@@ -2,18 +2,57 @@ package com.example.club.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.club.service.Impl.CommentService;
 import com.example.club.utils.ImageUtil;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 
 @RestController
+@Api(tags="comment api")
 @RequestMapping("/comment")
 public class CommentController {
+    @Autowired
+    private CommentService commentService;
 
+
+    @PutMapping("/create")
+    public JSONObject createSubComment(@RequestBody JSONObject inform, Integer CommentId){
+        return commentService.createComment(inform, CommentId);
+    }
+
+    @PostMapping("/modify")
+    public JSONObject modifySubComment(@RequestBody JSONObject inform, Integer CommentId, Integer UserId){
+        return commentService.modifyComment(inform, CommentId, UserId);
+
+    }
+
+    @DeleteMapping("/delete")
+    public JSONObject deleteSubComment(Integer CommentId, Integer UserId){
+        return commentService.deleteComment(CommentId, UserId);
+
+    }
+
+    @GetMapping("/view")
+    public JSONObject viewSubCommentbyComment(Integer PostId, Integer UserId){
+        return commentService.viewCommentsByPost(PostId, UserId);
+
+    }
+
+    @PostMapping("/thumb")
+    public JSONObject thumb(Integer CommentId, Integer UserId){
+        return commentService.thumb(CommentId, UserId);
+
+    }
+
+    @PostMapping("/unthumb")
+    public JSONObject unthumb(Integer CommentId, Integer UserId){
+        return commentService.unthumb(CommentId, UserId);
+
+    }
 
     // 上传图片到后端的资源文件夹
     @PostMapping("/image")
