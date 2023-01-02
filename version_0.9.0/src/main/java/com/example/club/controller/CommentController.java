@@ -36,18 +36,21 @@ public class CommentController {
 
     }
 
+    //展示post下所有一级评论
     @GetMapping("/view")
     public JSONObject viewSubCommentbyComment(Integer PostId, Integer UserId){
         return commentService.viewCommentsByPost(PostId, UserId);
 
     }
 
+    //点赞，具体注释在service
     @PostMapping("/thumb")
     public JSONObject thumb(Integer CommentId, Integer UserId){
         return commentService.thumb(CommentId, UserId);
 
     }
 
+    //取消点赞，注释在service
     @PostMapping("/unthumb")
     public JSONObject unthumb(Integer CommentId, Integer UserId){
         return commentService.unthumb(CommentId, UserId);

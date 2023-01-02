@@ -31,18 +31,21 @@ public class SubCommentController {
 
     }
 /*checked*/
+    //展示comment下所有二级评论
     @GetMapping("/view")
     public JSONObject viewSubCommentbyComment(Integer CommentId,Integer UserId){
         return subCommentService.viewSubCommentsbyComment(CommentId,UserId);
 
     }
 /*checked*/
+    //注释在service
     @PostMapping("/thumb")
     public JSONObject thumb(Integer SubCommentId,Integer UserId){
         return subCommentService.thumb(SubCommentId,UserId);
 
     }
 /*checked*/
+    //注释在service
     @PostMapping("/unthumb")
     public JSONObject unthumb(Integer SubCommentId,Integer UserId){
         return subCommentService.unthumb(SubCommentId,UserId);
