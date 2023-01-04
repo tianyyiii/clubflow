@@ -21,6 +21,7 @@ public class CommentDAO {
 
     public int createcomment(JSONObject inform){
         try{
+            System.out.println(inform);
             jdbcTemplate.update("insert into comment (commenter, post, context, commentDate, thumbs) values (?,?,?,?,?)",
                     inform.getIntValue("commenter"), inform.getIntValue("post"), inform.getString("context"),
                     inform.getDate("commentDate"), 0);
@@ -33,8 +34,8 @@ public class CommentDAO {
     //返回1表示已点赞，返回0表示未点赞
     public int isthumbed(int CommentId, int UserId){
         try{
-            String sql = "select * from commnetthumb where thumberId=?";
-            List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, UserId);
+            String sql = "select * from commnetthumb where thumberId=? and commnetId=?";
+            List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, UserId,CommentId);
             if(list.isEmpty()){
                 return 0;
             }
@@ -74,8 +75,8 @@ public class CommentDAO {
 
     public int deleteComment(int CommentId){
         try{
-            jdbcTemplate.update("delete * from comment where commentId=?", CommentId);
-            jdbcTemplate.update("delete * from subcomment where comment=?", CommentId);
+            jdbcTemplate.update("delete from comment where commentId=?", CommentId);
+            jdbcTemplate.update("delete from subcomment where comment=?", CommentId);
             return 1;
         }catch(RuntimeException e){
             return 2;
@@ -83,9 +84,9 @@ public class CommentDAO {
     }
 
     public int modifyComment(JSONObject inform, int CommentId){
-        try{
-            jdbcTemplate.update("update comment set context=?,commnetDate=?,replyWho=? where commentId=?",
-                    inform.getString("context"), inform.getDate("commnetDate"),inform.getInteger("replyWho"), CommentId);
+        try{System.out.println(inform);
+            jdbcTemplate.update("update comment set context=?,commentDate=? where commentId=?",
+                    inform.getString("context"), inform.getDate("commentDate"), CommentId);
             return 1;
         }
         catch(RuntimeException e){
@@ -97,7 +98,7 @@ public class CommentDAO {
     public int thumb(int CommentId, int UserId){
         try{
             Date date = new Date();
-            jdbcTemplate.update("insert into commnetthumb(commnetId, thumberId, lastThumbDate, state)",
+            jdbcTemplate.update("insert into commnetthumb(commnetId, thumberId, lastThumbDate, state)values(?,?,?,?)",
                     CommentId, UserId, date, 1);
             jdbcTemplate.update("update comment set thumbs=thumbs+1 where commentId=?", CommentId);
 
@@ -111,7 +112,7 @@ public class CommentDAO {
 
     public int unthumb(int CommentId, int UserId){
         try{
-            jdbcTemplate.update("delete * from commnetthumb where commnetId=? AND thumberId=?",CommentId, UserId);
+            jdbcTemplate.update("delete from commnetthumb where commnetId=? AND thumberId=?",CommentId, UserId);
             jdbcTemplate.update("update comment set thumbs=thumbs-1 where commentId=?", CommentId);
 
             return 1;
@@ -122,7 +123,7 @@ public class CommentDAO {
     }
 
     public int Check(int CommentId, int UserId){
-        String sql = "select thumberId from comment where commentId=?";
+        String sql = "select commenter from comment where commentId=?";
         List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, CommentId);
         Map<String, Object> comment = list.get(0);
         if(comment.get("commenter").equals(UserId)){

@@ -25,11 +25,11 @@ public class SubCommentDAO {
     public Integer createSubComment(JSONObject inform){
         System.out.println(inform.getInteger("subcommenter"));
         try{
+            System.out.println(inform);
             jdbcTemplate.update("insert into subcomment(subcommenter,context,commnetDate,comment,replyWho,thumbs)values(?,?,?,?,?,?)",
                     (int)inform.getInteger("subcommenter"),inform.getString("context"),
                     inform.getDate("date"),inform.getInteger("comment"),
                     inform.getInteger("replyWho"),inform.getInteger("thumbs"));
-            System.out.println("this is es");
             return 1;
         }catch (RuntimeException e){
             return 2;
@@ -51,7 +51,9 @@ public class SubCommentDAO {
 
     public Integer deleteSubComment(int SubCommentId){
         try{
-            jdbcTemplate.update("delete from subcomment where subcommentId=?", SubCommentId);
+            System.out.println(SubCommentId);
+            jdbcTemplate.update("delete from subcommnetthumb where subcommmentId=?",SubCommentId);
+            jdbcTemplate.update("delete from subcomment where subcommentId=?",SubCommentId);
             return 1;
         }
         catch(RuntimeException e){
@@ -101,7 +103,7 @@ public class SubCommentDAO {
 
     public JSONObject viewSubComment(int SubcommentId, int UserId){
         String sql = "select * from subcomment where subcommentId=?";
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, UserId);
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, SubcommentId);
         Map<String, Object> subcomment = list.get(0);
         JSONObject res = new JSONObject(subcomment);
         res.put("isthumbed", isthumbed(SubcommentId, UserId));

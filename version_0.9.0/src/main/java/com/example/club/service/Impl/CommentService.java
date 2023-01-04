@@ -3,6 +3,7 @@ package com.example.club.service.Impl;
 import com.alibaba.fastjson.JSONObject;
 import com.example.club.dao.CommentDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,7 +24,8 @@ public class CommentService {
         tmp.put("context", inform.getString("context"));
         Date date = new Date();
         tmp.put("commentDate", date);
-        int flag = commentDAO.createcomment(inform);
+        tmp.put("thumbs",0);
+        int flag = commentDAO.createcomment(tmp);
         JSONObject res = new JSONObject();
         res.put("state", flag);
         return res;
@@ -33,6 +35,8 @@ public class CommentService {
     public JSONObject modifyComment(JSONObject inform, int CommentId, int UserId){
         int power = commentDAO.Check(CommentId, UserId);
         if(power==1){
+            Date date=new Date();
+            inform.put("commentDate",date);
             int flag = commentDAO.modifyComment(inform, CommentId);
             JSONObject res = commentDAO.viewComment(CommentId, UserId);
             res.put("state", flag);
@@ -84,7 +88,7 @@ public class CommentService {
 
     //state返回0表示已经点过赞了，返回1表示点赞成功，返回2表示超时,返回3代表没有权限
     public JSONObject thumb(int CommentId, int UserId){
-        int power = commentDAO.Check(CommentId, UserId);
+        int power=1;
         if (power==0){
             JSONObject res = new JSONObject();
             res.put("state", 3);
@@ -115,7 +119,7 @@ public class CommentService {
 
     //state返回0表示本来就没点赞，返回1表示取消点赞成功，返回2表示超时,返回3代表没有权限
     public JSONObject unthumb(int CommentId, int UserId){
-        int power = commentDAO.Check(CommentId, UserId);
+        int power = 1;
         if (power==0){
             JSONObject res = new JSONObject();
             res.put("state", 3);
