@@ -22,11 +22,13 @@ public class HabbitController {
     private HabbitService habbitService;
 
     @PutMapping("/create")
-    public JSONObject CreateHabbit(@RequestBody JSONObject inform,int UserId){
+    public JSONObject CreateHabbit(@RequestBody JSONObject inform){
 /*        JSONObject state=new JSONObject();
         state.put("state",1);
         state.put("habbit id",800);
         return state;*/
+        int UserId = inform.getIntValue("UserId");
+        // UserId name inform profile announcement
         return habbitService.createHabbit(inform,UserId);
 
     }

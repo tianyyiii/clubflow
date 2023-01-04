@@ -22,12 +22,17 @@ public class CommentController {
 
 
     @PutMapping("/create")
-    public JSONObject createComment(@RequestBody JSONObject inform, Integer PostId){
+    public JSONObject createComment(@RequestBody JSONObject inform){
+        Integer PostId = inform.getInteger("PostId");
+        // PostId UserId context
+        // return: state 1--success , 2--error
         return commentService.createComment(inform, PostId);
     }
 
     @PostMapping("/modify")
-    public JSONObject modifyComment(@RequestBody JSONObject inform, Integer CommentId, Integer UserId){
+    public JSONObject modifyComment(@RequestBody JSONObject inform){
+        Integer CommentId = inform.getInteger("CommentId");
+        Integer UserId = inform.getInteger("UserId");
         return commentService.modifyComment(inform, CommentId, UserId);
 
     }
@@ -47,13 +52,18 @@ public class CommentController {
 
     //点赞，具体注释在service
     @PostMapping("/thumb")
-    public JSONObject thumb(Integer CommentId, Integer UserId){
+    public JSONObject thumb(@RequestBody JSONObject inform){
+        Integer CommentId = inform.getInteger("CommentId");
+        Integer UserId = inform.getInteger("UserId");
+        //state返回0表示已经点过赞了，返回1表示点赞成功，返回2表示超时,返回3代表没有权限
         return commentService.thumb(CommentId, UserId);
 
     }
     //取消点赞，注释在service
     @PostMapping("/unthumb")
-    public JSONObject unthumb(Integer CommentId, Integer UserId){
+    public JSONObject unthumb(@RequestBody JSONObject inform){
+        Integer CommentId = inform.getInteger("CommentId");
+        Integer UserId = inform.getInteger("UserId");
         return commentService.unthumb(CommentId, UserId);
 
     }

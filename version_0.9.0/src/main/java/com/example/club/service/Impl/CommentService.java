@@ -2,6 +2,7 @@ package com.example.club.service.Impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.club.dao.CommentDAO;
+import com.example.club.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ import java.util.Map;
 public class CommentService {
     @Autowired
     private CommentDAO commentDAO;
+    @Autowired
+    private UserDao userDAO;
 
     public JSONObject createComment(JSONObject inform, int PostId){
         JSONObject tmp = new JSONObject();
@@ -73,6 +76,9 @@ public class CommentService {
             List<JSONObject> list = commentDAO.viewCommentsByPostId(PostId, UserId);
             for(int i=0;i<list.size();++i){
                 JSONObject tmp = list.get(i);
+                JSONObject UserInfo = userDAO.getUserbyId(tmp.getInteger("commenter"));
+                tmp.put("name",UserInfo.getString("name"));
+                tmp.put("image",UserInfo.getString("image"));
                 res.put("comment"+Integer.toString(i), tmp);
             }
             res.put("state", 1);

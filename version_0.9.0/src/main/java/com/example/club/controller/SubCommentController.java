@@ -14,11 +14,14 @@ public class SubCommentController {
     @Autowired
     private SubCommentService subCommentService;
     @PutMapping("/create")
-    public JSONObject createSubComment(@RequestBody JSONObject inform,Integer CommentId){
+    public JSONObject createSubComment(@RequestBody JSONObject inform){
+        Integer CommentId = inform.getInteger("CommentId");
+        // CommentId UserId Context
         return subCommentService.createSubComment(inform, CommentId);
     }
     @PostMapping("/modify")
-    public JSONObject modifySubComment(@RequestBody JSONObject inform,Integer SubCommentId){
+    public JSONObject modifySubComment(@RequestBody JSONObject inform){
+        Integer SubCommentId = inform.getInteger("SubCommentId");
         return subCommentService.modifySubComment(inform,SubCommentId);
 
     }
@@ -35,13 +38,19 @@ public class SubCommentController {
     }
     //注释在service
     @PostMapping("/thumb")
-    public JSONObject thumb(Integer SubCommentId,Integer UserId){
+    public JSONObject thumb(@RequestBody JSONObject inform){
+        Integer SubCommentId = inform.getInteger("SubCommentId");
+        Integer UserId = inform.getInteger("UserId");
+        //返回0表示已经点过赞了，返回1表示点赞成功，返回2表示超时
         return subCommentService.thumb(SubCommentId,UserId);
 
     }
     //注释在service
     @PostMapping("/unthumb")
-    public JSONObject unthumb(Integer SubCommentId,Integer UserId){
+    public JSONObject unthumb(@RequestBody JSONObject inform){
+        Integer SubCommentId = inform.getInteger("SubCommentId");
+        Integer UserId = inform.getInteger("UserId");
+        //state返回0表示本身就没点赞，返回1表示取消点赞成功，返回2表示超时
         return subCommentService.unthumb(SubCommentId,UserId);
 
     }

@@ -35,6 +35,7 @@ public class HabbitService  {
         newhabbit.put("comments",0);
         newhabbit.put("creator", UserId);
         newhabbit.put("image", inform.getString("profile"));
+        newhabbit.put("announcement", inform.getString("announcement"));
         //create a new habbit by using newhabbit(JSON), return state
         int statenow = clbdao.createhabbit(newhabbit);
         //state = 1, success; state = 0, 社团重名; state = 2, 创建超时

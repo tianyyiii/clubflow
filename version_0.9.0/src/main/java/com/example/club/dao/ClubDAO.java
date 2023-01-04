@@ -28,7 +28,7 @@ public class ClubDAO {
 
             jdbcTemplate.update("insert into club(clubName,clubInfo,createDate,creator, state,image,publicationsNum,fansNum,commentsNum)values(?,?,?,?,?,?,?,?,?)",
                     inform.getString("name"), inform.getString("info"), inform.getDate("date"),
-                    inform.getInteger("creator"), 1, 1,0,0,0);
+                    inform.getInteger("creator"), 1, inform.getString("image"),0,0,0);
             return 1;
         }
         catch(RuntimeException e){

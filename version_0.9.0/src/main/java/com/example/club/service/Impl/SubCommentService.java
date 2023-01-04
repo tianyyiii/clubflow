@@ -1,6 +1,7 @@
 package com.example.club.service.Impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.club.dao.CommentDAO;
 import com.example.club.dao.SubCommentDAO;
 import com.example.club.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class SubCommentService {
     private UserDao userDao;
 
     @Autowired
+    private CommentDAO commentDAO;
+
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     public JSONObject createSubComment(JSONObject inform, Integer CommentId){
@@ -28,13 +32,17 @@ public class SubCommentService {
         temp.put("context", inform.get("Context"));
         temp.put("date", date);
         temp.put("comment", CommentId);
-        temp.put("replyWho", userDao.getUserbyName((String) inform.get("ReplyWho")).get("id"));
+        int Replywho = commentDAO.viewComment(CommentId, 1).getIntValue("commenter");
+        temp.put("replyWho",Replywho);
         temp.put("thumbs", 0);
         int state;
         try{
-            subCommentDAO.createSubComment(temp);
-            state = 1;
-            System.out.println("yes");
+            int ret = subCommentDAO.createSubComment(temp);
+            if(ret==1){
+                state = 1;
+                System.out.println("yes");
+            }
+            else state = 2;
         }
         catch(RuntimeException e){
             state = 2;
@@ -84,6 +92,9 @@ public class SubCommentService {
        JSONObject res = new JSONObject();
         for (int i=0;i<list.size();i++){
             JSONObject tmp = list.get(i);
+            JSONObject UserInfo = userDao.getUserbyId(tmp.getInteger("subcommenter"));
+            tmp.put("name",UserInfo.getString("name"));
+            tmp.put("image",UserInfo.getString("image"));
             res.put("subcomment"+Integer.toString(i), tmp);
         }
         return res;
@@ -124,6 +135,7 @@ public class SubCommentService {
             inform.put("thumberId", UserId);
             Date date = new Date();
             inform.put("date", date);
+            inform.put("state", 1);
             int state = subCommentDAO.createThumb(inform);
             JSONObject res = new JSONObject();
             res.put("state", state);

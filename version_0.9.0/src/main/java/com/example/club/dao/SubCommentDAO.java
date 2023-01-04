@@ -26,8 +26,8 @@ public class SubCommentDAO {
         System.out.println(inform.getInteger("subcommenter"));
         try{
             System.out.println(inform);
-            jdbcTemplate.update("insert into subcomment(subcommenter,context,commnetDate,comment,replyWho,thumbs)values(?,?,?,?,?,?)",
-                    (int)inform.getInteger("subcommenter"),inform.getString("context"),
+            jdbcTemplate.update("insert into subcomment(subcommenter,context,commentDate,comment,replyWho,thumbs)values(?,?,?,?,?,?)",
+                    inform.getInteger("subcommenter"),inform.getString("context"),
                     inform.getDate("date"),inform.getInteger("comment"),
                     inform.getInteger("replyWho"),inform.getInteger("thumbs"));
             return 1;
@@ -39,7 +39,7 @@ public class SubCommentDAO {
 
     public Integer modifySubComment(JSONObject inform,int SubCommentId){
         try{
-            jdbcTemplate.update("update subcomment set context=?,commnetDate=?,replyWho=? where subcommentId=?",
+            jdbcTemplate.update("update subcomment set context=?,commentDate=?,replyWho=? where subcommentId=?",
                     inform.getString("context"), inform.getDate("commnetDate"),inform.getInteger("replyWho"), SubCommentId);
             return 1;
         }
