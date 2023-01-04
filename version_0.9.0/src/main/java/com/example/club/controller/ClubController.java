@@ -35,6 +35,7 @@ public class ClubController {
     }
 
     @GetMapping("/get_created_club")
+    // 查看社团用户创建的社团
     public JSONObject GetCreatedClub(int UserId){
 /*        JSONObject state=new JSONObject();
         state.put("state",1);
@@ -151,7 +152,7 @@ public class ClubController {
     }*/
         return clubService.viewAnnouncement(UserId);
     }
-/*inform get context,which is string*/
+
     /*checked*/
     @PutMapping("/announcement/create")
     public JSONObject CreateAnnouncement(@RequestBody JSONObject inform){

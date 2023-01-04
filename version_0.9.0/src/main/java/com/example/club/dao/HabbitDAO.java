@@ -50,13 +50,32 @@ public class HabbitDAO {
             }
 
             jdbcTemplate.update("update habbit set habbitName=?,habbitInfo=?,image=? where habbitId=?",
-                    inform.getString("name"), inform.getString("inform"),1, HabbitId);
+                    inform.getString("name"), inform.getString("inform"),inform.getString("image"), HabbitId);
             return 1;
         }
         catch(RuntimeException e){
             return 2;
         }
 
+    }
+
+    public List<Object> getHabbitbyCreatorId(int UserId){
+        try{
+            String sql = "select habbitId from habbit where creator=?";
+            List<Map<String,Object>> list = jdbcTemplate.queryForList(sql, UserId);
+            List<Object> res = new ArrayList<>();
+            for (int i=0; i<list.size(); i++){
+                Map<String,Object> temp = list.get(i);
+                res.add(temp.get("habbitId"));
+            }
+
+            //System.out.println(res);
+            return res;
+        }
+        catch(RuntimeException e){
+            List<Object> res = null;
+            return res;
+        }
     }
 
     public JSONObject getHabbitbyId(int HabbitId){
@@ -129,6 +148,27 @@ public class HabbitDAO {
             List<Object> res = null;
             return res;
         }
+
+    }
+
+    public List<Object> listclubfans(int HabbitId){
+        /*        try catch需要重新改格式*/
+        try{
+            String sql = "select fanid from habbitfan where habbitid=?";
+            List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, HabbitId);
+            List<Object> res = new ArrayList<>();
+            for (int i=0; i<list.size(); i++){
+                Map<String,Object> temp = list.get(i);
+                res.add(temp.get("fanid"));
+            }
+            return res;
+
+        }
+        catch(RuntimeException e){
+            List<Object> res = null;
+            return res;
+        }
+
 
     }
     public String viewAnnouncementbyHabbitId(int HabbitId){

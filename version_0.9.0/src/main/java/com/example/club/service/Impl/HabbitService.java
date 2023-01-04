@@ -54,6 +54,15 @@ public class HabbitService  {
 
     }
 
+    public  JSONObject getCreatedHabbit(int UserId){
+        List<Object> list = clbdao.getHabbitbyCreatorId(UserId);
+        JSONObject res = new JSONObject();
+        for (int i=0; i<list.size(); i++){
+            JSONObject temp = clbdao.getHabbitbyId((Integer) list.get(i));
+            res.put("habbit"+Integer.toString(i), temp);
+        }
+        return res;
+    }
 
     public JSONObject modifyHabbit(JSONObject inform,int HabbitId,int UserId){
         //modify habbit(HabbitId), return state
@@ -91,8 +100,12 @@ public class HabbitService  {
             res.put("publications number",habbit.getInteger("publicationNum"));
             //Club doesn't have "comment number", default 50
             res.put("comments number",habbit.getInteger("commentsNum"));
-            //Club doesn't have "subscribe", default 156
-            res.put("subscribe",156);
+            //subscribe指用户有没有订阅
+            int subscribe = clbdao.checkSubscribebyUser(HabbitId,UserId) == 1? 1:0;
+            res.put("subscribe",subscribe);
+
+            //Habbit announcement
+            res.put("announcement",habbit.getString("announcement"));
 
             res.put("inform", habbit.getString("habbitInfo"));
             res.put("profile", habbit.getString("image"));
@@ -130,6 +143,17 @@ public class HabbitService  {
         }
         return res;
 
+    }
+
+    public JSONObject viewHabbitFans(int HabbitId){
+        List<Object> list = clbdao.listclubfans(HabbitId);
+        JSONObject res = new JSONObject();
+        for (int i=0; i<list.size(); i++){
+            JSONObject temp = userDao.getUserbyId((Integer) list.get(i));
+            res.put("fan"+Integer.toString(i), temp);
+//            System.out.println(temp);
+        }
+        return res;
     }
     public JSONObject subscribe(Integer HabbitId,Integer UserId){
         JSONObject res=new JSONObject();

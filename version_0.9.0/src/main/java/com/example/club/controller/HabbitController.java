@@ -31,11 +31,25 @@ public class HabbitController {
 
     }
 
+    @GetMapping("/get_created_habbit")
+    // 查看普通用户创建的爱好社区
+    public JSONObject GetCreatedHabbit(int UserId){
+/*        JSONObject state=new JSONObject();
+        state.put("state",1);
+        state.put("club id",800);
+        return state;*/
+        return habbitService.getCreatedHabbit(UserId);
+
+    }
+
     @PostMapping("/modify")
-    public JSONObject ModifyHabbit(@RequestBody JSONObject inform,int HabbitId,int UserId){
+    public JSONObject ModifyHabbit(@RequestBody JSONObject inform){
 /*        JSONObject state=new JSONObject();
         state.put("state",1);
         return state;*/
+        // HabbitId UserId name inform image
+        int HabbitId = inform.getIntValue("HabbitId");
+        int UserId = inform.getIntValue("UserId");
         return habbitService.modifyHabbit(inform,HabbitId,UserId);
     }
 
@@ -56,6 +70,7 @@ public class HabbitController {
     }
 
     @GetMapping("/view_by_account")
+    // 关注的爱好社区
     public JSONObject ViewHabbitbyAccount(int UserId){
 /*        JSONObject HabbitList=new JSONObject();
         for (int i=1;i<3;i++)
@@ -98,13 +113,34 @@ public class HabbitController {
 
 
     }
+    @GetMapping("/view_fans")
+//    查看某一爱好的粉丝
+    public JSONObject ViewClubFans(int HabbitId){
+/*        JSONObject FanList=new JSONObject();
+        for (int i=1;i<3;i++)
+        {   JSONObject fan=new JSONObject();
+            fan.put("image","url");
+            fan.put("name","geyuan");
+            fan.put("id",1);
+        }
+        return ClubList;*/
+        return habbitService.viewHabbitFans(HabbitId);
+
+
+    }
     @PostMapping("/subscribe")
-    public JSONObject subscribe(int HabbitId,int UserId){
+    public JSONObject subscribe(@RequestBody JSONObject inform){
+        int HabbitId = inform.getIntValue("HabbitId");
+        int UserId = inform.getIntValue("UserId");
+        // state0 失败，state1 成功
         return habbitService.subscribe(HabbitId,UserId);
     }
 
     @PostMapping("/unsubscribe")
-    public JSONObject unsubscribe(int HabbitId,int UserId){
+    public JSONObject unsubscribe(@RequestBody JSONObject inform){
+        int HabbitId = inform.getIntValue("HabbitId");
+        int UserId = inform.getIntValue("UserId");
+        // state0 失败，state1 成功
         return habbitService.unsubscribe(HabbitId,UserId);
     }
 
