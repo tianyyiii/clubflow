@@ -39,11 +39,12 @@
 }
 </style>
 
+
 <script>
 
 export default {
-    name:"ClubBanner",
+    name:"HabbitBanner",
     components:{},
-    props:["ClubId"]
+    props:["HabbitId"]
 }
 </script>

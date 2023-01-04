@@ -19,7 +19,7 @@
         <li id="card1" class="card me-5 mb-5 p-0" style="width:200px; height: 230px;border-radius: 0;">
             <!-- 遮罩 -->
             <div class="position-absolute cover" style="width: 100%; height:166px; background-color: #a93931; z-index: 2; opacity: 50%;display:none; "></div>
-            <div class="arrow" style="z-index: 3;position: absolute;text-align: center;width: 100%;top: 50px;display:none;">
+            <div class="arrow" style="z-index: 3;position: absolute;text-align: center;width: 100%;top: 63px;display:none;">
                 <img style="width:36px;height:36px;" src="@/assets/images/clubspace/u40.svg"/>
             </div>
             <!-- 图片部分 -->
@@ -36,7 +36,7 @@
         <li id="card1" class="card me-5 mb-5 p-0" style="width:200px; height: 230px;border-radius: 0;">
             <!-- 遮罩 -->
             <div class="position-absolute cover" style="width: 100%; height:166px; background-color: #a93931; z-index: 2; opacity: 50%;display:none; "></div>
-            <div class="arrow" style="z-index: 3;position: absolute;text-align: center;width: 100%;top: 50px;display:none;">
+            <div class="arrow" style="z-index: 3;position: absolute;text-align: center;width: 100%;top: 63px;display:none;">
                 <img style="width:36px;height:36px;" src="@/assets/images/clubspace/u40.svg"/>
             </div>
             <!-- 图片部分 -->
@@ -53,7 +53,7 @@
         <li id="card1" class="card me-5 mb-5 p-0" style="width:200px; height: 230px;border-radius: 0;">
             <!-- 遮罩 -->
             <div class="position-absolute cover" style="width: 100%; height:166px; background-color: #a93931; z-index: 2; opacity: 50%;display:none; "></div>
-            <div class="arrow" style="z-index: 3;position: absolute;text-align: center;width: 100%;top: 50px;display:none;">
+            <div class="arrow" style="z-index: 3;position: absolute;text-align: center;width: 100%;top: 63px;display:none;">
                 <img style="width:36px;height:36px;" src="@/assets/images/clubspace/u40.svg"/>
             </div>
             <!-- 图片部分 -->
@@ -70,7 +70,7 @@
         <li id="card1" class="card me-5 mb-5 p-0" style="width:200px; height: 230px;border-radius: 0;">
             <!-- 遮罩 -->
             <div class="position-absolute cover" style="width: 100%; height:166px; background-color: #a93931; z-index: 2; opacity: 50%;display:none; "></div>
-            <div class="arrow" style="z-index: 3;position: absolute;text-align: center;width: 100%;top: 50px;display:none;">
+            <div class="arrow" style="z-index: 3;position: absolute;text-align: center;width: 100%;top: 63px;display:none;">
                 <img style="width:36px;height:36px;" src="@/assets/images/clubspace/u40.svg"/>
             </div>
             <!-- 图片部分 -->
@@ -87,7 +87,7 @@
         <li id="card1" class="card me-5 mb-5 p-0" style="width:200px; height: 230px;border-radius: 0;">
             <!-- 遮罩 -->
             <div class="position-absolute cover" style="width: 100%; height:166px; background-color: #a93931; z-index: 2; opacity: 50%;display:none; "></div>
-            <div class="arrow" style="z-index: 3;position: absolute;text-align: center;width: 100%;top: 50px;display:none;">
+            <div class="arrow" style="z-index: 3;position: absolute;text-align: center;width: 100%;top: 63px;display:none;">
                 <img style="width:36px;height:36px;" src="@/assets/images/clubspace/u40.svg"/>
             </div>
             <!-- 图片部分 -->
@@ -104,7 +104,7 @@
         <li id="card1" class="card me-5 mb-5 p-0" style="width:200px; height: 230px;border-radius: 0;">
             <!-- 遮罩 -->
             <div class="position-absolute cover" style="width: 100%; height:166px; background-color: #a93931; z-index: 2; opacity: 50%;display:none; "></div>
-            <div class="arrow" style="z-index: 3;position: absolute;text-align: center;width: 100%;top: 50px;display:none;">
+            <div class="arrow" style="z-index: 3;position: absolute;text-align: center;width: 100%;top: 63px;display:none;">
                 <img style="width:36px;height:36px;" src="@/assets/images/clubspace/u40.svg"/>
             </div>
             <!-- 图片部分 -->

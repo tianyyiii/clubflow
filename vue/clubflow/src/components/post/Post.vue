@@ -50,7 +50,7 @@
                     <span style="font-family:'FontAwesome','微软雅黑', sans-serif;font-weight:400;font-size:14px;">收藏</span>
                 </button>
                 <div id="collectnum" class="text-center" style="font-family:sans-serif; font-size:12px; color:#999999;">
-                    <span>100+人收藏</span>
+                    <span>--+人收藏</span>
                 </div>
             </div>
         </div>
@@ -123,6 +123,7 @@ export default {
         }
         this.$axios
         .get('post/'+that.PostId, {params:{UserId:UserId}})
+        // .get('post/view', {params:{PostId:this.PostId,UserId:UserId}})
         .then( response =>{
             this.post = response.data;
             // console.log(this.post);
@@ -133,7 +134,7 @@ export default {
             // 解析html文本
             if (this.post.context!=undefined){
                 this.context=that.showHtml(this.post.context)
-                console.log(this.post.context)
+                // console.log(this.post.context)
             }
             // 转化日期
             if (this.post.lastModifyDate!=undefined){

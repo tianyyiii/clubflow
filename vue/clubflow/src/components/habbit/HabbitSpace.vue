@@ -85,7 +85,7 @@ export default {
             })
         },
         goToHabbitPage(HabbitId){
-            this.$router.push({path:'/habbitcontent',query:{HabbitId:HabbitId}})
+            this.$router.push({path:'/habbit',query:{HabbitId:HabbitId}})
         }
     },
     mounted(){

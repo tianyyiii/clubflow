@@ -48,23 +48,16 @@
         <div class="px-2 py-4" style="background-color: rgb(250, 250, 250);">
             <div class="w-100 d-flex mb-4 align-items-center" style="font-size: 14px;">
                 <div style="width:105px">社区标题：</div>
-                <input type="text" placeholder="请输入爱好名称" maxlength="20"/>
+                <input v-model="habbitInform.name" type="text" placeholder="请输入爱好名称" maxlength="20"/>
             </div>
             <div class="w-100 d-flex mb-4 align-items-center" style="font-size: 14px;">
                 <div style="width:105px">副标题：</div>
-                <input type="text" placeholder="请输入副标题" maxlength="20"/>
+                <input v-model="habbitInform.inform" type="text" placeholder="请输入副标题" maxlength="20"/>
             </div>
             <div class="w-100 d-flex mb-4 align-items-center" style="font-size: 14px;">
                 <div style="width:105px">上传头像：</div>
                 <!-- 上传图片 -->
-                <button id="upimg" class="upimg" >
-                    <p class="mb-1" style="font-size:28px;">
-                        <span style="font-family:'FontAwesome Regular', 'FontAwesome', sans-serif;font-weight:400;"></span>
-                    </p>
-                    <p class="mb-0" style="font-size:14px;">
-                        <span style="font-family:'微软雅黑', sans-serif;font-weight:400;">上传图片</span>
-                    </p>
-                </button>
+                <UpImage @upUrl="getImgURL"></UpImage> 
             </div>
         </div>
         <!-- 按钮组 -->
@@ -88,7 +81,7 @@
                 <div style="font-family:'华文宋体', sans-serif;font-size:14px;line-height: 18px;">
                     简介：介绍爱好社区以及建立的目的。文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例。
                 </div>
-                <textarea id="intro-text" class="form-control mt-5" placeholder="介绍爱好社区以及建立的目的。不超过500字。" maxlength="500" name="text" style="height: 160px;border-radius: 3px;font-size: 14px;"></textarea>
+                <textarea v-model="habbitInform.announcement" id="intro-text" class="form-control mt-5" placeholder="介绍爱好社区以及建立的目的。不超过500字。" maxlength="500" name="text" style="height: 160px;border-radius: 3px;font-size: 14px;"></textarea>
             </div>
             <!-- 按钮组 -->
             <div class="w-100 px-5 my-2 d-flex justify-content-end">
@@ -109,13 +102,100 @@
         <!-- 按钮组 -->
         <div class="w-100 px-5 my-4 d-flex justify-content-evenly">
             <button class="re-btn" style="width:145px;height:55px;font-size: 18px;"><span style="font-family:'FontAwesome', sans-serif;"> </span>重置</button>
-            <button class="sav-btn" style="width:145px;height:55px;font-size: 18px;"><span style="font-family:'FontAwesome', sans-serif;"> </span>提交</button>
+            <button @click="submitBasicInform" class="sav-btn" style="width:145px;height:55px;font-size: 18px;"><span style="font-family:'FontAwesome', sans-serif;"> </span>提交</button>
         </div>
     </div>
     
     
 
 </template>
+
+<script>
+import UpImage from '@/components/common/UpImage.vue';
+import { reactive } from 'vue';
+
+export default {
+    name: 'CreateHabbit',
+    components: {UpImage},
+    data(){
+        return{
+            HabbitId: 0,
+            UserId:0,
+            habbitInform:reactive({
+                profile:"",
+                name:"",
+                inform:"", //副标题
+                UserId:0,
+                announcement:""
+            }),
+        }
+    },
+    methods: {
+        getImgURL(url){
+            // console.log("image:",url)
+            this.habbitInform.profile=url
+        },
+        submitBasicInform(){
+            let that = this
+            // console.log("HabbitInform",this.habbitInform)
+            this.$axios
+            .put('habbit/create',this.habbitInform)
+            .then(
+                resp => {
+                    console.log(resp.data)
+                    var data=resp.data;
+                    if(data.state==1){
+                        this.HabbitId=data.habbitId
+                        console.log(data.habbitId)
+                        // that.submitAnnouncement(data.habbitId)
+                        alert("创建成功！");
+                        that.$router.push({path:'/habbit',query:{HabbitId:this.HabbitId}})
+                    }
+                    else{
+                        alert("创建失败！社区名重复！");
+                        // location.reload();
+                    }
+            })
+            .catch(failResponse => {alert("请求异常");})
+        },
+        submitAnnouncement(HabbitId){
+            var clubann={
+                UserId:this.UserId,
+                HabbitId:HabbitId,
+                context:this.announcement
+            }
+            console.log("CLUBID",ClubId)
+            let that = this
+            this.$axios
+            .put('club/announcement/create',clubann)
+            .then(
+                resp => {
+                    console.log("第二次",resp)
+                    var data=resp.data;
+                    if(data.state==1){
+                        alert("创建成功！");
+                        that.$router.push({path:'/clubeditpage',query:{ClubId:ClubId}})
+                    }
+                    else{
+                        alert("创建失败！");
+                        location.reload();
+                    }
+            })
+            .catch(failResponse => {alert("请求异常");})
+        }
+    },
+    created(){
+        this.UserId=this.$store.state.UserId
+        if(!this.UserId){this.UserId=0}
+        this.habbitInform.UserId=this.UserId
+    },
+    mounted(){
+        
+    }
+  }
+
+</script>
+
 
 <style scoped>
 
@@ -141,6 +221,16 @@
 .upimg:hover {
   border-color:rgba(0, 121, 254, 1);
   color:rgba(0, 121, 254, 1);
+}
+
+/* 样式穿透 */
+#up-img-form::v-deep .el-upload{
+  width:100px;
+  height:100px;
+}
+#up-img-form::v-deep .el-upload-list--picture-card .el-upload-list__item{
+    width:100px;
+  height:100px;
 }
 
 #basic-info input {

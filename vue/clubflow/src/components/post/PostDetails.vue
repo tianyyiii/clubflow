@@ -13,7 +13,7 @@
 
             <!-- 评论 -->
             <div class="my-1 w-100">
-                <Comments></Comments>
+                <Comments v-bind:PostId="PostId"></Comments>
             </div>
         </div>
 
@@ -64,6 +64,7 @@ import Post from './Post.vue'
         // console.log(UserId)
         this.$axios
         .get('post/'+this.PostId, {params:{UserId:UserId}})
+        // .get('post/view', {params:{PostId:this.PostId,UserId:UserId}})
         .then( response =>{
             console.log(response.data)
             this.ClubId=response.data.club

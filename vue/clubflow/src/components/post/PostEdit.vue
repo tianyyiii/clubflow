@@ -51,7 +51,6 @@ const toolbarOptions = [
     // ['link', 'image', 'video'] // 链接、图片、视频
     ['link','image'] // 图片
 ]
-import qs from 'qs'
 import {getCurrentInstance, ref, toRaw, watch} from 'vue';
 import {QuillEditor, Quill } from '@vueup/vue-quill'
 import { container, ImageExtend, QuillWatch } from 'quill-image-extend-module'

@@ -111,19 +111,19 @@ export default {
         return{
             ClubId: 0,
             UserId:0,
-            clubInform:{
+            clubInform:reactive({
                 profile:"",
                 name:"",
                 inform:"", //副标题
                 UserId:0
-            },
+            }),
             announcement:""
         }
     },
     methods: {
         getImgURL(url){
-            console.log("image:",url)
-            this.profile=url
+            // console.log("image:",url)
+            this.clubInform.profile=url
         },
         submitBasicInform(){
             let that = this
@@ -137,7 +137,7 @@ export default {
                         this.ClubId=data.clubId
                         console.log(data.clubId)
                         that.submitAnnouncement(data.clubId)
-                        // alert("注册成功！");
+                        // alert("创建成功！");
                     }
                     else{
                         alert("创建失败！社团名重复！");
@@ -185,23 +185,6 @@ export default {
 </script>
 
 <style scoped>
-
-.upimg {
-  background-color:rgba(249, 249, 249, 1);
-  box-sizing:border-box;
-  border-width:1px;
-  border-style:solid;
-  border-color:rgba(233, 233, 233, 1);
-  border-radius:3px;
-  width:100px;
-  height:100px;
-  color:#CCCCCC;
-  line-height:28px;
-}
-.upimg:hover {
-  border-color:rgba(0, 121, 254, 1);
-  color:rgba(0, 121, 254, 1);
-}
 
 /* 样式穿透 */
 #up-img-form::v-deep .el-upload{
