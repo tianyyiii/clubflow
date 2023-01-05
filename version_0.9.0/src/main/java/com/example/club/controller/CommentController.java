@@ -70,7 +70,7 @@ public class CommentController {
     // 上传图片到后端的资源文件夹
     @PostMapping("/image")
     public JSONObject imageUpload(MultipartFile file) throws Exception {
-        String folder = "D:/workspace/img"; // 图片保存目录
+        String folder = "C:/project_web/clubflow/workspace/img/"; // 图片保存目录
         JSONObject res=new JSONObject();
         File imageFolder = new File(folder);
         File f = new File(imageFolder, ImageUtil.getRandomString(6) + file.getOriginalFilename()

@@ -11,7 +11,7 @@ public class MyWebConfigure implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("file/**").addResourceLocations("file:" + "d:/workspace/img/");
+        registry.addResourceHandler("file/**").addResourceLocations("file:" + "C:/project_web/clubflow/workspace/img/");
     }
 
 }
