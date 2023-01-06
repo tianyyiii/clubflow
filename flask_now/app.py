@@ -39,3 +39,51 @@ def get_image():
     except Exception as e:
         print("Exception")
     return filename
+@app.route("/text_to_vector")
+def get_embedding():
+    from sqlalchemy import update,bindparam
+    import numpy as np
+    text=request.args.get("text")
+    postid=request.args.get("postid")
+    print(text)
+    postid=int(postid)
+    from sentence_transformers import SentenceTransformer
+    sentences =[text]
+
+    model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
+    embeddings = model.encode(sentences)[0]
+
+    try:
+        file=np.load("C:/project_web/clubflow/workspace/vector/embedding.npz")
+        embedding_now=file["embedding"]
+        post_now=file["post"]
+        embedding_now=np.vstack((embedding_now,embeddings))
+        post_now=np.hstack((post_now,postid))
+        print(post_now)
+        print(embedding_now.shape)
+        print("yes_save")
+        np.savez("C:/project_web/clubflow/workspace/vector/embedding.npz",embedding=embedding_now,post=post_now)
+
+    except:
+        np.savez("C:/project_web/clubflow/workspace/vector/embedding.npz",embedding=embeddings.reshape(1,-1),post=[postid])
+    return "yes"
+@app.route("/similar_post")
+def get_similar_post():
+    import numpy as np
+    postid=request.args.get("postid")
+    postid=int(postid)
+    from sklearn.neighbors import NearestNeighbors
+    x=np.load("C:/project_web/clubflow/workspace/vector/embedding.npz")["embedding"]
+    y=np.load("C:/project_web/clubflow/workspace/vector/embedding.npz")["post"]
+    index=np.where(y==postid)
+    nbrs=NearestNeighbors(n_neighbors=5,algorithm="ball_tree").fit(x)
+    distances,indices=nbrs.kneighbors(x[index].reshape(1,-1))
+    near_post=[]
+    for _ in indices[0]:
+        near_post.append(y[_])
+    near_post=near_post[1:]
+    string=""
+    for _ in near_post:
+        string=string+str(_)+","
+    print(string)
+    return string
