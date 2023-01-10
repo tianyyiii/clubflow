@@ -19,7 +19,7 @@ public class PostService implements IPostService {
 
 //    private Random r=new Random();
     @Override
-    public JSONObject createPost(JSONObject inform, int UserId){
+    public JSONObject createPost(JSONObject inform, int UserId,int type){
 
         JSONObject newpost = new JSONObject();
         newpost.put("title", inform.getString("title"));
@@ -31,6 +31,7 @@ public class PostService implements IPostService {
         Date date = new Date();
         newpost.put("date", date);
         newpost.put("datemodify", date);
+        newpost.put("type",type);
 
         int statenow = clubpostdao.createPost(newpost);
         //state = 1, success; state = 0, 和同一个club下的post重名； state = 2，创建超时
@@ -96,7 +97,7 @@ public class PostService implements IPostService {
         List<Object> list = clbdao.listmyclubs(UserId);
         JSONObject res = new JSONObject();
         for (int i=0; i<list.size(); i++){
-            JSONObject temp = clubpostdao.listClubPosts((Integer) list.get(i));
+            JSONObject temp = clubpostdao.listClubPosts((Integer) list.get(i),2);
             // 只取一个
             // System.out.println(temp);
             res.put("club"+Integer.toString(i), temp.get("post1"));
@@ -108,7 +109,12 @@ public class PostService implements IPostService {
     public JSONObject viewPostsbyClub(int ClubId,int UserId){
         //state=1表示访问成功，形式是{“state”:1, "post1":JSONObject, "post2":JSONObject, ..., }
         //state=2表示访问超时
-        JSONObject inform = clubpostdao.listClubPosts(ClubId);
+        JSONObject inform = clubpostdao.listClubPosts(ClubId,0);
+        return inform;
+    }
+    @Override
+    public JSONObject viewPostsbyHabbit(int HabbitId,int UserId){
+        JSONObject inform=clubpostdao.listClubPosts(HabbitId,1);
         return inform;
     }
 

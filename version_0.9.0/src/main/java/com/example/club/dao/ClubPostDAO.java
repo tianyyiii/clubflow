@@ -23,9 +23,9 @@ public class ClubPostDAO {
     public int createPost(JSONObject inform){
         //返回0，重名；返回1，成功；返回2，超时
         try{
+            int type=inform.getInteger("type");
             int ClubId = inform.getIntValue("club");
             String posttitle = inform.getString("title");
-
             String sql = "select title, club from post where club=?";
             List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, ClubId);
             for (int i=0; i<list.size(); ++i){
@@ -33,26 +33,46 @@ public class ClubPostDAO {
                 if (post.get("title").equals(posttitle))
                     return 0;
             }
+
             //System.out.println(inform);
+            if(type==0){
 
-            // 更新club信息中的publicationsNum
-            String sql1 = "select publicationsNum from club where clubId=?";
-            List<Map<String,Object>> list1 = jdbcTemplate.queryForList(sql1, ClubId);
-            Map<String,Object> clubInfo = list1.get(0);
-            if(clubInfo.get("publicationsNum")!=null) {
-                int pubNum = (int) clubInfo.get("publicationsNum");
-                jdbcTemplate.update("update club set publicationsNum=? where clubId=?",
-                        ClubId, pubNum + 1);
-            }
+                // 更新club信息中的publicationsNum
+                String sql1 = "select publicationsNum from club where clubId=?";
+                List<Map<String,Object>> list1 = jdbcTemplate.queryForList(sql1, ClubId);
+                Map<String,Object> clubInfo = list1.get(0);
+                if(clubInfo.get("publicationsNum")!=null) {
+                    int pubNum = (int) clubInfo.get("publicationsNum");
+                    jdbcTemplate.update("update club set publicationsNum=? where clubId=?",
+                            pubNum+1, ClubId);
+                }
+                else {
+                    jdbcTemplate.update("update club set publicationsNum=? where clubId=?",
+                            1, ClubId);
+                }}
             else {
-                jdbcTemplate.update("update club set publicationsNum=? where clubId=?",
-                        ClubId, 1);
+                // 更新club信息中的publicationsNum
+                String sql1 = "select publicationNum from habbit where habbitId=?";
+                List<Map<String,Object>> list1 = jdbcTemplate.queryForList(sql1, ClubId);
+                System.out.println(list1);
+                Map<String,Object> clubInfo = list1.get(0);
+                if(clubInfo.get("publicationNum")!=null) {
+                    int pubNum = (int) clubInfo.get("publicationNum");
+                    System.out.println(pubNum);
+                    jdbcTemplate.update("update habbit set publicationNum=? where habbitId=?",
+                            pubNum+1, ClubId);
+                }
+                else {
+                    jdbcTemplate.update("update habbit set publicationNum=? where habbitId=?",
+                            1, ClubId);
+                }
+
             }
 
-            jdbcTemplate.update("insert into post(creator,context,thumbs,createDate,lastModifyDate,club,title,image)values(?,?,?,?,?,?,?,?)",
+            jdbcTemplate.update("insert into post(creator,context,thumbs,createDate,lastModifyDate,club,title,image,type)values(?,?,?,?,?,?,?,?,?)",
                 inform.getIntValue("creator"), inform.getString("context"),
                 inform.getIntValue("thumbs"), inform.getDate("date"), inform.getDate("datemodify"),
-                inform.getIntValue("club"), inform.getString("title"), inform.getString("image"));
+                inform.getIntValue("club"), inform.getString("title"), inform.getString("image"),inform.getInteger("type"));
 
             return 1;
         }
@@ -181,11 +201,34 @@ public class ClubPostDAO {
         }
     }
 
-    public JSONObject listClubPosts(int ClubId){
+    public JSONObject listClubPosts(int ClubId,int type){
         try{
-            String sql = "select * from post where club=?";
+            if (type==2){
+                String sql = "select * from post where club=?";
+                // System.out.println(sql);
+                List<Map<String,Object>> list = jdbcTemplate.queryForList(sql, ClubId);
+                JSONObject res = new JSONObject();
+                for (int i=0; i<list.size(); i++){
+                    JSONObject post = new JSONObject(list.get(i));
+                    JSONObject tmp = new JSONObject();
+                    tmp.put("title", post.getString("title"));
+                    tmp.put("context", post.getString("context"));
+                    tmp.put("thumbs-up num", post.getIntValue("thumbs"));
+                    tmp.put("comments num", 0);
+                    tmp.put("club name", clbdao.getClubbyId(post.getIntValue("club")).getString("clubName"));
+                    tmp.put("club profile", clbdao.getClubbyId(post.getIntValue("club")).getString("image"));
+                    tmp.put("image", post.getString("image"));
+                    tmp.put("club id", post.getIntValue("club"));
+                    tmp.put("date", post.getString("lastModifyDate"));
+                    tmp.put("postId",post.getString("postId"));
+                    res.put("post"+Integer.toString(i),tmp);
+                }
+                return res;
+            }
+            else{
+            String sql = "select * from post where club=? and type=?";
             // System.out.println(sql);
-            List<Map<String,Object>> list = jdbcTemplate.queryForList(sql, ClubId);
+            List<Map<String,Object>> list = jdbcTemplate.queryForList(sql, ClubId,type);
             JSONObject res = new JSONObject();
             for (int i=0; i<list.size(); i++){
                 JSONObject post = new JSONObject(list.get(i));
@@ -202,7 +245,7 @@ public class ClubPostDAO {
                 tmp.put("postId",post.getString("postId"));
                 res.put("post"+Integer.toString(i),tmp);
             }
-            return res;
+            return res;}
         }
         catch(RuntimeException e){
             JSONObject res = new JSONObject();

@@ -20,8 +20,14 @@ public class PostController {
     @PutMapping("/create")
     public JSONObject CreatePost(@RequestBody JSONObject inform){
         int UserId = inform.getIntValue("UserId");
-        return postService.createPost(inform, UserId);
+        return postService.createPost(inform, UserId,0);
         //state=0, 目前club下已经存在一个同名post; state=1, 创建post成功；state=2, 操作超时
+    }
+
+    @PutMapping("/create_for_habbit")
+    public JSONObject CreatePostforHabbit(@RequestBody JSONObject inform){
+        int UserId = inform.getIntValue("UserId");
+        return postService.createPost(inform,UserId,1);
     }
 /*checked*/
     @PostMapping("/modify")
@@ -69,6 +75,11 @@ public class PostController {
         //state=1表示访问成功，形式是{“state”:1, "post1":JSONObject, "post2":JSONObject, ..., }
         //state=2表示访问超时
         return postService.viewPostsbyClub(ClubId, UserId);
+    }
+
+    @GetMapping("/view_by_habbit")
+    public JSONObject ViewPostbyHabbit(int HabbitId,int UserId){
+        return postService.viewPostsbyHabbit(HabbitId,UserId);
     }
 /*checked*/
     @GetMapping("change_thumb_state")
