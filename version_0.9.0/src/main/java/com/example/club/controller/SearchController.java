@@ -14,7 +14,11 @@ public class SearchController {
     @GetMapping("/club")
     public JSONObject SearchforClub(@RequestBody JSONObject inform){
         return searchService.searchforClub(inform);
+    }
 
+    @GetMapping("/habbit")
+    public JSONObject SearchforHabbit(@RequestBody JSONObject inform){
+        return searchService.searchforHabbit(inform);
     }
 
     @GetMapping("/post")
