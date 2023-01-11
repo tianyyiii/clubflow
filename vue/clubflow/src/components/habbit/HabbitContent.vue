@@ -162,8 +162,7 @@ export default {
                 this.HabbitInfo.Inform=resp.data.inform
                 this.HabbitInfo.Creator=resp.data.creator
                 if(resp.data.announcement){this.HabbitInfo.Announcement=resp.data.announcement}
-        }
-        )
+        })
         .catch(failResponse => {console.log(failResponse)})
     }
   }

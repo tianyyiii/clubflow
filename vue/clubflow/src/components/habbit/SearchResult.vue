@@ -3,15 +3,6 @@
     <div>
         <HabbitSearch></HabbitSearch>>
     </div>
-    
-    <!-- 面包屑导航 -->
-    <div class="container ms-3">
-        <ul class="breadcrumb py-2 bg-opacity-100"  data-label="面包屑导航">
-            <li><a class="mdaohang" href="#">首页</a></li>
-            <li><a class="mdaohang" href="#">演示</a></li>
-            <li class="active">爱好社区</li>
-        </ul>
-    </div>
 
     <!-- 社团分类 -->
     <SubTitle v-bind:subtitle="aihaoguangchang"></SubTitle>
@@ -56,9 +47,12 @@ export default {
         aihaoguangchang:"爱好广场",
         habbits:null,
         habbits_list:[],
+        key:'',
       }
     },
     created:function(){
+        this.key=this.$route.query.key
+        // console.log(this.key)
     },
     computed(){
     },
@@ -91,8 +85,8 @@ export default {
     mounted(){
         let that = this
         this.$axios
-        .get('habbit/view_all_habbits')
-        .then( response =>{
+        .post('/search/habbit',{key:this.key})
+        .then(response => {
             this.habbits = response.data;
             console.log(this.habbits);
             let obj = this.habbits;
@@ -102,9 +96,7 @@ export default {
             // 验证是否有图片域
             that.check_img_fields('image');
         })
-        .catch(function (error) { // 请求失败处理
-            console.log(error);
-        });
+        .catch(failResponse => {console.log(failResponse)})
 
         //加载时延
         setTimeout(function () {

@@ -2,51 +2,51 @@
     <div>
         <!-- 小标题 -->
         <div class="" >
-                <span class="ms-2 me-2" style="font-family:'FontAwesome', sans-serif;font-size:22px;"></span>
-                <span style="font-family:'Microsoft JhengHei UI', sans-serif;font-size:16px;color:#B82D29;">历史文章</span>
-                <div class="mt-1" style="background-color:rgb(228, 228, 228); height: 8px;"></div>
-            </div>
-            <!-- 文章列表 -->
-            <ul class="list-group m-0 p-0">
-                <!-- 列表项 -->
-                <a @click="jumpToPost(post.postId)" v-for="post in posts_json" class="list-group-item list-group-item-action d-flex gap-3 py-3 overflow-hidden" aria-current="true" style="border-radius: 0;">
-                    <div class="img-box flex-shrink-0">
-                        <img v-if="post.haveimage" :src="post.image">   
-                        <img v-else src="@/assets/images/common/default_img.png">   
-                    </div>
-                    <div class="gap-2 w-100 position-relative">
-                        <div class="d-flex w-100 justify-content-between">
-                            <div>
-                                <h6 class="mb-0" style="font-family:'微软雅黑', sans-serif; font-weight: 600; font-size:16px;">
-                                    {{post.title}}
-                                </h6>
-                                <p class="textlines-overflow-2 mt-2 ms-1 mb-0" style="font-family:'微软雅黑', sans-serif; font-weight:400; font-size:13px;
-                                    color:#999999; text-align:left;">
-                                    {{post.context}}
-                                </p>
-                            </div>
-                            <small class="opacity-50 text-nowrap" style="font-size: 12px;">
-                                <i class="fa fa-clock-o" aria-hidden="true"></i> {{post.date}}
-                            </small>
-                        </div>
-                        <div class="d-flex w-100 position-absolute bottom-0 justify-content-between align-items-baseline">
-                            <div class="d-inline-flex align-items-center">
-                                <div class="user-img-box flex-shrink-0" style="width:24px; height:24px; overflow:hidden" >
-                                    <img v-if="post['haveclub profile']" :src="post['club profile']">
-                                    <img v-else src="@/assets/images/common/default_user.png">
-                                </div>
-                                <span class="ms-2" style="font-family:'微软雅黑', sans-serif; font-weight:400; font-size:12px;
-                                        color:#999999;">{{ post['club name'] }}
-                                </span>
-                            </div>
-                            <p class="m-0" style="font-family:'FontAwesome', '微软雅黑', sans-serif; font-weight:400; font-size:13px;
-                            color:#999999;">
-                                 {{post['thumbs-up num']}}&nbsp;  {{post['comments num']}}&nbsp;  --
+            <span class="ms-2 me-2" style="font-family:'FontAwesome', sans-serif;font-size:22px;"></span>
+            <span style="font-family:'Microsoft JhengHei UI', sans-serif;font-size:16px;color:#B82D29;">历史文章</span>
+            <div class="mt-1" style="background-color:rgb(228, 228, 228); height: 8px;"></div>
+        </div>
+        <!-- 文章列表 -->
+        <ul class="list-group m-0 p-0">
+            <!-- 列表项 -->
+            <a @click="jumpToPost(post.postId)" v-for="post in posts_json" class="list-group-item list-group-item-action d-flex gap-3 py-3 overflow-hidden" aria-current="true" style="border-radius: 0;">
+                <div class="img-box flex-shrink-0">
+                    <img v-if="post.haveimage" :src="post.image">   
+                    <img v-else src="@/assets/images/common/default_img.png">   
+                </div>
+                <div class="gap-2 w-100 position-relative">
+                    <div class="d-flex w-100 justify-content-between">
+                        <div>
+                            <h6 class="mb-0" style="font-family:'微软雅黑', sans-serif; font-weight: 600; font-size:16px;">
+                                {{post.title}}
+                            </h6>
+                            <p class="textlines-overflow-2 mt-2 ms-1 mb-0" style="font-family:'微软雅黑', sans-serif; font-weight:400; font-size:13px;
+                                color:#999999; text-align:left;">
+                                {{post.context}}
                             </p>
                         </div>
+                        <small class="opacity-50 text-nowrap" style="font-size: 12px;">
+                            <i class="fa fa-clock-o" aria-hidden="true"></i> {{post.date}}
+                        </small>
                     </div>
-                </a>
-            </ul>
+                    <div class="d-flex w-100 position-absolute bottom-0 justify-content-between align-items-baseline">
+                        <div class="d-inline-flex align-items-center">
+                            <div class="user-img-box flex-shrink-0" style="width:24px; height:24px; overflow:hidden" >
+                                <img v-if="post['haveclub profile']" :src="post['club profile']">
+                                <img v-else src="@/assets/images/common/default_user.png">
+                            </div>
+                            <span class="ms-2" style="font-family:'微软雅黑', sans-serif; font-weight:400; font-size:12px;
+                                    color:#999999;">{{ post['club name'] }}
+                            </span>
+                        </div>
+                        <p class="m-0" style="font-family:'FontAwesome', '微软雅黑', sans-serif; font-weight:400; font-size:13px;
+                        color:#999999;">
+                             {{post['thumbs-up num']}}&nbsp;  {{post['comments num']}}&nbsp;  --
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </ul>
     </div>
 </template>
 

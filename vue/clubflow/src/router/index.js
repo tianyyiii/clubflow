@@ -27,6 +27,7 @@ const routes = [
         meta: {
           requireAuth: false, // 不需要登录
           requireClub: 0, // 1 => 需要社团管理员操作 ;  2 => 需要非社团管理员操作  ;  0 => 没有要求
+          class: 'index', // 分类
         }
       },
       {
@@ -36,6 +37,27 @@ const routes = [
         meta: {
           requireAuth: false, // 不需要登录
           requireClub: 0, // 1 => 需要社团管理员操作 ;  2 => 需要非社团管理员操作  ;  0 => 没有要求
+          class: 'club',
+        }
+      },
+      {
+        path: '/searchclub',
+        name: 'SearchClub', // 社团搜索结果
+        component: () => import('../components/club/SearchResult.vue'),
+        meta: {
+          requireAuth: false, // 不需要登录
+          requireClub: 0, // 1 => 需要社团管理员操作 ;  2 => 需要非社团管理员操作  ;  0 => 没有要求
+          class: 'club',
+        }
+      },
+      {
+        path: '/searchhabbit',
+        name: 'SearchHabbit', // 爱好搜索结果
+        component: () => import('../components/habbit/SearchResult.vue'),
+        meta: {
+          requireAuth: false, // 不需要登录
+          requireClub: 0, // 1 => 需要社团管理员操作 ;  2 => 需要非社团管理员操作  ;  0 => 没有要求
+          class: 'habbit',
         }
       },
       {
@@ -45,6 +67,7 @@ const routes = [
         meta: {
           requireAuth: false, // 不需要登录
           requireClub: 0, // 1 => 需要社团管理员操作 ;  2 => 需要非社团管理员操作  ;  0 => 没有要求
+          class: 'habbit',
         }
       },
       {
@@ -54,6 +77,17 @@ const routes = [
         meta: {
           requireAuth: false, // 不需要登录
           requireClub: 0, // 1 => 需要社团管理员操作 ;  2 => 需要非社团管理员操作  ;  0 => 没有要求
+          class: 'club',
+        }
+      },
+      {
+        path: '/searchpost',
+        name: 'SearchPost', // 文章搜索结果
+        component: () => import('../components/post/SearchResult.vue'),
+        meta: {
+          requireAuth: false, // 不需要登录
+          requireClub: 0, // 1 => 需要社团管理员操作 ;  2 => 需要非社团管理员操作  ;  0 => 没有要求
+          class: 'club',
         }
       },
       {
@@ -63,6 +97,7 @@ const routes = [
         meta: {
           requireAuth: false, // 不需要登录
           requireClub: 0, // 1 => 需要社团管理员操作 ;  2 => 需要非社团管理员操作  ;  0 => 没有要求
+          class: 'habbit',
         }
       },
       {
@@ -72,6 +107,7 @@ const routes = [
         meta: {
           requireAuth: true, // 需要登录
           requireClub: 2, // 1 => 需要社团管理员操作 ;  2 => 需要非社团管理员操作  ;  0 => 没有要求
+          class: 'habbit',
         }
       },
       {
@@ -81,6 +117,7 @@ const routes = [
         meta: {
           requireAuth: true, // 需要登录
           requireClub: 1, // 1 => 需要社团管理员操作 ;  2 => 需要非社团管理员操作  ;  0 => 没有要求
+          class: 'club',
         }
       },
       {
@@ -90,6 +127,7 @@ const routes = [
         meta: {
           requireAuth: true, // 需要登录
           requireClub: 1, // 1 => 需要社团管理员操作 ;  2 => 需要非社团管理员操作  ;  0 => 没有要求
+          class: 'club',
         }
       },
       {
@@ -99,6 +137,7 @@ const routes = [
         meta: {
           requireAuth: false, // 不需要登录
           requireClub: 0, // 1 => 需要社团管理员操作 ;  2 => 需要非社团管理员操作  ;  0 => 没有要求
+          class: 'club',
         }
       },
       {
@@ -108,6 +147,7 @@ const routes = [
         meta: {
           requireAuth: true, // 需要登录
           requireClub: 0, // 1 => 需要社团管理员操作 ;  2 => 需要非社团管理员操作  ;  0 => 没有要求
+          class: 'else',
         }
       }
 

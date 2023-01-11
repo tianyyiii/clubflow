@@ -12,7 +12,7 @@
                     </span>
                     <!-- <input v-model="search_text" type="text" id="main-searchbox" class="form-control opacity-50 border-0" onkeydown="onKeyDown(event)"  -->
                     <input v-model="search_text" type="text" id="main-searchbox" class="form-control opacity-50 border-0" 
-                        placeholder="请输入社团关键字……" aria-label="Search-content" aria-describedby="searchicon1"/>
+                        placeholder="请输入爱好关键字……" aria-label="Search-content" aria-describedby="searchicon1"/>
                 </div>
             </form>
         </div>
@@ -22,7 +22,7 @@
 <script>
 
 export default {
-    name: 'ClubSearch',
+    name: 'HabbitSearch',
     components: {},
     data: function () {
       return {
@@ -33,7 +33,7 @@ export default {
     },
     methods:{
         search(){
-            this.$router.push({path:'/searchclub',query:{key:this.search_text}})
+            this.$router.push({path:'/searchhabbit',query:{key:this.search_text}})
             
         }
     },

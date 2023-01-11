@@ -3,11 +3,11 @@
     <nav class="navbar navbar-expand-sm p-0">
         <!-- <ul class="navbar-nav"> -->
         <ul id="Nav" class="nav col-12 col-md-4 d-flex me-auto">
-            <li class="nav-item ">
+            <li class="nav-item" :class="{ 'active': MyClass.index }">
               <router-link to="/index" class="nav-link text-light">首页</router-link>
             </li>
-             <!-- Dropdown -->
-             <li class="nav-item active dropdown">
+            <!-- Dropdown -->
+            <li class="nav-item dropdown" :class="{ 'active': MyClass.club }">
                 <router-link to="/clubspace" class="nav-link text-light" id="navbardrop">
                 社团社区
                 </router-link>
@@ -57,10 +57,10 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" :class="{ 'active': MyClass.habbit }">
               <router-link to="/habbitspace" class="nav-link text-light" href="#">爱好社区</router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" :class="{ 'active': MyClass.else }">
               <a class="nav-link text-light disabled" href="#">其他</a>
             </li>
         </ul>
@@ -68,14 +68,15 @@
 
 
 
-        <div class="search-box me-4">
-            <input type="text" class="search-txt" placeholder="请输入搜索的内容..." />
-            <a href="#" class="search-btn">
-                <i class="fa fa-search" aria-hidden="true"></i>
-            </a>
-        </div>
-
-
+        <form form @submit.prevent="search">
+            <div class="search-box me-4">
+                <input v-model="search_text" type="text" class="search-txt" placeholder="请输入搜索的文章..." />
+                <button type="submit" class="search-btn">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+            </div>
+        </form>
+        
         <!-- 登录头像 -->
         <span class="pe-5 dropdown">
             <button @click="LoginOrJump" class="image-button">
@@ -93,12 +94,22 @@
 
 <script>
 import store from '@/store/index.js'
+import { useRoute } from 'vue-router';
+import { watch,reactive } from 'vue';
+ 
 export default {
     name: 'NavMenu',
-    components: {},
+    components: [],
     data: function () {
       return {
-        IsLogin:false
+        IsLogin:false,
+        MyClass:reactive({
+            index:true,
+            club:false,
+            habbit:false,
+            else:false,
+        }),
+        search_text:'',
       }
     },
     created:function(){
@@ -118,6 +129,9 @@ export default {
             this.$store.commit('logout')
             alert("已退出登录！")
             this.$router.push('/login')
+        },
+        search(){
+            this.$router.push({path:'/searchpost',query:{key:this.search_text, t: +new Date()}})
         }
     },
     mounted:function(){
@@ -139,6 +153,37 @@ export default {
         if(this.IsLogin){
 
         }
+        // 获取当前页面的路径
+        let router = useRoute()
+        watch(router,(newValue, oldValue) => {
+                if(newValue.meta.class!=undefined){
+                    var x
+                    for (x in this.MyClass)
+                    {
+                        this.MyClass[x] = false;
+                    }
+                    switch(newValue.meta.class)
+                    {
+                        case 'index':
+                            this.MyClass.index=true;
+                            // console.log(this.MyClass.index);
+                            // console.log(this.MyClass.club)
+                            break;
+                        case 'club':
+                            this.MyClass.club=true;
+                            break;
+                        case 'habbit':
+                            this.MyClass.habbit=true;
+                            break;
+                        case 'else':
+                            this.MyClass.else=true;
+                            break;
+                        default:this.MyClass.else=true;
+                    }
+                }
+            },
+            { immediate: true }
+            );
     }
   }
 

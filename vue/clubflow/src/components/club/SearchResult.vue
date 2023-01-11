@@ -1,23 +1,14 @@
 <template>
     <!-- banner -->
     <div>
-        <HabbitSearch></HabbitSearch>>
-    </div>
-    
-    <!-- 面包屑导航 -->
-    <div class="container ms-3">
-        <ul class="breadcrumb py-2 bg-opacity-100"  data-label="面包屑导航">
-            <li><a class="mdaohang" href="#">首页</a></li>
-            <li><a class="mdaohang" href="#">演示</a></li>
-            <li class="active">爱好社区</li>
-        </ul>
+        <ClubSearch></ClubSearch>
     </div>
 
     <!-- 社团分类 -->
-    <SubTitle v-bind:subtitle="aihaoguangchang"></SubTitle>
+    <SubTitle v-bind:subtitle="sousuojieguo"></SubTitle>
     <div class="container-fluid mt-5 mb-5 col-md-10 offset-md-1 justify-content-center row">
         <!-- col-auto很重要 -->
-        <ul v-for="habbit in habbits_list" class="m-0 p-0 d-flex col-auto" :key="habbit.habbitId">
+        <ul v-for="club in clubs_list" class="m-0 p-0 d-flex col-auto" :key="club.clubId">
             <li class="card me-5 mb-5 p-0 position-relative" style="width:200px; border-radius: 0;">
                 <!-- 遮罩 -->
                 <div class="position-absolute cover" style="width: 100%; height:140px; background-color: #a93931; z-index: 2; opacity: 50%;display:none; "></div>
@@ -26,16 +17,16 @@
                 </div>
                 <!-- 图片部分 -->
                 <div class="card-img w-100" style="height: 140px; z-index: 1;">
-                    <img v-if="habbit.haveimage" :src="habbit.image" alt="社团头像">
+                    <img v-if="club.haveimage" :src="club.image" alt="社团头像">
                     <img v-else src="@/assets/images/common/default_img.png" alt="社团头像">
                 </div>
                 <!-- 文字部分 -->
                 <div class="card-body pt-2 px-0 pb-0" style="z-index: 1;">
-                    <h5 class="card-title text-center mb-1" style="font-size: 16px; font-weight: 900;">{{habbit.habbitName}}</h5>
-                    <p class="text-center mt-0 mb-2" style="font-size: 13px;color: rgb(158, 158, 158);">{{ habbit.habbitInfo }}</p>
-                    <p class="mx-2 mb-1 textlines-overflow-2" style="height: 36px; font-size: 11px;">{{ habbit.announcement }}</p>
+                    <h5 class="card-title text-center mb-1" style="font-size: 16px; font-weight: 900;">{{club.clubName}}</h5>
+                    <p class="text-center mt-0 mb-2" style="font-size: 13px;color: rgb(158, 158, 158);">{{ club.clubInfo }}</p>
+                    <p class="mx-2 mb-1 textlines-overflow-2" style="height: 36px; font-size: 11px;">{{ club.announcement }}</p>
                     <div class="w-100 d-flex justify-content-end p-0">
-                    <button @click="goToHabbitPage(habbit.habbitId)" class="btn p-1 pure-text-btn">查看更多>></button></div>
+                    <button @click="goToClubPage(club.clubId)" class="btn p-1 pure-text-btn">查看更多>></button></div>
                 </div>
             </li>
         </ul>
@@ -46,19 +37,22 @@
 </template>
 
 <script>
-import HabbitSearch from './HabbitSearch.vue';
-import SubTitle from '@/components/common/SubTitle.vue';
+import ClubSearch from './ClubSearch.vue';
+import SubTitle from '../common/SubTitle.vue';
 export default {
-    name: 'HabbitSpace',
-    components: {HabbitSearch,SubTitle},
+    name: 'SearchClub',
+    components: {ClubSearch,SubTitle},
     data: function () {
       return {
-        aihaoguangchang:"爱好广场",
-        habbits:null,
-        habbits_list:[],
+        sousuojieguo:"搜索结果",
+        clubs:null,
+        clubs_list:[],
+        key:'',
       }
     },
     created:function(){
+        this.key=this.$route.query.key
+        // console.log(this.key)
     },
     computed(){
     },
@@ -72,7 +66,7 @@ export default {
         check_img_fields : function(field){
             // 检查是否有图片，没有则设havefield为false，field为 'img' 或 'club profile' 等键值
             let _this = this
-            this.habbits_list.forEach(function(post){
+            this.clubs_list.forEach(function(post){
                 // console.log(_this.checkImgUrl(post[field]))
                 if (post[field]==undefined || post[field]=='' || !_this.checkImgUrl(post[field])){
                     post['have'+field]=false;
@@ -84,27 +78,26 @@ export default {
                 }
             })
         },
-        goToHabbitPage(HabbitId){
-            this.$router.push({path:'/habbit',query:{HabbitId:HabbitId}})
+        goToClubPage(ClubId){
+            this.$router.push({path:'/clubhome',query:{ClubId:ClubId}})
         }
     },
     mounted(){
         let that = this
         this.$axios
-        .get('habbit/view_all_habbits')
-        .then( response =>{
-            this.habbits = response.data;
-            console.log(this.habbits);
-            let obj = this.habbits;
+        .post('/search/club',{key:this.key})
+        .then(response => {
+            // console.log(response)
+            this.clubs = response.data;
+            // console.log(this.clubs);
+            let obj = this.clubs;
             for (let i in obj ){
-                this.habbits_list.push(obj [i])
+                this.clubs_list.push(obj [i])
             }
             // 验证是否有图片域
             that.check_img_fields('image');
         })
-        .catch(function (error) { // 请求失败处理
-            console.log(error);
-        });
+        .catch(failResponse => {console.log(failResponse)})
 
         //加载时延
         setTimeout(function () {
@@ -127,24 +120,6 @@ export default {
 </script>
 
 <style scoped>
-
-.breadcrumb > li + li:before {
-    color: #CCCCCC;
-    content: "/ ";
-    padding: 0 5px;
-}
-.breadcrumb{
-    color: rgb(158, 158, 158);
-    font-size: 14px;
-}
-
-.mdaohang{
-    color: #4e4e4e;
-    text-decoration: none;
-}
-.mdaohang:hover {
-    color: #000000;
-}
 
 .pure-text-btn {
     font-size: 11px; color: rgb(158, 158, 158);
