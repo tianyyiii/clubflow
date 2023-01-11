@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.*;
 public class SearchController {
     @Autowired
     private SearchService searchService;
-    @GetMapping("/club")
+    @PostMapping("/club")
     public JSONObject SearchforClub(@RequestBody JSONObject inform){
         return searchService.searchforClub(inform);
     }
 
-    @GetMapping("/habbit")
+    @PostMapping("/habbit")
     public JSONObject SearchforHabbit(@RequestBody JSONObject inform){
         return searchService.searchforHabbit(inform);
     }
 
-    @GetMapping("/post")
+    @PostMapping("/post")
     public JSONObject SearchforPost(@RequestBody JSONObject inform){
         return searchService.searchforPost(inform);
     }
