@@ -21,7 +21,7 @@
                 </div>
                 <p class="mt-2 mb-0" style="font-size: 16px;font-family:'微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑', sans-serif;font-weight:700;">{{ClubName}}</p>
             </button>
-            <router-link to="/createclub" v-else class="text-center">
+            <router-link to="/createclub" v-else class="text-center" style="text-decoration: none; color: inherit;">
                 <div class="rounded-circle d-flex align-items-center justify-content-center" style="overflow: hidden;width: 150px;height: 150px;background-color: #e4e4e4;">
                     <i class="fa fa-plus" aria-hidden="true" style="color: white; font-size: 68px;"></i>
                 </div>

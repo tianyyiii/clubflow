@@ -112,6 +112,7 @@ export default {
             .get('post/view_by_club',{params:{ClubId:this.Club,UserId:this.UserId}})
             .then( response =>{
                 this.posts = response.data;
+                this.posts_json = []
                 // console.log(this.posts)
                 let obj = this.posts;
                 for (let i in obj ){
