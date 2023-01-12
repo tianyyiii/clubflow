@@ -26,7 +26,7 @@
             
             <!-- 热门文章 -->
             <div class="w-100 mt-5">
-                <ArtList></ArtList>
+                <ArtList :PostId="PostId"></ArtList>
             </div>
         </div>
     </div>

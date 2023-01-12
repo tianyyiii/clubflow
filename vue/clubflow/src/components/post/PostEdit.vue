@@ -7,8 +7,18 @@
     <!-- 按钮组 -->
     <div class="w-100 px-5 my-2 d-flex justify-content-end" >
         <!-- <button @click="submit()" class="sav-btn" data-bs-toggle="modal" data-bs-target="#showstatus">发布</button> -->
+        <button @click="generateImg()" class="me-3">
+            <i v-if="generating" class="fa fa-spinner fa-spin fa-3x fa-fw" style="font-size: 17px;"></i>
+            <i class="fa fa-magic" aria-hidden="true"></i>生成图片
+        </button>
         <button @click="submit()" class="sav-btn" >发布</button>
     </div>
+    <div v-if="generated" class="d-flex justify-content-center">
+        <div class="w-50 p-3" style="overflow: hidden;">
+            <img :src="genImg" style="object-fit: cover;object-position: center;width:100%;height: 100%;">
+        </div>
+    </div>
+    
     <!-- 模态框 -->
     <div class="modal fade modal-sm" id="showstatus">
         <div class="modal-dialog">
@@ -51,7 +61,7 @@ const toolbarOptions = [
     // ['link', 'image', 'video'] // 链接、图片、视频
     ['link','image'] // 图片
 ]
-import {getCurrentInstance, ref, toRaw, watch} from 'vue';
+import {getCurrentInstance, ref, toRaw, watch, reactive} from 'vue';
 import {QuillEditor, Quill } from '@vueup/vue-quill'
 import { container, ImageExtend, QuillWatch } from 'quill-image-extend-module'
 import quillTool from '@/utils/quillTool'
@@ -69,6 +79,9 @@ export default {
             content: '',
             title: '',
             coverURL:'',
+            generating: false,
+            generated:false,
+            genImg:'',
             myQuillEditor : ref(),
             editorOption: {
                 theme: 'snow',
@@ -114,8 +127,8 @@ export default {
     },
     methods:{
         submit(){
-            console.log(this.content)
-            console.log(this.ClubId)
+            // console.log(this.content)
+            // console.log(this.ClubId)
             if(!this.title){
                 alert("请输入标题！")
                 return
@@ -144,6 +157,53 @@ export default {
             .catch(failResponse => {
                 alert("发布失败！")
             })
+        },
+        convertIdeogramToNormalCharacter(val) {
+            const arrEntities = {'lt':'<','gt':'>','nbsp':' ','amp':'&','quot':'"'};
+            return val.replace(/&(lt|gt|nbsp|amp|quot);/ig,function(all,t){return arrEntities[t];});
+        },
+        getPlainText (richCont) {
+            let value = richCont;
+            if(richCont){
+                // 方法一： 
+                value= value.replace(/\s*/g, "");  //去掉空格
+                value= value.replace(/<[^>]+>/g, ""); //去掉所有的html标记
+                value = value.replace(/↵/g, "");     //去掉所有的↵符号
+                value = value.replace(/[\r\n]/g, "") //去掉回车换行
+                value = value.replace(/&nbsp;/g, "") //去掉空格
+                value = this.convertIdeogramToNormalCharacter(value);
+                return value;
+            }
+        },
+        checkImgUrl(str){
+            // str="http://localhost:8080/file/3232.jpg"
+            var r = /^http/g; // 检查是否是域名
+            var a = r.test(str) // true or false
+            return a
+        },
+        generateImg(){
+            this.generating = true
+            let that = this
+            const base = getCurrentInstance()?.appContext.config.globalProperties.$Baseurl
+            const text = this.getPlainText(this.content)
+            this.$axios
+            .get('/generation/text_to_image', {params:{text: text}})
+            .then(resp => {
+                // console.log(text)
+                console.log(resp)
+                const imgurl = resp.data.image
+                this.genImg = imgurl
+                if(!imgurl||!that.checkImgUrl(imgurl)){
+                    this.genImg = require("@/assets/images/common/default_img.png")
+                }
+                this.generating = false
+                this.generated = true
+            })
+            .catch(failResponse => {
+                alert("生成失败！")
+                this.generating = false
+            })
+            
         }
     }
 }

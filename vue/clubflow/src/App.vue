@@ -15,7 +15,10 @@ import NavMenu from '@/components/common/NavMenu'
 
   export default {
     name: 'App',
-    components: {NavMenu}
+    components: {NavMenu},
+    methods:{
+      
+    }
   }
 
 </script>

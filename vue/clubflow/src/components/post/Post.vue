@@ -141,8 +141,7 @@ export default {
                 var ct = new Date(this.post.lastModifyDate);
                 this.date=ct.Format('yyyy-MM-dd hh:mm')
             }
-        }
-            )
+        })
         .catch(function (error) { // 请求失败处理
             console.log(error);
         });
