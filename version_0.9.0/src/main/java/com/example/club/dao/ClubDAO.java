@@ -170,7 +170,6 @@ public class ClubDAO {
             return res;
         }
 
-
     }
 
     public String viewAnnouncementbyClubId(int ClubId){
@@ -228,6 +227,7 @@ public class ClubDAO {
             jdbcTemplate.update("insert into clubfan(clubid,fanid,joinDate,state) values(?,?,?,?)"
                     ,inform.getInteger("clubid"),inform.getInteger("fanid"),inform.getDate("date")
                     ,inform.getInteger("state"));
+//            System.out.println("yes");
             return state;
 
         }

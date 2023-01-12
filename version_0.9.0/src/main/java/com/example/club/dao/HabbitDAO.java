@@ -27,9 +27,9 @@ public class HabbitDAO {
             }
             System.out.println(inform);
 
-            jdbcTemplate.update("insert into habbit(habbitName,habbitInfo,createDate,creator, state,image,publicationNum,fansNum,commentsNum,announcement)values(?,?,?,?,?,?,?,?,?,?)",
+            jdbcTemplate.update("insert into habbit(habbitName,habbitInfo,createDate,creator, state,image,publicationNum,fansNum,commentsNum)values(?,?,?,?,?,?,?,?,?)",
                     inform.getString("name"), inform.getString("info"), inform.getDate("date"),
-                    inform.getInteger("creator"), 1, inform.getString("image"),0,0,0,inform.getString("announcement"));
+                    inform.getInteger("creator"), 1, inform.getString("image"),0,0,0);
             return 1;
         }
         catch(RuntimeException e){
