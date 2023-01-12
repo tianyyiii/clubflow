@@ -21,7 +21,8 @@ public class GenerationController {
         System.out.println(text);
         String location=restTemplate.getForObject(url,String.class,params);
         JSONObject res=new JSONObject();
-        res.put("image",location);
+        String imgURL = "http://localhost:8080/file/" + location;
+        res.put("image",imgURL);
         return res;
 
     }
