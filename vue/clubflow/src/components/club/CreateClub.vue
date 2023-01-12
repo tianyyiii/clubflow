@@ -103,6 +103,7 @@
 <script>
 import ClubBanner from '@/components/club/ClubBanner.vue';
 import UpImage from '@/components/common/UpImage.vue';
+import {reactive} from 'vue'
 
 export default {
     name: 'CreateClub',

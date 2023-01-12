@@ -7,7 +7,8 @@
         <div class="mx-5 d-inline-flex align-items-center">
             <!-- 头像 -->
             <div class="me-4">
-                <img class="rounded-circle" src="@/assets/images/common/default-user-round-dark.png" alt="用户头像" style="width:79px;height:79px">
+                <!-- <img class="rounded-circle" src="@/assets/images/common/default-user-round-dark.png" alt="用户头像" style="width:79px;height:79px"> -->
+                <img class="rounded-circle" :src="ClubInfo.Profile" alt="用户头像" style="width:79px;height:79px">
             </div>
             <!-- 标题 -->
             <div class="">

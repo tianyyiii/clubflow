@@ -1,7 +1,7 @@
 <template>
     <!-- banner -->
     <div>
-        <HabbitSearch></HabbitSearch>>
+        <HabbitSearch></HabbitSearch>
     </div>
     
     <!-- 面包屑导航 -->

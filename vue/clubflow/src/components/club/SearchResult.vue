@@ -39,6 +39,9 @@
 <script>
 import ClubSearch from './ClubSearch.vue';
 import SubTitle from '../common/SubTitle.vue';
+import { useRoute } from 'vue-router';
+import {watch} from 'vue';
+
 export default {
     name: 'SearchClub',
     components: {ClubSearch,SubTitle},
@@ -98,6 +101,14 @@ export default {
             that.check_img_fields('image');
         })
         .catch(failResponse => {console.log(failResponse)})
+
+        let router = useRoute()
+        watch(router,(newValue, oldValue) => {
+            if(this.$route.query.key!=this.key){
+                location.reload()
+            }
+        },
+        { immediate: true });
 
         //加载时延
         setTimeout(function () {
