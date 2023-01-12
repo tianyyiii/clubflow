@@ -1,5 +1,7 @@
 from flask import Flask,request
 import os
+import uuid
+
 app=Flask(__name__)
 @app.route("/")
 def hello_world():
@@ -7,7 +9,8 @@ def hello_world():
 @app.route("/text_to_image")
 def get_image():
     text=request.args.get("text")
-    os.environ["REPLICATE_API_TOKEN"]="02fecee38e4b94eec80492c9d6636ef278d25f2f"
+    # os.environ["REPLICATE_API_TOKEN"]="02fecee38e4b94eec80492c9d6636ef278d25f2f"
+    os.environ["REPLICATE_API_TOKEN"]="a13f8f44cff2f6aa26ab398d0a8173eb429708ab"
     import replicate
     model = replicate.models.get("stability-ai/stable-diffusion")
     version = model.versions.get("f178fa7a1ae43a9a9af01b833b9d2ecf97b1bcb0acfd2dc5dd04895e042863f1")
@@ -16,8 +19,9 @@ def get_image():
     import urllib.request
 
     img_url=output[0]
+    # img_url="https://replicate.delivery/pbxt/7QDUhKSrhPZyKZBDIaF2X0JvvtxYoLxq7Gdxb3bX5wd1n4EE/out-0.png"
     print(img_url)
-    file_path="C:\project_web\clubflow\workspace\img"
+    file_path="C:/project_web/clubflow/workspace/img"
     file_name =text
 
     try:
@@ -29,16 +33,18 @@ def get_image():
         file_suffix = os.path.splitext(img_url)[1]
         print(file_suffix)
             #拼接图片名（包含路径）
-        filename = '{}{}{}{}'.format(file_path,os.sep,file_name,file_suffix)
+        uuid_str = uuid.uuid4().hex
+        tmp_file_name = 'tmp_%s' % uuid_str
+        filename = '{}/{}{}'.format(file_path,tmp_file_name,file_suffix)
         print(filename)
            #下载图片，并保存到文件夹中
         urllib.request.urlretrieve(img_url,filename=filename)
 
     except IOError as e:
-        print("IOError")
+        print("IOError",e)
     except Exception as e:
         print("Exception")
-    return filename
+    return filename.split("/")[-1]
 @app.route("/text_to_vector")
 def get_embedding():
     from sqlalchemy import update,bindparam
@@ -87,3 +93,20 @@ def get_similar_post():
         string=string+str(_)+","
     print(string)
     return string
+
+
+def random_file_name(path):
+    # path = f"C:/Users/xxxx/xxxx/xxx视频"
+    list_name = os.listdir(path)    # 遍历目录名
+
+    for k in list_name:
+        name1 = "".join(random.sample([x for x in string.ascii_letters + string.digits] , 8))     # 随机生成8位字母+数字
+        name2 = random.randint(1, 50)
+        old_name = os.path.join(path, k)     # 旧文件目录名
+        new_name = os.path.join(path, str(name2) + '.mp4')       # 新文件目录名
+        if os.path.exists(new_name):     # 判断是否存在该文件，存在则输出目录名，并用name1命名
+            print(new_name)
+            os.rename(old_name, os.path.join(path, str(name1) + '.mp4'))
+        else:
+            os.rename(old_name, new_name)     # 不存在该文件，则重命名 os.rename(src要修改的目录名, dst修改后的目录名)
+
