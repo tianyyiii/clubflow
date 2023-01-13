@@ -1,0 +1,21 @@
+/* 此文件包含一些共享css，如导航栏和底部 */
+*{
+    padding: 0;
+    margin: 0;
+    /* 标准盒子 */
+    box-sizing: border-box;
+}
+:root {
+    /*主题色：交大红*/
+    --themecolor: rgba(184, 45, 41, 1); 
+    /* 深色 */
+    --darkerthemecolor: rgba(121, 15, 15, 1);
+    /* 灰色 */
+    --greycolor: #e5e5e5;
+    /* active color */
+    --activecolor:rgba(232, 178, 178, 1);
+}
+
+
+
+
