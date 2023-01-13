@@ -36,7 +36,6 @@ public class HabbitDAOTest {
 
     @Test
     public void createhabbit() {
-        habbitDAO.deleteHabbit(14, 9);
         JSONObject inform = new JSONObject();
         inform.put("name", "圣斗士星");
         inform.put("info", "经典老番");
