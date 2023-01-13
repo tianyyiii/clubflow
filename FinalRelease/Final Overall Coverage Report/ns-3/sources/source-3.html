@@ -1,0 +1,254 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > HabbitController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.club.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: HabbitController (com.example.club.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">HabbitController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (17/17)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;package com.example.club.controller;
+<i class="no-highlight">4</i>&nbsp;
+<i class="no-highlight">5</i>&nbsp;import com.alibaba.fastjson.JSONObject;
+<i class="no-highlight">6</i>&nbsp;import com.example.club.service.IClubService;
+<i class="no-highlight">7</i>&nbsp;import com.example.club.service.IHabbitService;
+<i class="no-highlight">8</i>&nbsp;import com.example.club.service.Impl.HabbitService;
+<i class="no-highlight">9</i>&nbsp;import com.example.club.utils.ImageUtil;
+<i class="no-highlight">10</i>&nbsp;import io.swagger.annotations.Api;
+<i class="no-highlight">11</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i class="no-highlight">12</i>&nbsp;import org.springframework.web.bind.annotation.*;
+<i class="no-highlight">13</i>&nbsp;
+<i class="no-highlight">14</i>&nbsp;@CrossOrigin
+<i class="no-highlight">15</i>&nbsp;@Api(tags=&quot;habbit api&quot;)
+<i class="no-highlight">16</i>&nbsp;@RestController
+<i class="no-highlight">17</i>&nbsp;@RequestMapping(&quot;/habbit&quot;)
+<b class="fc"><i class="no-highlight">18</i>&nbsp;public class HabbitController {</b>
+<i class="no-highlight">19</i>&nbsp;    @Autowired
+<i class="no-highlight">20</i>&nbsp;    private ImageUtil imageUtil;
+<i class="no-highlight">21</i>&nbsp;    @Autowired
+<i class="no-highlight">22</i>&nbsp;    private HabbitService habbitService;
+<i class="no-highlight">23</i>&nbsp;
+<i class="no-highlight">24</i>&nbsp;    @PutMapping(&quot;/create&quot;)
+<i class="no-highlight">25</i>&nbsp;    public JSONObject CreateHabbit(@RequestBody JSONObject inform){
+<i class="no-highlight">26</i>&nbsp;/*        JSONObject state=new JSONObject();
+<i class="no-highlight">27</i>&nbsp;        state.put(&quot;state&quot;,1);
+<i class="no-highlight">28</i>&nbsp;        state.put(&quot;habbit id&quot;,800);
+<i class="no-highlight">29</i>&nbsp;        return state;*/
+<b class="fc"><i class="no-highlight">30</i>&nbsp;        int UserId = inform.getIntValue(&quot;UserId&quot;);</b>
+<i class="no-highlight">31</i>&nbsp;        // UserId name inform profile announcement
+<b class="fc"><i class="no-highlight">32</i>&nbsp;        return habbitService.createHabbit(inform,UserId);</b>
+<i class="no-highlight">33</i>&nbsp;
+<i class="no-highlight">34</i>&nbsp;    }
+<i class="no-highlight">35</i>&nbsp;
+<i class="no-highlight">36</i>&nbsp;    @GetMapping(&quot;/get_created_habbit&quot;)
+<i class="no-highlight">37</i>&nbsp;    // 查看普通用户创建的爱好社区
+<i class="no-highlight">38</i>&nbsp;    public JSONObject GetCreatedHabbit(int UserId){
+<i class="no-highlight">39</i>&nbsp;/*        JSONObject state=new JSONObject();
+<i class="no-highlight">40</i>&nbsp;        state.put(&quot;state&quot;,1);
+<i class="no-highlight">41</i>&nbsp;        state.put(&quot;club id&quot;,800);
+<i class="no-highlight">42</i>&nbsp;        return state;*/
+<b class="fc"><i class="no-highlight">43</i>&nbsp;        return habbitService.getCreatedHabbit(UserId);</b>
+<i class="no-highlight">44</i>&nbsp;
+<i class="no-highlight">45</i>&nbsp;    }
+<i class="no-highlight">46</i>&nbsp;
+<i class="no-highlight">47</i>&nbsp;    @PostMapping(&quot;/modify&quot;)
+<i class="no-highlight">48</i>&nbsp;    public JSONObject ModifyHabbit(@RequestBody JSONObject inform){
+<i class="no-highlight">49</i>&nbsp;/*        JSONObject state=new JSONObject();
+<i class="no-highlight">50</i>&nbsp;        state.put(&quot;state&quot;,1);
+<i class="no-highlight">51</i>&nbsp;        return state;*/
+<i class="no-highlight">52</i>&nbsp;        // HabbitId UserId name inform image
+<b class="fc"><i class="no-highlight">53</i>&nbsp;        int HabbitId = inform.getIntValue(&quot;HabbitId&quot;);</b>
+<b class="fc"><i class="no-highlight">54</i>&nbsp;        int UserId = inform.getIntValue(&quot;UserId&quot;);</b>
+<b class="fc"><i class="no-highlight">55</i>&nbsp;        return habbitService.modifyHabbit(inform,HabbitId,UserId);</b>
+<i class="no-highlight">56</i>&nbsp;    }
+<i class="no-highlight">57</i>&nbsp;
+<i class="no-highlight">58</i>&nbsp;    @GetMapping(&quot;/view&quot;)
+<i class="no-highlight">59</i>&nbsp;    public JSONObject ViewHabbitPage(int HabbitId,int UserId){
+<i class="no-highlight">60</i>&nbsp;/*        JSONObject habbit=new JSONObject();
+<i class="no-highlight">61</i>&nbsp;        habbit.put(&quot;name&quot;,&quot;800号电影社&quot;);
+<i class="no-highlight">62</i>&nbsp;        habbit.put(&quot;category&quot;,&quot;文化艺术类&quot;);
+<i class="no-highlight">63</i>&nbsp;        habbit.put(&quot;fans number&quot;,10000);
+<i class="no-highlight">64</i>&nbsp;        habbit.put(&quot;publications number&quot;,100);
+<i class="no-highlight">65</i>&nbsp;        habbit.put(&quot;comments number&quot;,50);
+<i class="no-highlight">66</i>&nbsp;        habbit.put(&quot;inform&quot;,&quot;这是一个电影社团&quot;);
+<i class="no-highlight">67</i>&nbsp;        habbit.put(&quot;profile&quot;,imageUtil.ImageToBase64(&quot;C:\\Users\\26010\\Downloads\\habbit_project\\image\\tarkovsky.png&quot;));
+<i class="no-highlight">68</i>&nbsp;        habbit.put(&quot;created time&quot;,&quot;2010-10-2&quot;);
+<i class="no-highlight">69</i>&nbsp;        habbit.put(&quot;subscribe&quot;,1);
+<i class="no-highlight">70</i>&nbsp;        return habbit;*/
+<b class="fc"><i class="no-highlight">71</i>&nbsp;        return habbitService.viewHabbit(HabbitId,UserId);</b>
+<i class="no-highlight">72</i>&nbsp;    }
+<i class="no-highlight">73</i>&nbsp;
+<i class="no-highlight">74</i>&nbsp;    @GetMapping(&quot;/view_by_account&quot;)
+<i class="no-highlight">75</i>&nbsp;    // 关注的爱好社区
+<i class="no-highlight">76</i>&nbsp;    public JSONObject ViewHabbitbyAccount(int UserId){
+<i class="no-highlight">77</i>&nbsp;/*        JSONObject HabbitList=new JSONObject();
+<i class="no-highlight">78</i>&nbsp;        for (int i=1;i&lt;3;i++)
+<i class="no-highlight">79</i>&nbsp;        {   JSONObject habbit=new JSONObject();
+<i class="no-highlight">80</i>&nbsp;            habbit.put(&quot;name&quot;,&quot;800号电影社&quot;);
+<i class="no-highlight">81</i>&nbsp;            habbit.put(&quot;category&quot;,&quot;文化艺术类&quot;);
+<i class="no-highlight">82</i>&nbsp;            habbit.put(&quot;fans number&quot;,10000);
+<i class="no-highlight">83</i>&nbsp;            habbit.put(&quot;publications number&quot;,100);
+<i class="no-highlight">84</i>&nbsp;            habbit.put(&quot;comments number&quot;,50);
+<i class="no-highlight">85</i>&nbsp;            habbit.put(&quot;inform&quot;,&quot;这是一个电影社团&quot;);
+<i class="no-highlight">86</i>&nbsp;            habbit.put(&quot;profile&quot;,imageUtil.ImageToBase64(&quot;C:\\Users\\26010\\Downloads\\habbit_project\\image\\tarkovsky.png&quot;));
+<i class="no-highlight">87</i>&nbsp;            habbit.put(&quot;created time&quot;,&quot;2010-10-2&quot;);
+<i class="no-highlight">88</i>&nbsp;            habbit.put(&quot;subscribe&quot;,1);
+<i class="no-highlight">89</i>&nbsp;            HabbitList.put(&quot;habbit&quot;+Integer.toString(i),habbit);
+<i class="no-highlight">90</i>&nbsp;        }
+<i class="no-highlight">91</i>&nbsp;        return HabbitList;*/
+<b class="fc"><i class="no-highlight">92</i>&nbsp;        return habbitService.viewHabbitbyAccount(UserId);</b>
+<i class="no-highlight">93</i>&nbsp;
+<i class="no-highlight">94</i>&nbsp;
+<i class="no-highlight">95</i>&nbsp;    }
+<i class="no-highlight">96</i>&nbsp;    @GetMapping(&quot;/view_all_habbits&quot;)
+<i class="no-highlight">97</i>&nbsp;//    查看存在的所有社团列表
+<i class="no-highlight">98</i>&nbsp;    public JSONObject ViewAllHabbits(){
+<i class="no-highlight">99</i>&nbsp;/*        JSONObject ClubList=new JSONObject();
+<i class="no-highlight">100</i>&nbsp;        for (int i=1;i&lt;3;i++)
+<i class="no-highlight">101</i>&nbsp;        {   JSONObject club=new JSONObject();
+<i class="no-highlight">102</i>&nbsp;            club.put(&quot;name&quot;,&quot;800号电影社&quot;);
+<i class="no-highlight">103</i>&nbsp;            club.put(&quot;category&quot;,&quot;文化艺术类&quot;);
+<i class="no-highlight">104</i>&nbsp;            club.put(&quot;fans number&quot;,10000);
+<i class="no-highlight">105</i>&nbsp;            club.put(&quot;publications number&quot;,100);
+<i class="no-highlight">106</i>&nbsp;            club.put(&quot;comments number&quot;,50);
+<i class="no-highlight">107</i>&nbsp;            club.put(&quot;inform&quot;,&quot;这是一个电影社团&quot;);
+<i class="no-highlight">108</i>&nbsp;            club.put(&quot;profile&quot;,imageUtil.ImageToBase64(&quot;C:\\Users\\26010\\Downloads\\club_project\\image\\tarkovsky.png&quot;));
+<i class="no-highlight">109</i>&nbsp;            club.put(&quot;created time&quot;,&quot;2010-10-2&quot;);
+<i class="no-highlight">110</i>&nbsp;            club.put(&quot;subscribe&quot;,1);
+<i class="no-highlight">111</i>&nbsp;            ClubList.put(&quot;club&quot;+Integer.toString(i),club);
+<i class="no-highlight">112</i>&nbsp;        }
+<i class="no-highlight">113</i>&nbsp;        return ClubList;*/
+<b class="fc"><i class="no-highlight">114</i>&nbsp;        return habbitService.viewAllHabbits();</b>
+<i class="no-highlight">115</i>&nbsp;
+<i class="no-highlight">116</i>&nbsp;
+<i class="no-highlight">117</i>&nbsp;    }
+<i class="no-highlight">118</i>&nbsp;    @GetMapping(&quot;/view_fans&quot;)
+<i class="no-highlight">119</i>&nbsp;//    查看某一爱好的粉丝
+<i class="no-highlight">120</i>&nbsp;    public JSONObject ViewClubFans(int HabbitId){
+<i class="no-highlight">121</i>&nbsp;/*        JSONObject FanList=new JSONObject();
+<i class="no-highlight">122</i>&nbsp;        for (int i=1;i&lt;3;i++)
+<i class="no-highlight">123</i>&nbsp;        {   JSONObject fan=new JSONObject();
+<i class="no-highlight">124</i>&nbsp;            fan.put(&quot;image&quot;,&quot;url&quot;);
+<i class="no-highlight">125</i>&nbsp;            fan.put(&quot;name&quot;,&quot;geyuan&quot;);
+<i class="no-highlight">126</i>&nbsp;            fan.put(&quot;id&quot;,1);
+<i class="no-highlight">127</i>&nbsp;        }
+<i class="no-highlight">128</i>&nbsp;        return ClubList;*/
+<b class="fc"><i class="no-highlight">129</i>&nbsp;        return habbitService.viewHabbitFans(HabbitId);</b>
+<i class="no-highlight">130</i>&nbsp;
+<i class="no-highlight">131</i>&nbsp;
+<i class="no-highlight">132</i>&nbsp;    }
+<i class="no-highlight">133</i>&nbsp;    @PostMapping(&quot;/subscribe&quot;)
+<i class="no-highlight">134</i>&nbsp;    public JSONObject subscribe(@RequestBody JSONObject inform){
+<b class="fc"><i class="no-highlight">135</i>&nbsp;        int HabbitId = inform.getIntValue(&quot;HabbitId&quot;);</b>
+<b class="fc"><i class="no-highlight">136</i>&nbsp;        int UserId = inform.getIntValue(&quot;UserId&quot;);</b>
+<i class="no-highlight">137</i>&nbsp;        // state0 失败，state1 成功
+<b class="fc"><i class="no-highlight">138</i>&nbsp;        return habbitService.subscribe(HabbitId,UserId);</b>
+<i class="no-highlight">139</i>&nbsp;    }
+<i class="no-highlight">140</i>&nbsp;
+<i class="no-highlight">141</i>&nbsp;    @PostMapping(&quot;/unsubscribe&quot;)
+<i class="no-highlight">142</i>&nbsp;    public JSONObject unsubscribe(@RequestBody JSONObject inform){
+<b class="fc"><i class="no-highlight">143</i>&nbsp;        int HabbitId = inform.getIntValue(&quot;HabbitId&quot;);</b>
+<b class="fc"><i class="no-highlight">144</i>&nbsp;        int UserId = inform.getIntValue(&quot;UserId&quot;);</b>
+<i class="no-highlight">145</i>&nbsp;        // state0 失败，state1 成功
+<b class="fc"><i class="no-highlight">146</i>&nbsp;        return habbitService.unsubscribe(HabbitId,UserId);</b>
+<i class="no-highlight">147</i>&nbsp;    }
+<i class="no-highlight">148</i>&nbsp;
+<i class="no-highlight">149</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-01-13 19:28</div>
+</div>
+</body>
+</html>

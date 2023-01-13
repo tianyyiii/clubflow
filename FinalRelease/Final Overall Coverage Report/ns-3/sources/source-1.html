@@ -1,0 +1,304 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ClubController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.club.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: ClubController (com.example.club.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClubController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (25/25)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.example.club.controller;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import com.alibaba.fastjson.JSON;
+<i class="no-highlight">4</i>&nbsp;import com.alibaba.fastjson.JSONObject;
+<i class="no-highlight">5</i>&nbsp;import com.example.club.service.IClubService;
+<i class="no-highlight">6</i>&nbsp;import com.example.club.service.Impl.ClubService;
+<i class="no-highlight">7</i>&nbsp;import io.swagger.annotations.Api;
+<i class="no-highlight">8</i>&nbsp;import jakarta.annotation.security.PermitAll;
+<i class="no-highlight">9</i>&nbsp;import jakarta.annotation.security.RolesAllowed;
+<i class="no-highlight">10</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i class="no-highlight">11</i>&nbsp;import org.springframework.web.bind.annotation.*;
+<i class="no-highlight">12</i>&nbsp;
+<i class="no-highlight">13</i>&nbsp;@CrossOrigin
+<i class="no-highlight">14</i>&nbsp;@Api(tags=&quot;club api&quot;)
+<i class="no-highlight">15</i>&nbsp;@RestController
+<i class="no-highlight">16</i>&nbsp;@RequestMapping(&quot;/club&quot;)
+<b class="fc"><i class="no-highlight">17</i>&nbsp;public class ClubController {</b>
+<i class="no-highlight">18</i>&nbsp;    @Autowired
+<i class="no-highlight">19</i>&nbsp;    private ClubService clubService;
+<i class="no-highlight">20</i>&nbsp;   /* checked*/
+<i class="no-highlight">21</i>&nbsp;    @PermitAll
+<i class="no-highlight">22</i>&nbsp;    @PutMapping(&quot;/create&quot;)
+<i class="no-highlight">23</i>&nbsp;    public JSONObject CreateClub(@RequestBody JSONObject inform){
+<i class="no-highlight">24</i>&nbsp;/*        JSONObject state=new JSONObject();
+<i class="no-highlight">25</i>&nbsp;        state.put(&quot;state&quot;,1);
+<i class="no-highlight">26</i>&nbsp;        state.put(&quot;club id&quot;,800);
+<i class="no-highlight">27</i>&nbsp;        return state;*/
+<i class="no-highlight">28</i>&nbsp;//        需要：name inform profile UserId
+<b class="fc"><i class="no-highlight">29</i>&nbsp;        int UserId = inform.getIntValue(&quot;UserId&quot;);</b>
+<b class="fc"><i class="no-highlight">30</i>&nbsp;        return clubService.createClub(inform,UserId);</b>
+<i class="no-highlight">31</i>&nbsp;
+<i class="no-highlight">32</i>&nbsp;    }
+<i class="no-highlight">33</i>&nbsp;
+<i class="no-highlight">34</i>&nbsp;    @GetMapping(&quot;/get_created_club&quot;)
+<i class="no-highlight">35</i>&nbsp;    // 查看社团用户创建的社团
+<i class="no-highlight">36</i>&nbsp;    public JSONObject GetCreatedClub(int UserId){
+<i class="no-highlight">37</i>&nbsp;/*        JSONObject state=new JSONObject();
+<i class="no-highlight">38</i>&nbsp;        state.put(&quot;state&quot;,1);
+<i class="no-highlight">39</i>&nbsp;        state.put(&quot;club id&quot;,800);
+<i class="no-highlight">40</i>&nbsp;        return state;*/
+<i class="no-highlight">41</i>&nbsp;//        state == 1 成功 ，state ==2 失败
+<b class="fc"><i class="no-highlight">42</i>&nbsp;        return clubService.getCreatedClub(UserId);</b>
+<i class="no-highlight">43</i>&nbsp;
+<i class="no-highlight">44</i>&nbsp;    }
+<i class="no-highlight">45</i>&nbsp;    /*checked*/
+<i class="no-highlight">46</i>&nbsp;    @PostMapping(&quot;/modify&quot;)
+<i class="no-highlight">47</i>&nbsp;    public JSONObject ModifyClub(@RequestBody JSONObject inform){
+<i class="no-highlight">48</i>&nbsp;/*        JSONObject state=new JSONObject();
+<i class="no-highlight">49</i>&nbsp;        state.put(&quot;state&quot;,1);
+<i class="no-highlight">50</i>&nbsp;        return state;*/
+<i class="no-highlight">51</i>&nbsp;        // ClubId UserId name inform image
+<b class="fc"><i class="no-highlight">52</i>&nbsp;        int ClubId = inform.getIntValue(&quot;ClubId&quot;);</b>
+<b class="fc"><i class="no-highlight">53</i>&nbsp;        int UserId = inform.getIntValue(&quot;UserId&quot;);</b>
+<b class="fc"><i class="no-highlight">54</i>&nbsp;        return clubService.modifyClub(inform,ClubId,UserId);</b>
+<i class="no-highlight">55</i>&nbsp;    }
+<i class="no-highlight">56</i>&nbsp;   /* checked*/
+<i class="no-highlight">57</i>&nbsp;    @PermitAll
+<i class="no-highlight">58</i>&nbsp;    @GetMapping(&quot;/view&quot;)
+<i class="no-highlight">59</i>&nbsp;    public JSONObject ViewClubPage(int ClubId,int UserId){
+<i class="no-highlight">60</i>&nbsp;/*        JSONObject club=new JSONObject();
+<i class="no-highlight">61</i>&nbsp;        club.put(&quot;name&quot;,&quot;800号电影社&quot;);
+<i class="no-highlight">62</i>&nbsp;        club.put(&quot;category&quot;,&quot;文化艺术类&quot;);
+<i class="no-highlight">63</i>&nbsp;        club.put(&quot;fans number&quot;,10000);
+<i class="no-highlight">64</i>&nbsp;        club.put(&quot;publications number&quot;,100);
+<i class="no-highlight">65</i>&nbsp;        club.put(&quot;comments number&quot;,50);
+<i class="no-highlight">66</i>&nbsp;        club.put(&quot;inform&quot;,&quot;这是一个电影社团&quot;);
+<i class="no-highlight">67</i>&nbsp;        club.put(&quot;profile&quot;,imageUtil.ImageToBase64(&quot;C:\\Users\\26010\\Downloads\\club_project\\image\\tarkovsky.png&quot;));
+<i class="no-highlight">68</i>&nbsp;        club.put(&quot;created time&quot;,&quot;2010-10-2&quot;);
+<i class="no-highlight">69</i>&nbsp;        club.put(&quot;subscribe&quot;,1);
+<i class="no-highlight">70</i>&nbsp;        return club;*/
+<b class="fc"><i class="no-highlight">71</i>&nbsp;        return clubService.viewClub(ClubId,UserId);</b>
+<i class="no-highlight">72</i>&nbsp;    }
+<i class="no-highlight">73</i>&nbsp;    /*checked*/
+<i class="no-highlight">74</i>&nbsp;
+<i class="no-highlight">75</i>&nbsp;//    查看某用户关注的社团
+<i class="no-highlight">76</i>&nbsp;    @GetMapping(&quot;/view_by_account&quot;)
+<i class="no-highlight">77</i>&nbsp;    public JSONObject ViewClubbyAccount(int UserId){
+<i class="no-highlight">78</i>&nbsp;/*        JSONObject ClubList=new JSONObject();
+<i class="no-highlight">79</i>&nbsp;        for (int i=1;i&lt;3;i++)
+<i class="no-highlight">80</i>&nbsp;        {   JSONObject club=new JSONObject();
+<i class="no-highlight">81</i>&nbsp;            club.put(&quot;name&quot;,&quot;800号电影社&quot;);
+<i class="no-highlight">82</i>&nbsp;            club.put(&quot;category&quot;,&quot;文化艺术类&quot;);
+<i class="no-highlight">83</i>&nbsp;            club.put(&quot;fans number&quot;,10000);
+<i class="no-highlight">84</i>&nbsp;            club.put(&quot;publications number&quot;,100);
+<i class="no-highlight">85</i>&nbsp;            club.put(&quot;comments number&quot;,50);
+<i class="no-highlight">86</i>&nbsp;            club.put(&quot;inform&quot;,&quot;这是一个电影社团&quot;);
+<i class="no-highlight">87</i>&nbsp;            club.put(&quot;profile&quot;,imageUtil.ImageToBase64(&quot;C:\\Users\\26010\\Downloads\\club_project\\image\\tarkovsky.png&quot;));
+<i class="no-highlight">88</i>&nbsp;            club.put(&quot;created time&quot;,&quot;2010-10-2&quot;);
+<i class="no-highlight">89</i>&nbsp;            club.put(&quot;subscribe&quot;,1);
+<i class="no-highlight">90</i>&nbsp;            ClubList.put(&quot;club&quot;+Integer.toString(i),club);
+<i class="no-highlight">91</i>&nbsp;        }
+<i class="no-highlight">92</i>&nbsp;        return ClubList;*/
+<b class="fc"><i class="no-highlight">93</i>&nbsp;        return clubService.viewClubbyAccount(UserId);</b>
+<i class="no-highlight">94</i>&nbsp;
+<i class="no-highlight">95</i>&nbsp;
+<i class="no-highlight">96</i>&nbsp;    }
+<i class="no-highlight">97</i>&nbsp;
+<i class="no-highlight">98</i>&nbsp;    @GetMapping(&quot;/view_all_clubs&quot;)
+<i class="no-highlight">99</i>&nbsp;//    查看存在的所有社团列表
+<i class="no-highlight">100</i>&nbsp;    public JSONObject ViewAllClubs(){
+<i class="no-highlight">101</i>&nbsp;/*        JSONObject ClubList=new JSONObject();
+<i class="no-highlight">102</i>&nbsp;        for (int i=1;i&lt;3;i++)
+<i class="no-highlight">103</i>&nbsp;        {   JSONObject club=new JSONObject();
+<i class="no-highlight">104</i>&nbsp;            club.put(&quot;name&quot;,&quot;800号电影社&quot;);
+<i class="no-highlight">105</i>&nbsp;            club.put(&quot;category&quot;,&quot;文化艺术类&quot;);
+<i class="no-highlight">106</i>&nbsp;            club.put(&quot;fans number&quot;,10000);
+<i class="no-highlight">107</i>&nbsp;            club.put(&quot;publications number&quot;,100);
+<i class="no-highlight">108</i>&nbsp;            club.put(&quot;comments number&quot;,50);
+<i class="no-highlight">109</i>&nbsp;            club.put(&quot;inform&quot;,&quot;这是一个电影社团&quot;);
+<i class="no-highlight">110</i>&nbsp;            club.put(&quot;profile&quot;,imageUtil.ImageToBase64(&quot;C:\\Users\\26010\\Downloads\\club_project\\image\\tarkovsky.png&quot;));
+<i class="no-highlight">111</i>&nbsp;            club.put(&quot;created time&quot;,&quot;2010-10-2&quot;);
+<i class="no-highlight">112</i>&nbsp;            club.put(&quot;subscribe&quot;,1);
+<i class="no-highlight">113</i>&nbsp;            ClubList.put(&quot;club&quot;+Integer.toString(i),club);
+<i class="no-highlight">114</i>&nbsp;        }
+<i class="no-highlight">115</i>&nbsp;        return ClubList;*/
+<b class="fc"><i class="no-highlight">116</i>&nbsp;        return clubService.viewAllClubs();</b>
+<i class="no-highlight">117</i>&nbsp;
+<i class="no-highlight">118</i>&nbsp;
+<i class="no-highlight">119</i>&nbsp;    }
+<i class="no-highlight">120</i>&nbsp;
+<i class="no-highlight">121</i>&nbsp;    @GetMapping(&quot;/view_fans&quot;)
+<i class="no-highlight">122</i>&nbsp;//    查看某一社团的粉丝
+<i class="no-highlight">123</i>&nbsp;    public JSONObject ViewClubFans(int ClubId){
+<i class="no-highlight">124</i>&nbsp;/*        JSONObject FanList=new JSONObject();
+<i class="no-highlight">125</i>&nbsp;        for (int i=1;i&lt;3;i++)
+<i class="no-highlight">126</i>&nbsp;        {   JSONObject fan=new JSONObject();
+<i class="no-highlight">127</i>&nbsp;            fan.put(&quot;image&quot;,&quot;url&quot;);
+<i class="no-highlight">128</i>&nbsp;            fan.put(&quot;name&quot;,&quot;geyuan&quot;);
+<i class="no-highlight">129</i>&nbsp;            fan.put(&quot;id&quot;,1);
+<i class="no-highlight">130</i>&nbsp;        }
+<i class="no-highlight">131</i>&nbsp;        return ClubList;*/
+<b class="fc"><i class="no-highlight">132</i>&nbsp;        return clubService.viewClubFans(ClubId);</b>
+<i class="no-highlight">133</i>&nbsp;
+<i class="no-highlight">134</i>&nbsp;
+<i class="no-highlight">135</i>&nbsp;    }
+<i class="no-highlight">136</i>&nbsp;    @Deprecated
+<i class="no-highlight">137</i>&nbsp;    @GetMapping(&quot;/announcement/view&quot;)
+<i class="no-highlight">138</i>&nbsp;    /*this will be deprecated,the announcements can be found in ViewClubbyAccount*/
+<i class="no-highlight">139</i>&nbsp;    public JSONObject ViewAnnouncement(int UserId) {
+<i class="no-highlight">140</i>&nbsp;/*        JSONObject AnnouncementList=new JSONObject();
+<i class="no-highlight">141</i>&nbsp;        for (int i=1;i&lt;3;i++)
+<i class="no-highlight">142</i>&nbsp;        {   JSONObject Announcement=new JSONObject();
+<i class="no-highlight">143</i>&nbsp;            Announcement.put(&quot;context&quot;,&quot;塔可夫斯基《乡愁》放映&quot;);
+<i class="no-highlight">144</i>&nbsp;            AnnouncementList.put(&quot;announcement&quot;+Integer.toString(i),Announcement);
+<i class="no-highlight">145</i>&nbsp;        }
+<i class="no-highlight">146</i>&nbsp;        return AnnouncementList;
+<i class="no-highlight">147</i>&nbsp;
+<i class="no-highlight">148</i>&nbsp;
+<i class="no-highlight">149</i>&nbsp;    }*/
+<b class="fc"><i class="no-highlight">150</i>&nbsp;        return clubService.viewAnnouncement(UserId);</b>
+<i class="no-highlight">151</i>&nbsp;    }
+<i class="no-highlight">152</i>&nbsp;
+<i class="no-highlight">153</i>&nbsp;    /*checked*/
+<i class="no-highlight">154</i>&nbsp;    @PutMapping(&quot;/announcement/create&quot;)
+<i class="no-highlight">155</i>&nbsp;    public JSONObject CreateAnnouncement(@RequestBody JSONObject inform){
+<b class="fc"><i class="no-highlight">156</i>&nbsp;        int ClubId = inform.getIntValue(&quot;ClubId&quot;);</b>
+<b class="fc"><i class="no-highlight">157</i>&nbsp;        int UserId = inform.getIntValue(&quot;UserId&quot;);</b>
+<i class="no-highlight">158</i>&nbsp;//        传入&quot;context&quot; &quot;ClubId&quot; &quot;UserId&quot;
+<b class="fc"><i class="no-highlight">159</i>&nbsp;        return clubService.createAnnouncement(inform, ClubId, UserId);</b>
+<i class="no-highlight">160</i>&nbsp;    }
+<i class="no-highlight">161</i>&nbsp;    /*checked*/
+<i class="no-highlight">162</i>&nbsp;    @PostMapping(&quot;/announcement/modify&quot;)
+<i class="no-highlight">163</i>&nbsp;    public JSONObject ModifyAnnouncement(@RequestBody JSONObject inform){
+<b class="fc"><i class="no-highlight">164</i>&nbsp;        int ClubId = inform.getIntValue(&quot;ClubId&quot;);</b>
+<b class="fc"><i class="no-highlight">165</i>&nbsp;        int UserId = inform.getIntValue(&quot;UserId&quot;);</b>
+<b class="fc"><i class="no-highlight">166</i>&nbsp;        return clubService.modifyAnnouncement(inform, ClubId, UserId);</b>
+<i class="no-highlight">167</i>&nbsp;    }
+<i class="no-highlight">168</i>&nbsp;    /*checked*/
+<i class="no-highlight">169</i>&nbsp;    @DeleteMapping(&quot;/announcement/delete&quot;)
+<i class="no-highlight">170</i>&nbsp;    public JSONObject DeleteAnnouncement(int ClubId,int UserId){
+<b class="fc"><i class="no-highlight">171</i>&nbsp;        return clubService.deleteAnnouncement(ClubId, UserId);</b>
+<i class="no-highlight">172</i>&nbsp;    }
+<i class="no-highlight">173</i>&nbsp;    /*checked*/
+<i class="no-highlight">174</i>&nbsp;    @PostMapping(&quot;/subscribe&quot;)
+<i class="no-highlight">175</i>&nbsp;    public JSONObject Subscribe(@RequestBody JSONObject inform){
+<b class="fc"><i class="no-highlight">176</i>&nbsp;        int ClubId = inform.getIntValue(&quot;ClubId&quot;);</b>
+<b class="fc"><i class="no-highlight">177</i>&nbsp;        int UserId = inform.getIntValue(&quot;UserId&quot;);</b>
+<i class="no-highlight">178</i>&nbsp;        // state0 失败，state1 成功
+<b class="fc"><i class="no-highlight">179</i>&nbsp;        return clubService.subscribe(ClubId,UserId);</b>
+<i class="no-highlight">180</i>&nbsp;    }
+<i class="no-highlight">181</i>&nbsp;    /*checked*/
+<i class="no-highlight">182</i>&nbsp;    @PostMapping(&quot;/unsubscribe&quot;)
+<i class="no-highlight">183</i>&nbsp;    public JSONObject Unsubscribe(@RequestBody JSONObject inform){
+<b class="fc"><i class="no-highlight">184</i>&nbsp;        int ClubId = inform.getIntValue(&quot;ClubId&quot;);</b>
+<b class="fc"><i class="no-highlight">185</i>&nbsp;        int UserId = inform.getIntValue(&quot;UserId&quot;);</b>
+<i class="no-highlight">186</i>&nbsp;        // state0 失败，state1 成功
+<b class="fc"><i class="no-highlight">187</i>&nbsp;        return clubService.unsubscribe(ClubId, UserId);</b>
+<i class="no-highlight">188</i>&nbsp;    }
+<i class="no-highlight">189</i>&nbsp;
+<i class="no-highlight">190</i>&nbsp;/*
+<i class="no-highlight">191</i>&nbsp;    @Autowired
+<i class="no-highlight">192</i>&nbsp;    private ClubService clubservice;
+<i class="no-highlight">193</i>&nbsp;*/
+<i class="no-highlight">194</i>&nbsp;
+<i class="no-highlight">195</i>&nbsp;
+<i class="no-highlight">196</i>&nbsp;
+<i class="no-highlight">197</i>&nbsp;
+<i class="no-highlight">198</i>&nbsp;
+<i class="no-highlight">199</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-01-13 19:28</div>
+</div>
+</body>
+</html>
