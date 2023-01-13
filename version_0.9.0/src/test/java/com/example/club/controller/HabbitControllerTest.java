@@ -83,9 +83,10 @@ public class HabbitControllerTest {
     public void subscribe() {
         System.out.println("subscribe");
         JSONObject inform = new JSONObject();
-        inform.put("HabbitId", 8);
-        inform.put("UserId", 9);
+        inform.put("HabbitId", 1);
+        inform.put("UserId", 2);
         System.out.println(habbitController.subscribe(inform));
+
     }
 
     @Test

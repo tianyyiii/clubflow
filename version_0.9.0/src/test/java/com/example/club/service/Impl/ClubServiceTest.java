@@ -81,7 +81,8 @@ public class ClubServiceTest {
     @Test
     public void testUnsubscribe() throws Exception {
         System.out.println("unsubscribe");
-        JSONObject res = clubservice.unsubscribe(5, 1);
+        clubservice.subscribe(6, 3);
+        JSONObject res = clubservice.unsubscribe(6, 3);
         System.out.println(res);
     }
 

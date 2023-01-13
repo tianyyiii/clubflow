@@ -33,8 +33,8 @@ public class ClubControllerTest {
     public void createClub() {
         System.out.println("create");
         JSONObject inform = new JSONObject();
-        inform.put("name", "ACG");
-        inform.put("inform", "动画，漫画，游戏");
+        inform.put("name", "围棋社");
+        inform.put("inform", "围棋同好");
         inform.put("profile", "/workspace/img/nf8ipc.jpg");
         inform.put("UserId", 9);
         clubController.CreateClub(inform);
